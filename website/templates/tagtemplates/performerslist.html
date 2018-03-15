@@ -1,0 +1,26 @@
+<ul class="album-list">
+    {% for item in items %}
+        <li class="hyperlink">
+        <div class="image-container">
+            {% if not item.has_image %}
+                            <a target="_blank"
+               href="https://google.nl/search?q={{ item.FullName }}">&nbsp;<i>google</i></a>
+            {% endif %}
+            <a href="/performer/{{ item.ID }}">
+                <input type="hidden" value="{{ item.LastName }}" class="last-name">
+            {% if item.has_image %}
+                <img data-src="/image/{{ item.ID }}/performer/"
+                     class="album-image-thumb lazy">
+            {% endif %}
+            <div class="performer-naam" performerid="{{ item.ID }}">{{ item.FullName }}</div>
+                <div class="jaren">{{ item.Birth }} -
+                    {% if item.Death %}
+                        {{ item.Death }}
+                    {% endif %}
+                ({{ item.Albums }})
+                </div>
+            </a>
+        </div>
+        </li>
+    {% endfor %}
+</ul>

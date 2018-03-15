@@ -1,0 +1,40 @@
+<div style="position:relative;">
+{% if albums|length %}
+    <div class="items">{{ albums|length }} albums</div>
+    <input class="filter-albums" placeholder="zoek">
+{% endif %}
+    <ul class="album-list">
+        {% for item in albums %}
+        <li id="{{ item.ID }}"
+                    class="hyperlink
+            {% if item.mother %}
+                mother-album
+            {% endif %}
+            ">
+            <a href="/album/{{ item.ID }}/{% if list_name %}{{ list_name }}/{{ list_id }}{% endif %}
+            ">
+            <div class="image-container">
+                <img data-src="/image/{{ item.ID }}/album/"
+                     class="album-image-thumb lazy">
+            </div>
+            <div class="title" title="{{ item.Title }}">
+                {{ item.Title }}
+            </div>
+            <div class="title">
+                {{ item.Componist }}
+                {% if item.TagName %} - <span class="tag-name">{{ item.TagName }}</span>{% endif %}
+            </div>
+            {% if item.Created %}
+                <div>{{ item.Created|date:"j b Y G:i" }}</div>
+            {% endif %}
+            </a>
+        {% if cmd == 'split' %}
+            ({{ item.Count }})
+            &nbsp;<a class="cue-split-id" id="{{ item.ID }}">split</a> |
+            <a class="reload-pieces" id="{{ item.ID }}">reload</a>
+        {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+
+</div>

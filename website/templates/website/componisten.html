@@ -1,0 +1,18 @@
+{% extends "website/_base.html" %}
+{% load page_tags %}
+{% block title %}Componisten{% endblock %}
+{% block page %}
+    <div class="componisten">
+        <form>{% csrf_token %}</form>
+            <span class="hyperlink btn">
+                <a onclick="openfinder(null, 'componisten')">open finder</a>
+            </span>
+        <input class="typeahead" type="text" placeholder="Zoek componist">
+        <span class="componist-added"></span>
+{#        <input class="jump-to-letter" placeholder="Zoek naar beginletters">#}
+        <input class="componist-period" placeholder="Kies een periode" value="{{ period }}">
+        <h4>Componisten ({{ items|length }})</h4>
+        {% alfabet %}
+        {% componistenlist items %}
+    </div>
+{% endblock %}

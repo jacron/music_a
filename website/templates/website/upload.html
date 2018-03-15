@@ -1,0 +1,67 @@
+{% extends "website/_base.html" %}
+{% load static %}
+{% load page_tags %}
+{% block title %}
+    Upload
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/upload.css' %}">
+{% endblock %}
+{% block page %}
+<div id="drop-album" class="upload">
+    <form>{% csrf_token %}</form>
+    <h4>Upload</h4>
+    <input type="text" class="upload-album-path" placeholder="pad">
+    <button class="fa fa-caret-right dirname"
+            title="dirname"></button>
+    <button class="fa fa-music tag-editor" title="edit tags">
+    </button>
+    <img src="{% static 'images/finder.png' %}" class="finder"
+         title="open pad in Finder"
+    >
+    <button class="fa fa-download get-album-for-path"
+        title="Haal album op">
+    </button>
+    <div class="upload-album">
+        <a><span class="title"></span></a>
+    </div>
+    <div class="hyperlink">
+        <div>
+            <a class="corrigeer-cover-namen">Normaliseer cover namen</a>
+        </div>
+        <div>
+            <a class="big-cover-namen">Corrigeer 'big' cover namen</a>
+        </div>
+        <div>
+            <a class="normaliseer-paden">Normaliseer paden (accolades)</a>
+        </div>
+    </div>
+    <div class="upload-controls">
+        <ul>
+            <li class="componist">
+                <input class="typeahead" type="text" placeholder="Componist">
+            </li>
+            <li class="mother-id">
+                <input class="typeahead" type="text" placeholder="Moeder-ID">
+            </li>
+        </ul>
+    </div>
+    <table>
+        <tr>
+            <td><input type="checkbox" class="check-collection"
+                       title="collectie"
+            ></td>
+            <td>Collection</td>
+        </tr>
+{#            <tr>#}
+{#                <td><input type="checkbox" class="check-stepin"#}
+{#                           title="step in"#}
+{#                ></td>#}
+{#                <td>Stepin</td>#}
+{#            </tr>#}
+    </table>
+    <button class="upload-go fa fa-upload"
+            title="upload album to catalogue"
+    ></button>
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+.alfabet li {
+    list-style: none;
+    line-height: 2;
+}
+.alfabet {
+    position: fixed;
+    right: 10px;
+    top: 60px;
+    z-index: 1;
+    background-color: #fff;
+}
+.alfabet a {
+    cursor: pointer;
+    padding: 4px;
+}
+.alfabet a:hover {
+    background-color: #99ffff;
+}
+.alfabet ul {
+    padding: 0;
+    margin: 0;
+}

@@ -1,0 +1,5 @@
+<li {% if active %}class="active"{% endif %}>
+    <a href="{{ url }}">{{ label }}
+        {% if badge %}<span class="badge">{{ badge }}</span>{% endif %}
+    </a>
+</li>

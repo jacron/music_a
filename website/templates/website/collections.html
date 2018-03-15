@@ -1,0 +1,11 @@
+{% extends "website/_base.html" %}
+{% load page_tags %}
+{% block title %}Collecties{% endblock %}
+{% block page %}
+    <div class="collections">
+    <h4>Collecties ({{ albums|length }})</h4>
+        <input class="search-inside-collection" placeholder="Zoek" value="{{ query }}">
+    {% alfabet %}
+    {% albumlist albums %}
+    </div>
+{% endblock %}

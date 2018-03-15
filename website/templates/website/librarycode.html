@@ -1,0 +1,73 @@
+{% extends "website/_base.html" %}
+{% load static %}
+{% load page_tags %}
+{% block title %}{{ librarycode }}{% endblock %}
+{% block page %}
+    <form>{% csrf_token %}</form>
+    <h4>{{ librarycode }} - {{ description }}</h4>
+    {% cpages prev_id next_id 'librarycode' wild %}
+    <table class="boeken">
+    {% for boek in boeken %}
+        <tr>
+        <td class="boeknr">
+            {{ boek.Nr }}
+        </td>
+        <td class="boeknaam">
+            {{ boek.Name }}
+        </td>
+        <td>{{ boek.Uitgever }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+    <div>
+        <img src="/image/{{ librarycode }}/librarycode/"
+             class="librarycode-image-details">
+    </div>
+    <h4>{{ code.Title|default_if_none:'' }} ({{ pieces|length }})</h4>
+    <h4>{{ code.Tempo|default_if_none:'' }} - {{ code.Key|default_if_none:'' }} -
+        <span class="code-title">{{ code.Alias|default_if_none:'' }}</span> </h4>
+    <table class=" stukken">
+    {% for piece in pieces %}
+        <tr class="piece" id="{{ item.ID }}">
+            <td class="hyperlink">
+                <a onclick="play(this, {{ piece.Piece.ID }})"
+                   class="fa fa-play"
+                title="Afspelen">
+                </a>
+                    {% if piece.performers|length > 1 %}
+                        <span title="{% for performer in piece.performers %}{{ performer.FullName }}
+{% endfor %}">
+                        {{ piece.performers.0.FullName }}*</span>
+                    {% else %}
+                        {{ piece.performers.0.FullName }}
+                    {% endif %}
+                    {% if piece.Instrument.Name %}
+                        ({{ piece.Instrument.Name }})
+                    {% endif %}:
+                <a href="{% url 'album' piece.Album.ID %}"
+                title="naar album">
+                    {{ piece.Album.Title }}
+                </a>
+            </td>
+        </tr>
+
+{#        <tr class="piece" id="{{ item.ID }}">#}
+{#            <td class="hyperlink">#}
+{#                <a onclick="play(this, {{ item.Piece.ID }})"#}
+{#                   title="Afspelen"#}
+{#                >#}
+{#                    {{ item.Piece.Name }}</a>#}
+{#            </td>#}
+{#            <td class="instrument">#}
+{#                {{ item.Instrument.Name }}#}
+{#            </td>#}
+{#            <td class="performer">#}
+{#                {{ item.Performer.Name }}</td>#}
+{#            <td class="album">#}
+{#                <a href="/album/{{ item.Album.ID }}">#}
+{#                {{ item.Album.Title }}</a>#}
+{#            </td>#}
+{#        </tr>#}
+    {% endfor %}
+    </table>
+{% endblock %}

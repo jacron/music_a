@@ -1,0 +1,17 @@
+{% if prev_id or next_id %}
+    <div class="pages">
+    <div>
+        <a href="/librarycode/list/{{ wild }}">{{ list_title }}</a>
+    </div>
+    <a {% if prev_id %}
+            href="/librarycode/{{ prev_id }}/{{ wild }}"
+            class="enabled"
+       {% endif %}
+    >prev</a> |
+    <a {% if next_id %}
+            href="/librarycode/{{ next_id }}/{{ wild }}"
+            class="enabled"
+            {% endif %}
+    >next</a>
+    </div>
+{% endif %}

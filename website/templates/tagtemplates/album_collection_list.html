@@ -1,0 +1,6 @@
+{% if album.AlbumID %}
+    <div class="hyperlink album-collection">
+        <span>Collectie: </span>
+        <a href="/album/{{ album.AlbumID }}">{{ mother_title }}</a>
+    </div>
+{% endif %}

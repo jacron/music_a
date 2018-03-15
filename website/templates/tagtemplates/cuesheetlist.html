@@ -1,0 +1,85 @@
+{% load page_tags %}
+{% if cuesheets|length %}
+    {% if cuesheets|length > 1 %}
+<div class="cuesheets">
+    <span class="header">Cuesheets</span> ({{ cuesheets | length }})
+    <i class="toggle-cuesheets-content fa fa-caret-right"></i>
+</div>
+<div class="cuesheets-content">
+    <input type="checkbox" class="edit-cuesheet-codes"> <i>bewerk codes</i>
+        {% else %}
+    <div>
+        {% endif %}
+    <textarea id="logger" class="cuesheetslist-logger"></textarea>
+{% for cuesheet in cuesheets %}
+    <div {% if not valid %}
+            class="error"
+            {% endif %}
+    >
+        <input type="hidden" id="cuesheet_id" value="{{ cuesheet.ID }}">
+        <div class="hyperlink cuesheet">
+            <a onclick="play(this, {{ cuesheet.ID }})"
+               class="fa fa-play play"
+            title="Afspelen">
+            </a>
+            <span class="title">{{ cuesheet.Filename }}</span>
+        {% if not valid %}
+            <span class="rename-cuesheet" id="{{ cuesheet.ID }}">rename</span>
+        {% endif %}
+            <span class="cue-plus-container">
+                <i class="toggle-cue-content fa fa-caret-right"></i>
+                {% if cuesheet.Code %}
+                <span class="code">&lt;{{ cuesheet.Code }}&gt;</span>
+                {% endif %}
+                <span class="code-edit">
+                    <span class="add-code first" id="{{ cuesheet.ID }}" title="Voeg librarycode toe">
+                        code</span> |
+                    <span class="add-code" id="{{ cuesheet.ID }}" prompt="true" title="Voeg librarycode toe (interactive)">
+                        prompt</span> |
+                    <span class="remove-code" id="{{ cuesheet.ID }}" title="verwijder librarycode">
+                        x</span>
+                </span>
+            </span>
+        </div>
+        <ul class="cue">
+        <li class="cue-header">
+            {% if cuesheet.Title %}
+            <span>{{ cuesheet.Title|unescape }}</span>
+            {% endif %}
+            <span class="cue-plus-container">
+                <span class="cue-split" id="{{ cuesheet.ID }}" title="splits in flacs">
+                    splits</span> |
+                <span class="cue-edit" id="{{ cuesheet.ID }}" title="bewerk cuesheet in sublime">
+                    bewerk</span> |
+                <span class="cue-norm" id="{{ cuesheet.ID }}" title="normaliseer de titels van delen in de cuesheet">
+                    normaliseer</span> |
+                <span class="cue-remove" id="{{ cuesheet.ID }}"
+                      title="{{ cuesheet.Title }}">
+                    verwijder</span> |
+                <span class="cue-rename" id="{{ cuesheet.ID }}"
+                      title="{{ cuesheet.Title }}">
+                    hernoem</span>
+{#                {% if cuesheet.Title %}|#}
+{#                    <span class="cue-plus" title="bewaar als albumtitel">#}
+{#                        album-titel</span> |#}
+{#                    <span class="cue-title" title="kopieer naar titel voor nieuwe cuesheet">#}
+{#                        cuesheet-titel</span>#}
+{#                {% endif %}#}
+            </span>
+        </li>
+        {%  if cuesheet.cue.performer %}
+        <li class="ID">{{ cuesheet.cue.performer|unescape }}</li>
+        {% endif %}
+        {% for file in cuesheet.cue.files %}
+            {%  for track in file.tracks %}
+                {% if track.title %}
+                <li class="content cue-lines">{{ track.title|unescape }}</li>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+        </ul>
+    </div>
+{% endfor %}
+    </div>
+</div>
+{% endif %}

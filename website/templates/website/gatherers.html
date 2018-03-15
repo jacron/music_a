@@ -1,0 +1,7 @@
+{% extends "website/_base.html" %}
+{% load page_tags %}
+{% block title %}Verzamelalbums{% endblock %}
+{% block page %}
+    <h4>Verzamelalbums ({{ albums|length }})</h4>
+    {% albumlist albums 0 'gather' %}
+{% endblock %}

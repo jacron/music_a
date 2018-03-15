@@ -1,0 +1,78 @@
+{% if pieces|length %}
+<div class="stukken-container">
+    <div class="pieces"><span class="header">Stukken</span> ({{ pieces | length }})
+        <i class="toggle-content fa fa-caret-right"></i>
+    </div>
+    <table class="content stukken">
+    <tr>
+        <td>
+            <input type="checkbox" class="edit-stukken"> <i>maak cue</i>&nbsp;&nbsp;
+            <input type="checkbox" class="edit-stukken-codes"> <i>bewerk codes</i>
+            <div class="edit-stuk">
+                <br>
+                <input class="album-componist typeahead" type="text" placeholder="Componist">
+                <span class="album-componist-to-make">&gt;</span>
+                <input class="make-cuesheet" placeholder="make cuesheet">&nbsp;
+                <a class="test-lcs">lcs</a> |
+                <a class="create-cuesheet">create</a> |
+                <a class="auto-create">auto</a>
+            </div>
+        </td>
+    </tr>
+    </table>
+    <table class="content stukken">
+    <tr class="edit-stuk">
+        <td class="hyperlink control">
+            <a class="check-all">alles selecteren</a> |
+            <a class="check-nothing">niets selecteren</a> |
+            <a class="clear-title">wis titel</a>
+        </td>
+    </tr>
+    <tr class="edit-code-all">
+        <td>
+            <span class="add-code-all" title="automatisch codes invullen"
+            >code (alle)</span> |
+            <span class="remove-code-all" title="verwijder alle codes"
+            >x</span>
+        </td>
+    </tr>
+    {% for item in pieces %}
+        <tr class="piece" id="{{ item.1 }}">
+            <td class="hyperlink">
+                <input type="checkbox" title="voeg titel toe aan cuesheet"
+                       id="{{ item.1 }}"
+                       class="select-for-cuesheet edit-stuk">
+                <a onclick="play(this, {{ item.1 }})"
+                   class="fa fa-play play"
+                title="Afspelen">
+                </a>
+                <span class="title">{{ item.0 }}</span>
+                {% if item.2 %}
+                <a href="{% url 'librarycode' item.2 wild %}">
+                    <span class="code">
+                        &lt;{{ item.2 }}&gt;
+                    </span>
+                </a>
+                {% endif %}
+                <span class="code-edit edit-code">
+                    <span class="add-code first" id="{{ item.1 }}" prompt="false" title="Voeg librarycode toe">
+                        code</span> |
+                    <span class="add-code" id="{{ item.1 }}" prompt="true" title="Voeg librarycode toe (interactive)">
+                        prompt</span> |
+                    <span class="remove-code" id="{{ item.1 }}" title="verwijder librarycode">
+                        x</span>
+                </span>
+            </td>
+        {% for tag, value in item.tags.items %}
+            <td>
+            {{ tag }}:
+            {% for t in value %}
+                {{ t }}{% if not forloop.last %},&nbsp;{% endif %}
+            {% endfor %}
+            </td>
+        {% endfor %}
+        </tr>
+    {% endfor %}
+    </table>
+</div>
+{% endif %}

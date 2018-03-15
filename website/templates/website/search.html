@@ -1,0 +1,80 @@
+{% extends "website/_base.html" %}
+{%  load static %}
+{% load page_tags %}
+{% block title %}
+    search: {{ query }}
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/search.css' %}">
+{% endblock %}
+{% block page %}
+<div class="search">
+    <form>
+    <div class="search-controls">
+        <ul>
+            <li class="title">
+                <input class="typeahead" type="text" placeholder="Titel (wildcard)"
+                       value="{{ title_name }}" name="title">
+            </li>
+            <li class="componist">
+                <input class="typeahead" type="text" placeholder="Componist" value="{{ componist_name }}">
+                <input type="hidden" name="componist">
+            </li>
+            <li class="tag">
+                <input class="typeahead" type="text" placeholder="Tag" value="{{ tag_name }}">
+                <input type="hidden" name="tag">
+            </li>
+            <li class="performer">
+                <input class="typeahead" type="text" placeholder="Performer" value="{{ performer_name }}">
+                <input type="hidden" name="performer">
+            </li>
+            <li class="instrument">
+                <input class="typeahead" type="text" placeholder="Solo instrument" value="{{ instrument_name }}">
+                <input type="hidden" name="instrument">
+            </li>
+        </ul>
+    </div>
+    <button type="submit" class="fa fa-search go-search"></button>
+        {% csrf_token %}
+    </form>
+    <div class="toggle">
+        Lijst <span class="fa fa-caret-right"></span></div>
+    <ul class="hyperlink" style="display: none">
+        <li><a href="{% url 'componisten' %}">componisten</a></li>
+        <li><a href="{% url 'performers' %}">performers</a></li>
+        <li><a href="{% url 'tags' %}">tags</a></li>
+        <li><a href="{% url 'pianoboeken' %}">pianoboek</a></li>
+{#        <li><a href="{% url 'cmd' 'scarlatti' %}">Scarlatti Sonates</a></li>#}
+{#        <li><a href="{% url 'cmd' 'bach' %}">Bach Goldberg</a></li>#}
+    </ul>
+    <ul>
+        <li><a href="{% url 'nplayed' 20 %}">laatst afgespeeld</a></li>
+        <li><a href="{% url 'ncreated' 40 %}">laatst toegevoegd</a></li>
+
+    </ul>
+    <div class="toggle">
+        Code <span class="fa fa-caret-right"></span></div>
+    <ul class="hyperlink" style="display: none">
+        {% for code in codes %}
+        {%if code.Range %}
+            <li class="code-range">
+                <a href="{% url 'librarycodelistrange' code.Code code.Range %}">
+                    {{ code.Description }} {{ code.Range }}
+                </a>
+            </li>
+        {% else %}
+            <li>
+                <a href="{% url 'librarycodelist' code.Code %}">
+                    {{ code.Description }}
+                </a>
+            </li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+    {% if mothers|length %}
+    {% albumlist mothers %}
+    <div class="clear"></div>
+    {% endif %}
+    {% albumlist children %}
+</div>
+{% endblock %}

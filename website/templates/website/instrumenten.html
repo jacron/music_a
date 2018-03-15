@@ -1,0 +1,17 @@
+{% extends "website/_base.html" %}
+{% block title %}
+Instrumenten
+{% endblock %}
+{% block page %}
+    <h4>Solo instrumenten ({{ items|length }})</h4>
+<ul class="instruments-list">
+    {% for item in items %}
+     <li class="hyperlink">
+        <a href="/instrument/{{ item.ID }}">
+            <img src="/instrumentimage/{{ item.Name }}" class="instrument-image">
+            {{ item.Name }}
+        </a>
+     </li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "website/_base.html" %}
+{% load static %}
+{% load page_tags %}
+{% block title %}
+    {{ album.Title }}
+{% endblock %}
+{% block page %}
+    <div class="collection">
+        <form>{% csrf_token %}</form>
+        <div class="hyperlink">
+            <a onclick="openfinder('{{ album.ID }}', 'album')">open finder</a>
+        </div>
+        <img src="/albumimage/{{ album.ID }}/"
+             class="album-image">
+        <h1 contenteditable="true" name="title" class="edit-title" albumid="{{ album.ID }}">
+            {{ album.Title }}
+        </h1>
+        {% if componist %}
+            <h2 class="hyperlink"><a href="/componist/{{ componist.ID }}/">{{ componist.FullName }}</a></h2>
+        {% endif %}
+        {% if album.AlbumID %}
+            <h3 class="hyperlink">
+                <span>Collectie: </span>
+                <a href="/album/{{ album.AlbumID }}">{{ mother_title }}</a>
+            </h3>
+        {% endif %}
+        {% for performer in performers %}
+            <h3 class="hyperlink">
+                <a href="/performer/{{ performer.2 }}/">{{ performer.0 }} {{ performer.1 }}</a>
+            </h3>
+        {% endfor %}
+        {% for cuesheet in cuesheet_output %}
+            <div class="hyperlink cuesheet">
+                <a onclick="play(this, {{ cuesheet.ID }})">{{ cuesheet.Title }}</a>
+            </div>
+        {% endfor %}
+        {% alfabet %}
+        {% albumlist albums items %}
+        <table>
+            {% for item in items %}
+                <tr>
+                    <td class="hyperlink">
+                        <a onclick="play(this, {{ item.1 }})">{{ item.0 }}</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

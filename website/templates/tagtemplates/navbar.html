@@ -1,0 +1,11 @@
+<nav>
+{% for item in menu %}
+    <a {% if item.href != menu_active %}
+            href="{{ item.href }}"
+            {% else %}
+            class="selected"
+            {% endif %}
+    >{{ item.label }}</a>
+{% endfor %}
+<button class="fa fa-play nav-play"></button>
+</nav>

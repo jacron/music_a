@@ -1,0 +1,109 @@
+{% extends "website/_base.html" %}
+{% load static %}
+{% load page_tags %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block page %}
+    <div class="librarycodes">
+        <form>{% csrf_token %}</form>
+        <h4>{{ page_title }} ({{ items|length }})</h4>
+    <h5><a href="{% url 'componist' componist.ID %}">
+        {{ componist.FullName }}
+    </a></h5>
+    <a href="{% url 'librarycodelistfavorite' code 1 %}">fav</a> |
+    <a href="{% url 'librarycodelist' code %}">all</a>
+        <table cellpadding="4" class="codes-list">
+            {% for item in items %}
+                {% if item.has_image %}
+                <tr>
+                    <td colspan="2" class="{{ item.cls_code_level }}">
+                        {% if lazy %}
+                            <img data-src="/image/{{ item.k_code }}/librarycode/"
+                                 class="lazy librarycode-image">
+                        {% else %}
+                            <img src="/image/{{ item.k_code }}/librarycode/"
+                                 class="librarycode-image">
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endif %}
+                <tr>
+                    <td class="code hyperlink {{ item.cls_code_level }}">
+                        <a href="{% url 'librarycode' item.k_code wild %}">
+                        <div class="code-line">
+                            {% if item.nr %}
+                                {{ item.nr }}
+                            {% else %}
+                                {{ item.k_code }}
+                            {% endif %}
+                            - {{ item.Tempo|default_if_none:'' }}
+                            - {{ item.Key|default_if_none:'' }} - {{ item.Title|default_if_none:'' }} -
+                        {% if not item.nr %}
+                        <span>
+                            <a target="_blank"
+                               href="https://google.nl/search?q={{ item.k_code }}">
+                                <i>google</i></a>
+                        </span>
+                        {% endif %}
+                        </div>
+                        </a>
+                        {% if item.Alias %}
+                            <div class="alias">{{ item.Alias|default_if_none:'' }}</div>
+                        {% endif %}
+                    </td>
+                {% if plak %}
+                    <td>
+                    <span class="paste-score-fragment" code="{{ item.k_code }}">
+                                    plak plaatje {{ item.k_code }}
+                    </span>
+                    <span class="remove-score-fragment" code="{{ item.k_code }}">x</span>
+                    </td>
+                {% endif %}
+                <td>
+                    <input type="checkbox"
+                           class="favorite-librarycode"
+                           code="{{ item.k_code }}"
+                           {% if item.Favorite > 0 %}
+                           checked="checked"
+                           {% endif %}
+                    >
+                </td>
+                </tr>
+{#                <tr>#}
+{#                    <td>#}
+{#                        <table>#}
+{#                            {% for piece in item.pieces %}#}
+{#                                <tr>#}
+{#                                    <td class="hyperlink">#}
+{#                                        <a onclick="play(this, {{ piece.Piece.ID }})"#}
+{#                                        title="Afspelen">#}
+{#                                            {{ piece.performers.0.FullName }}#}
+{#                                            ({{ piece.Instrument.Name|default_if_none:'' }})#}
+{#                                        </a> -#}
+{#                                        <a href="{% url 'album' piece.Album.ID %}"#}
+{#                                        title="{{ piece.Album.Title }}">#}
+{#                                            album#}
+{#                                        </a>#}
+{#                                    </td>#}
+{#                                </tr>#}
+{#                            {% endfor %}#}
+{#                        </table>#}
+{#                    </td>#}
+{#                    <td>#}
+{#                        <table>#}
+{#                            {% for boek in item.pianoboeken %}#}
+{#                                <tr>#}
+{#                                    <td class="hyperlink">#}
+{#                                        <a href="{% url 'pianoboek' boek.ID %}">#}
+{#                                            {{ boek.Name }} ({{ boek.Nr }})#}
+{#                                        </a>#}
+{#                                    </td>#}
+{#                                </tr>#}
+{#                            {% endfor %}#}
+{#                        </table>#}
+{#                    </td>#}
+{#                </tr>#}
+
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

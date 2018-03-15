@@ -1,0 +1,12 @@
+{% extends "website/_base.html" %}
+{% load page_tags %}
+{% block title %}
+    Laatst afgespeeld
+{% endblock %}
+{% block page %}
+    <div class="ncreated">
+    <form>{% csrf_token %}</form>
+    <h4>Laatst toegevoegd</h4>
+    {% albumlist items %}
+    </div>
+{% endblock %}

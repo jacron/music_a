@@ -1,0 +1,30 @@
+{% extends "website/_base.html" %}
+{% load page_tags %}
+{% block title %}
+    {{ pianoboek.Name }}
+{% endblock %}
+{% block page %}
+    <h4>{{ pianoboek.Name }} ({{ items|length }})</h4>
+    <div class="pianoboek">
+        <form>
+            {% csrf_token %}
+        </form>
+        <table>
+            {% for item in items %}
+                <tr class="pianoboek-image">
+                    <td colspan="4">
+                        <img src="/image/{{ item.Code }}/librarycode/" class="librarycode-image">
+                    </td>
+                </tr>
+                <tr class="pianoboek-details">
+                    <td>{{ item.Nr }}</td>
+                    <td class="code">
+                        <a href="{% url 'librarycode' item.Code %}">{{ item.Code }}</a>
+                    </td>
+                    <td class="tempo">{{ item.Tempo }}</td>
+                    <td class="key">{{ item.Key }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

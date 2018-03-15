@@ -1,0 +1,20 @@
+<div class="album-controls">
+    &nbsp;<span class="hyperlink btn">
+        <a onclick="openfinder('{{ album_id }}', 'album')">finder</a>
+    </span>
+    <span class="hyperlink btn">
+        <a onclick="openterminal('{{ album_id }}', 'album')">terminal</a>
+    </span>
+    <span class="hyperlink btn">
+        <a onclick="tageditoralbum('{{ album_id }}', 'album')">tag editor</a>
+    </span>
+    {% if website %}
+    <span class="hyperlink btn">
+    <a onclick="openwebsite('{{ album_id }}')">website</a>
+    </span>
+    {% endif %}
+    <input class="tag typeahead" type="text" placeholder="Tag">
+    <input class="componist typeahead" type="text" placeholder="Componist">
+    <input class="performer typeahead" type="text" placeholder="Performer">
+    <input class="instrument typeahead" type="text" placeholder="Solo instrument">
+</div>

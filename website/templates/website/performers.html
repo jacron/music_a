@@ -1,0 +1,13 @@
+{% extends "website/_base.html" %}
+{% load page_tags %}
+{% block title %}Performers{% endblock %}
+{% block page %}
+    <div class="performers">
+    <input class="typeahead" type="text" placeholder="Zoek artiest">
+    <h4>Performers ({{ performers|length }})</h4>
+    <div class="alfabet"><ul>
+        {% for letter in letters %}<li><a>{{ letter|upper }}</a></li>{% endfor %}
+    </ul></div>
+    {% performerslist performers %}
+    </div>
+{% endblock %}

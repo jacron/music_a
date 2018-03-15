@@ -1,0 +1,44 @@
+{% extends "website/_base.html" %}
+{% load page_tags %}
+{% block title %}
+    deleted: {{ performer.FullName }}
+{% endblock %}
+{% block page %}
+    <div class="w3-row performer">
+        <form>
+            {% csrf_token %}
+            <input type="hidden" id="performer_id" value="{{ performer.ID }}">
+        </form>
+        <div class="w3-col m2 5">
+            <span class="hyperlink btn">
+                <a onclick="openfinder('{{ performer.ID }}', 'performer')">open finder</a>
+            </span> |
+            <span>
+            <a target="_blank"
+               href="https://google.nl/search?q={{ performer.FullName }}">google</a>
+        </span>
+            <div id="drop-area-performer">
+                <h4><i>deleted:</i>
+        <span contenteditable="true" name="title"
+              class="edit-performer-name">
+            {{ performer.FullName }}
+        </span>
+                </h4>
+                    <div class="crop">
+                        <div class="c-image"
+                    style="background-image: url('/image/{{ performer.ID }}/performer/')"
+                        ></div>
+                    </div>
+            <div class="performer-years">
+                <input type="text"
+                        name="birth" class="edit-performer-birth"
+                      value="{{ performer.Birth }}">
+                </input> - <input type="text"
+                        name="death" class="edit-performer-death"
+                      value="{{ performer.Death }}">
+                </input>
+            </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

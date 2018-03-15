@@ -1,0 +1,27 @@
+<table cellpadding="4" class="edit-album">
+    <tr>
+        <td>
+            <select class="{{ select }}"
+                    title="{{ option.Title }}"
+                    albumid="{{ albumid }}">
+                {% for option in options %}
+                    <option value="{{ option.Value }}"
+                    title="{{ option.Title }}"
+                    >{{ option.Label }}</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <button class="{{ select }}">Voeg toe</button>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input class="{{ add }}" type="text"
+                   albumid="{{ albumid }}">
+        </td>
+        <td>
+            <button class="{{ add }}">Nieuw</button>
+        </td>
+    </tr>
+</table>

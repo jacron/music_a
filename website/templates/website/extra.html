@@ -1,0 +1,33 @@
+{% extends "website/_base.html" %}
+{% load static %}
+{% load page_tags %}
+{% block title %}Extra{% endblock %}
+{% block page %}
+<div class="extra">
+    <form>{% csrf_token %}
+    <div>
+        <input type="text" placeholder="zoek album met titel" class="typeahead general">
+    </div>
+    <div>
+        <input type="text" placeholder="open pad album id" class="open-finder">
+    </div>
+    </form>
+        <input class="add-componist-extra" type="text" placeholder="Voeg componist toe">
+        <span class="componist-extra-added"></span>
+    <div class="toggle">
+        <span>onderhoud</span> <span class="fa fa-caret-right"></span></div>
+    <ul class="hyperlink" style="display: none">
+        <li><a href="{% url 'cmd' 'widows' %}"
+               title="albums zonder pad (?)"
+        >widows lijst</a></li>
+        <li><a href="{% url 'cmd' 'apeflac' %}">ape with flacs</a></li>
+        <li><a href="{% url 'cmd' 'apealone' %}">ape alone</a></li>
+        <li><a href="{% url 'cmd' 'pathdoubles' %}">path doubles</a></li>
+    {#    <li><a href="{% url 'cmd' 'missingscore' %}">missing score</a></li>#}
+    </ul>
+{% if cmd == 'split' %}
+    <textarea id="logger"></textarea>
+{% endif %}
+    {% albumlist albums None None cmd %}
+</div>
+{% endblock %}

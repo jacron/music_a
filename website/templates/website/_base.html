@@ -1,0 +1,45 @@
+{%  load static %}
+{%  load page_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <title>{%  block title %}Music{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'css/typeahead.css' %}">
+    <link rel="stylesheet" href="{% static 'css/alfabet.css' %}">
+    <link rel="stylesheet" href="{% static 'css/w3.css' %}">
+{% block css %}{% endblock %}
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}"/>
+</head>
+<body>
+<div class="content">
+{% navbar %}
+    {% block page %}{% endblock %}
+</div>
+    <script src="{% static 'bower_components/jquery/dist/jquery.js' %}"></script>
+    <script src="{% static 'bower_components/typeahead.js/dist/typeahead.jquery.min.js' %}"></script>
+    <script src="{% static 'bower_components/typeahead.js/dist/bloodhound.min.js' %}"></script>
+    <script src="{% static 'js/lazy.js' %}"></script>
+    <script src="{% static 'js/cuesheet.js' %}"></script>
+    <script src="{% static 'js/ajax.js' %}"></script>
+    <script src="{% static 'js/componist.js' %}"></script>
+    <script src="{% static 'js/performer.js' %}"></script>
+    <script src="{% static 'js/instrument.js' %}"></script>
+    <script src="{% static 'js/tag.js' %}"></script>
+    <script src="{% static 'js/album.js' %}"></script>
+    <script src="{% static 'js/extra.js' %}"></script>
+    <script src="{% static 'js/typeaheads.js' %}"></script>
+    <script src="{% static 'js/lcs.js' %}"></script>
+    <script src="{% static 'js/toggle.js' %}"></script>
+    <script src="{% static 'js/search.js' %}"></script>
+    <script src="{% static 'js/alfabet.js' %}"></script>
+    <script src="{% static 'js/drop.js' %}"></script>
+    <script src="{% static 'js/upload.js' %}"></script>
+    <script src="{% static 'js/code.js' %}"></script>
+    <script src="{% static 'js/socket.js' %}"></script>
+{% block js %}{% endblock %}
+</body>
+</html>

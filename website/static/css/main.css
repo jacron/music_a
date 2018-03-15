@@ -1,0 +1,720 @@
+/*@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800');*/
+li {
+    list-style: none;
+}
+@font-face {
+  font-family: 'Open Sans';
+  src: url('../fonts/OpenSans-Regular.ttf?v=4.7.0');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body  {
+  font-family: 'Open Sans', 'Helvetica Nueue', Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 100;
+  color: #555459;
+  line-height: 1.4rem;
+  *zoom: 1;
+}
+body {
+    margin: 0;
+}
+.content {
+    /*padding: 6px;*/
+}
+.album {
+    /*padding: 6px;*/
+}
+.checkbox {
+    width: 14px;
+    height: 14px;
+}
+.hyperlink {
+    /*cursor: pointer;*/
+}
+.hyperlink.cuesheet {
+    color: darkgreen;
+}
+.hyperlink a{
+    text-decoration: none;
+    cursor: pointer;
+}
+.hyperlink a:hover:not(.fa-play){
+    text-decoration: underline;
+    background: #87CEEB;
+    color: #fff;
+}
+.hyperlink.error {
+    border: 1px solid red;
+}
+.artiest a {
+    color: green;
+}
+.piece.hyperlink {
+    color: brown;
+    cursor: pointer;
+}
+.piece.hyperlink:hover {
+    text-decoration: underline;
+}
+.instrument {
+    color: #447e9b;
+}
+.instrument a {
+    color: #447e9b;
+}
+.album-details {
+    position: fixed;
+    left: 0;
+    top: 66px;
+    display: none;
+    background: #eee;
+    /*height: 360px;*/
+    /*width: 360px;*/
+}
+.album-image {
+    height: 360px;
+    float: left;
+    margin: 0 4px 16px 0;
+}
+.album-image.back {
+    display: none;
+}
+.album-image-thumb {
+    height: 160px;
+}
+.album-image.expanded {
+    height: 560px;
+}
+.album-image.super {
+    height: 900px;
+}
+nav {
+    background-color: rgba(21,21,100,.90);
+    color: #212124;
+}
+nav a {
+    text-decoration: none;
+    color: #fff;
+    padding: 16px;
+    display: inline-block;
+    cursor: default;
+}
+nav a:not(.selected):hover {
+    background-color: blue;
+    cursor: pointer;
+}
+nav a.selected {
+    box-shadow: inset 0 -8px 0 0 #558;
+}
+.album-list {
+    padding: 0;
+    margin: 0;
+}
+.album-list li {
+    float: left;
+    width: 200px;
+    height: 230px;
+    list-style: none;
+    overflow-y: hidden;
+}
+.toggle-content,
+.toggle-edit,
+.toggle-cue,
+.toggle-cue-content,
+.toggle-cuesheets-content {
+    cursor: pointer;
+    font-size: 20px !important;
+}
+.toggle-cuesheets-content {
+    position: relative;
+    top: 1px;
+}
+.pieces .toggle-content {
+    position: relative;
+    top: 1px;
+}
+.toggle-cue-lines {
+    width: 16px;
+}
+.content.stukken {
+    display: none;
+    width: 100%;
+}
+.content.stukken .make-cuesheet {
+    /*display: none;*/
+}
+.make-cuesheet {
+    width: 700px;
+}
+.album-componist.typeahead {
+    width: 100px;
+}
+.album-componist-to-make,
+.create-cuesheet,
+.test-lcs,
+.kk,
+.auto-create {
+    cursor: pointer;
+}
+.album-componist-to-make:hover,
+.create-cuesheet:hover,
+.test-lcs:hover,
+.kk:hover,
+.auto-create:hover {
+    text-decoration: underline;
+}
+.content.cue {
+    /*display: none;*/
+}
+.cuesheets,
+.cuesheets-content {
+    background: lightgoldenrodyellow;
+}
+.code-edit {
+    display: none;
+    /*position: absolute;*/
+}
+.codable .code-edit {
+    display: inline-block;
+}
+.edit-code-all {
+    display: none;
+}
+.codable .edit-code-all {
+    display: block;
+}
+/*.codable .piece .hyperlink:hover .code-edit {*/
+
+/*.hyperlink.cuesheet:hover .code-edit */
+.codable .hyperlink.cuesheet .code-edit {
+    display: inline-block;
+}
+.pieces,
+.content.stukken {
+    background: lightcyan;
+}
+/*.content.cue-lines,*/
+.cuesheets-content,
+.cue {
+    display: none;
+}
+.clear {
+    clear: both;
+}
+.album ul {
+    margin-top: 0;
+}
+.album .content.stukken {
+    /*margin: 0 0 0 10px;*/
+    width: 100%;
+}
+.content.stukken .control a {
+    font-style: italic;
+}
+.album fieldset {
+    width: 220px;
+    display: inline-block;
+}
+.instrument-image {
+    height: 200px;
+    position: absolute;
+    clip: rect(0px,200px,200px,0px);
+}
+.componist-image {
+    height: 200px;
+}
+.instruments-list li {
+    float: left;
+    width: 200px;
+    height: 230px;
+    list-style: none;
+}
+.mother-album {
+    /*box-shadow: -1px -1px 1px red;*/
+    background: #efefff;
+}
+.tags li {
+    list-style: none;
+}
+.left-pane {
+    float: left;
+}
+.content-pane {
+    float: left;
+}
+.tag div.remove,
+.componist .remove,
+.performer .remove,
+.instrument .remove {
+    display: none;
+    cursor: pointer;
+    position: absolute;
+    opacity: .8;
+}
+.tag:hover div.remove,
+.componist:hover .remove,
+.performer:hover .remove,
+.instrument:hover .remove {
+    display: inline-block;
+}
+.componist-years {
+    width: 200px;
+}
+fieldset {
+    color: rgba(21,21,100,.90);
+}
+.edit-album {
+    font-size: 14px;
+}
+.edit-album select,
+.edit-album button {
+    font-size: 12px;
+}
+.cue-header {
+    color: brown;
+}
+.header {
+    font-weight: bold;
+}
+.cmd,
+.cue-plus,
+.cue-title,
+.cue-split,
+.cue-edit,
+.cue-norm,
+.cue-remove,
+.cue-rename,
+.add-code,
+.remove-code,
+.add-code-all,
+.remove-code-all {
+    cursor: pointer;
+    font-style: italic;
+}
+.cue-plus:hover,
+.cue-title:hover,
+.cue-split:hover,
+.cue-edit:hover,
+.cue-norm:hover,
+.cue-remove:hover,
+.cue-rename:hover,
+.add-code:hover,
+.add-code-all:hover,
+.remove-code:hover,
+.remove-code-all:hover {
+    text-decoration: underline;
+}
+.add-code.saved,
+.add-code-all.saved {
+    color: blue;
+    border: 1px solid #cfcfcf;
+}
+.add-code.selected {
+    color: brown;
+}
+.cue-header .cue-plus-container {
+    /*display: none;*/
+    display: inline-block;
+}
+.cue-header:hover .cue-plus-container {
+    display: inline-block;
+}
+.content.edit {
+    display: none;
+}
+.edit-stuk {
+    display: none;
+}
+.editable .edit-stuk {
+    display: inline-block;
+}
+.btn {
+    border: 1px solid #cfcf33;
+    padding: 3px;
+    display: inline-block;
+    border-radius: 3px;
+    margin-top: 2px;
+}
+.btn:hover {
+    background: #ccccff;
+}
+.btn:hover a {
+    text-decoration: none;
+}
+.album-controls {
+    padding-bottom: 2px;
+    height: 36px;
+}
+.album-controls .typeahead {
+    display: none;
+}
+.album-controls:hover .typeahead {
+    display: inline-block;
+}
+.album .pieces {
+    height: 28px;
+    /*margin: 0 0 0 10px;*/
+}
+.album .hyperlink.componist {
+    color: brown;
+}
+.album .hyperlink.performer {
+    color: #1e347b;
+}
+.performer {
+    color: brown;
+}
+.boeknaam {
+    color: brown;
+}
+.boeknr {
+    text-align: right;
+}
+.hyperlink.componist,
+.hyperlink.performer {
+    float: left;
+    list-style: none;
+    margin-top: 4px;
+}
+.componist-years {
+    margin-top: 2px;
+}
+.performer-years {
+    margin-top: 2px;
+}
+.input-album,
+.delete-album {
+    width: 90px;
+}
+.componisten .add {
+    position: relative;
+    top: 3px;
+    border: 1px solid #ccc;
+    padding: 2px;
+    border-top: 2px solid #999;
+}
+.add-componist, .add-performer {
+    cursor: pointer;
+}
+#drop-area-componist {
+    position: relative;
+}
+#drop-area-componist h4 {
+    width: 220px;
+    padding: 0 4px;
+}
+#drop-area:hover {
+    border: 1px #ccc dashed;
+}
+.image-container {
+    width: 160px;
+    overflow-x: hidden;
+}
+.thumbnail-container {
+    width: 90px;
+    margin-right: 8px;
+    overflow-x: hidden;
+}
+.ID {
+    color: #1b8dbb;
+}
+.extra {
+    padding: 4px;
+}
+.thumbnail {
+    height: 100px;
+    /*margin-left:-20px;*/
+}
+.nav {
+    padding: 10px;
+}
+.nav a.enabled {
+    padding: 4px;
+    background-color: #ff9;
+    text-decoration: none;
+}
+.nav a.enabled:hover {
+    background-color: #9ff;
+}
+.refetch {
+    color: #993;
+    cursor: pointer;
+}
+.refetch:hover {
+    background: #87CEEB;
+    color: #fff;
+}
+.error,
+.error a {
+    color: red;
+}
+.rename-cuesheet:hover {
+    text-decoration: underline;
+}
+.typeahead.general {
+    /*width: 600px;*/
+}
+.centered-cropped {
+    height: 200px;
+    width: 160px;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+div[class="pattern"] {
+    position: relative;
+    overflow: hidden;
+    width: 160px;
+    height: 200px;
+}
+div[class="pattern"] img {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: -300px;
+}
+
+.crop {
+  color: white;
+  width: 200px;
+  height: 300px;
+  position: relative;
+}
+.c-image {
+  z-index: -1;
+  position: absolute;
+  background-position: center center;
+  background-size: cover;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.componist-name {
+    color: brown;
+}
+.tag-name {
+    color: darkgreen;
+}
+.search .album-list li {
+    height: 300px;
+}
+.edit-componist-birth,
+.edit-componist-death,
+.edit-performer-birth,
+.edit-performer-death {
+    width: 50px;
+}
+.pages {
+    /*border: 1px solid #efefef;*/
+    padding: 6px;
+    width: 500px;
+}
+.album-collection a {
+    color: darkgreen;
+}
+.album .ID .remove {
+    display: none;
+}
+.album .ID:hover .remove {
+    display: inline-block;
+}
+.items {
+    margin: 4px;
+}
+.album-tail {
+    padding: 6px;
+}
+.cuesheets {
+    margin-top: 8px;
+}
+.search .clear {
+    cursor: pointer;
+    padding: 0 4px 4px;
+    border-radius: 4px;
+    color: #999;
+}
+.search .clear:hover {
+    background-color: #ccf;
+    color: #000;
+}
+.stukken .piece.selected a {
+    color: blue;
+}
+.person-loup {
+    display: none;
+    position: absolute;
+    margin: -12px 0 0 -80px;
+    background-color: #fff;
+    padding: 4px;
+}
+.person-loup img {
+    max-width: 300px;
+}
+.person:hover .person-loup {
+    display: inline-block;
+}
+.played {
+    color: brown;
+}
+.play {
+    /*opacity: 0.6;*/
+    /*border: 1px solid #cfcfcf;*/
+    color: #aaf;
+    /*background-image: url('/static/images/play.svg');*/
+    /*height: 22px;*/
+    /*width: 45px;*/
+    /*border-radius: 3px;*/
+    /*display: inline-block;*/
+}
+.hyperlink .play:hover {
+    text-decoration: none;
+    color: #acf;
+}
+.editable .play {
+    display: none;
+}
+.librarycode-image-details {
+    max-width: 550px;
+}
+.librarycode-image {
+    max-width: 400px;
+    padding-top: 24px;
+}
+.boeken td {
+    padding: 3px;
+}
+.pianoboek tr {
+    background-color: #efefef;
+    border-color: #efefef;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+/*.pianoboek td,*/
+/*.pianoboek tr,*/
+.pianoboek table{
+    border-collapse: collapse;
+    border-style: none;
+    /*border-color: #efefef;*/
+}
+.pianoboek tr:nth-child(4n+0),
+.pianoboek tr:nth-child(4n-1){
+    background-color: #eeffff;
+}
+.pianoboek-image td {
+    padding: 13px;
+}
+.paste-score-fragment,
+.remove-score-fragment {
+    cursor: pointer;
+    position: relative;
+    top: 11px;
+}
+.paste-score-fragment:hover,
+.remove-score-fragment:hover {
+    text-decoration: underline;
+}
+.paste-person {
+    cursor: pointer;
+}
+.paste-person:hover {
+    text-decoration: underline;
+}
+.missing .paste-score-fragment {
+    font-size: 30px;
+    border: 2px solid blue;
+    width: 300px;
+    padding:  3px 0 3px 12px;
+    margin: 0 0 12px 12px;
+}
+.missing .paste-score-fragment:hover {
+    background-color: #aaffff;
+}
+.librarycodes table td {
+    vertical-align: top;
+    padding: 0;
+}
+.codes-list .alias {
+    font-size: 14px;
+    font-style: italic;
+    /*color: brown;*/
+}
+.code-line {
+    font-size: 14px;
+}
+.codes-list {
+    /*border-bottom: 1px solid blue;*/
+    border-style: none;
+    border-collapse: collapse;
+    margin-left: 8px;
+}
+.code-title {
+    color: brown;
+}
+.code-range {
+    margin-left: 48px;
+}
+.codes-list .part {
+    padding-left: 30px;
+}
+.codes-list .main {
+    color: blue;
+    padding-top: 12px;
+}
+.codes-list .main .code-line {
+    /*font-size: 16px;*/
+}
+.extra h4 {
+    margin-bottom: 0;
+}
+.extra ul {
+    margin-top: 0;
+}
+.album h4 {
+    margin: 0;
+}
+.toggle {
+}
+.extra .toggle {
+    margin: 10px 0 0 0;
+    font-size: 18px;
+}
+.search .toggle {
+    font-weight: bold;
+    margin: 10px 0 0 40px;
+}
+.back-indicator {
+    position: absolute;
+    margin: -14px 0 0 -14px;
+    font-size: 40px !important;
+    transform: rotate(-45deg);
+    color: #cfcfcf;
+}
+/*.title {*/
+    /*width: 80%;*/
+    /*padding: 0 4px;*/
+/*}*/
+.title {
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 170px;
+}
+.nplayed .title {
+    width: 400px;
+}
+.ncreated .title {
+    /*width: 170px;*/
+}
+.search .title {
+    /*width: 170px;*/
+    white-space: normal;
+}
+#logger {
+    width: 500px;
+    height: 200px;
+}
+.cuesheetslist-logger {
+    display: none;
+}

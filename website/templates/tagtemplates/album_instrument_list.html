@@ -1,0 +1,13 @@
+{% if album_instrument %}
+    <div class="hyperlink instrument">
+        <a href="/instrument/{{ album_instrument.ID }}/">
+            {{ album_instrument.Name }}
+        </a>
+        <div class="fa fa-times-circle remove" id="{{ album_instrument.ID }}"></div>
+        <a href="/instrument/{{ album_instrument.ID }}/">
+            <div class="thumbnail-container">
+            <img class="thumbnail" src="/image/{{ album_instrument.Name }}/instrument">
+                </div>
+        </a>
+    </div>
+{% endif %}

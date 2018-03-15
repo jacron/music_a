@@ -1,0 +1,18 @@
+{% extends "website/_base.html" %}
+{% load page_tags %}
+{% block title %}Pianoboeken{% endblock %}
+{% block page %}
+    <div class="pianoboeken">
+    <h4>Pianoboeken ({{ items|length }})</h4>
+    <table class="boeken">
+        {% for item in items %}
+            <tr>
+            <td>
+                <a href="{% url 'pianoboek' item.ID %}">{{ item.Name }}</a></td>
+            <td>{{ item.Uitgever }}</td>
+            <td>{{ item.Componist }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+{% endblock %}

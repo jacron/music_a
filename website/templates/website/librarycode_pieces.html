@@ -1,0 +1,36 @@
+{% extends "website/_base.html" %}
+{% load static %}
+{% load page_tags %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block page %}
+    <form>{% csrf_token %}</form>
+    <h4>{{ page_title }} ({{ items|length }})</h4>
+    <div>
+        <img src="/image/{{ scarlatti.ID }}/componist/" class="componist-image">
+    </div>
+    <table cellpadding="4">
+    <tr>
+        <th>K</th>
+        <th>Pianist</th>
+        <th>Instrument</th>
+        <th>Album</th>
+        <th>Stuk</th>
+    </tr>
+        {% for item in items %}
+            <tr>
+            <td class="code">{{ item.k_code }}</td>
+            <td class="artiest hyperlink">
+                <a href="/performer/{{ item.Artiest.ID }}">{{ item.Artiest.Name }}</a></td>
+            <td class="instrument hyperlink">
+                <a href="/instrument/{{ item.Instrument.ID }}">{{ item.Instrument.Name }}</a>
+            </td>
+            <td class="album hyperlink">
+                <a href="/album/{{ item.Album.ID }}">{{ item.Album.Title }}</a>
+            </td>
+            <td class="piece hyperlink">
+                <div onclick="play(this, {{ item.Piece.ID }})">{{ item.Piece.Name }}</div>
+            </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

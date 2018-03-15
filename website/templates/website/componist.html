@@ -1,0 +1,63 @@
+{% extends "website/_base.html" %}
+{% load page_tags %}
+{% block title %}
+    {{ componist.FullName }}
+{% endblock %}
+{% block page %}
+    <div class="componist">
+    <div class="left-pane">
+        <form>
+            {% csrf_token %}
+            <input type="hidden" id="componist_id" value="{{ componist.ID }}">
+        </form>
+            <span class="hyperlink btn">
+                <a onclick="openfinder('{{ componist.ID }}', 'componist')">open finder</a>
+            </span> |
+            <span class="hyperlink btn">
+                <a onclick="exportAlbums('{{ componist.ID }}', 'componist')">export</a>
+            </span> |
+            <span>
+                <a target="_blank"
+                   href="https://google.nl/search?q={{ componist.FullName }}">
+                    <i>google</i></a>
+            </span> |
+            <span>
+                    <a class="paste-person" id="{{ componist.ID }}" type="componist">
+            <i>plak</i></a>
+            </span> |
+            <span>
+                <input class="search-inside-componist" placeholder="Zoek" value="{{ query }}">
+            </span>
+            <div id="drop-area-componist">
+                <h4>
+                    <span contenteditable="true" name="title"
+                          class="edit-componist-name">
+                        {{ componist.FullName }}
+                    </span>&nbsp;({{ items.children|length }})
+                </h4>
+                <div class="crop">
+                    <div class="c-image"
+                style="background-image: url('/image/{{ componist.ID }}/componist/')"
+                    ></div>
+                </div>
+            </div>
+            <div class="componist-years">
+                <input type="text"
+                       title=""
+                        name="birth" class="edit-componist-birth"
+                      value="{{ componist.Birth }}">
+                 - <input type="text"
+                          title=""
+                        name="death" class="edit-componist-death"
+                      value="{{ componist.Death }}">
+            </div>
+        </div>
+        {% alfabet %}
+        <div class="content-pane">
+            {% albumlist items.mothers componist.ID 'componist' %}
+            <div class="clear"></div>
+            {% albumlist items.children componist.ID 'componist' %}
+        </div>
+    <a href="/componist/{{ componist.ID }}/delete/">verwijder</a>
+    </div>
+{% endblock %}

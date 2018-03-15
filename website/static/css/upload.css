@@ -1,0 +1,35 @@
+.upload {
+    padding: 0 0 0 6px;
+}
+.upload-album-path {
+    width: calc(100% - 150px);
+}
+.upload-controls .autofill {
+    display: none;
+    cursor: pointer;
+}
+.upload-controls .autofill:hover {
+    text-decoration: underline;
+}
+.upload-controls ul {
+    padding: 0;
+}
+.upload-controls li:hover .autofill.active {
+    display: inline-block;
+}
+.upload-go {
+    width: 40px;
+    padding: 4px;
+    color: orange;
+    font-size: 20px;
+    margin: 8px 0 0 2px;
+}
+.get-album-for-path {
+    width: 40px;
+    font-size: 20px;
+    padding: 3px;
+    color: #ccc
+}
+.finder {
+    width: 30px;
+}

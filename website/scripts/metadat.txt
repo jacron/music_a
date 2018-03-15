@@ -1,0 +1,7 @@
+;FFMETADATA1
+Year=2000
+Genre=Classical
+Comment=Exact Audio Copy
+Album=Gilels (BBC legends)
+Title=D:\\cd\\新建文件夹\\Emil Gilels - Gilels (BBC legends)
+encoder=Lavf57.56.100

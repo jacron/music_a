@@ -1,0 +1,54 @@
+{% extends "website/_base.html" %}
+{% load page_tags %}
+{% block title %}
+    {{ performer.FullName }}
+{% endblock %}
+{% block page %}
+    <div class="performer">
+        <form>
+            {% csrf_token %}
+            <input type="hidden" id="performer_id" value="{{ performer.ID }}">
+        </form>
+        <div>
+            <span class="hyperlink btn">
+                <a onclick="openfinder('{{ performer.ID }}', 'performer')">open finder</a>
+            </span> |
+            <span>
+            <a target="_blank"
+               href="https://google.nl/search?q={{ performer.FullName }}"><i>google</i></a>
+            </span> |
+            <span>
+                <a class="paste-person" id="{{ performer.ID }}" type="performer">
+            <i>plak</i></a>
+            </span>
+            <div id="drop-area-performer">
+                <h4>
+        <span contenteditable="true" name="title"
+              class="edit-performer-name">
+            {{ performer.FullName }}
+        </span>
+                </h4>
+                    <div class="crop">
+                        <div class="c-image"
+                    style="background-image: url('/image/{{ performer.ID }}/performer/')"
+                        ></div>
+                    </div>
+            <div class="performer-years">
+                <input type="text"
+                        name="birth" class="edit-performer-birth"
+                       title="Geboren"
+                      value="{{ performer.Birth }}">
+                 - <input type="text"
+                        name="death" class="edit-performer-death"
+                          title="Overleden"
+                      value="{{ performer.Death }}">
+            </div>
+            </div>
+        </div>
+    {% alfabet %}
+        <div class="clear"></div>
+        <div>
+            {% albumlist items performer.ID 'performer' %}
+        </div>
+    </div>
+{% endblock %}

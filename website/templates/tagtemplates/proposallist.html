@@ -1,0 +1,24 @@
+<div>
+    Suggesties
+    <input type="checkbox" class="toggle-show-proposals"
+           {% if show == '1' %}
+            checked="checked"
+           {% endif %}
+           >
+</div>
+{% if show %}
+<div>
+    {% if proposals|length %}
+    Componisten?:
+    {% for proposal in proposals %}
+        <a class="add-componist" id="{{ proposal.ID }}" title="{{ proposal.FullName }}">{{ proposal.LastName }}</a>,
+    {% endfor %}<br>
+    {% endif %}
+    {% if artists|length %}
+    Performers?:
+    {% for proposal in artists %}
+        <a class="add-performer" id="{{ proposal.ID }}" title="{{ proposal.FullName }}">{{ proposal.LastName }}</a>,
+    {% endfor %}
+    {% endif %}
+</div>
+{% endif %}

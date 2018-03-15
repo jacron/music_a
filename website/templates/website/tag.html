@@ -1,0 +1,13 @@
+{% extends "website/_base.html" %}
+{% load page_tags %}
+{% block title %}
+    {{ tag.Name }}
+{% endblock %}
+{% block page %}
+<h4>{{ tag.Name }}
+    {% if items|length %}
+    ({{ items|length }})
+    {% endif %}
+</h4>
+{% albumlist items tag.ID 'tag' %}
+{% endblock %}

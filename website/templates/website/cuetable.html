@@ -1,0 +1,29 @@
+{% extends "website/_base.html" %}
+{% load static %}
+{% load page_tags %}
+{% block title %}
+    {{ msg }}
+{% endblock %}
+{% block page %}
+    cuesheet: {{ id }}<br>
+    {{ path }}<br>
+    {{ cue.Filename }}<br>
+    <form method="post" action="">
+    <input type="hidden" value="{{ id }}">
+    {% for file in cue.cue.files %}
+    <table>
+    {% for track in file.tracks %}
+        <tr>
+        <td>{{ track.nr }}</td>
+        <td>{{ track.index.nr }}</td>
+        <td>{{ track.index.time }}</td>
+        <td><input name="tracktitle_{{ forloop.parentloop.counter0 }}_{{ track.nr }}" value="{{ track.title }}"></td>
+        <td>{{ track.performer }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+    {% endfor %}
+    <input type="submit">
+    {% csrf_token %}
+    </form>
+{% endblock %}

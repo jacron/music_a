@@ -1,0 +1,35 @@
+{% extends "website/_base.html" %}
+{% load page_tags %}
+{% block title %}
+    Laatst afgespeeld
+{% endblock %}
+{% block page %}
+    <div class="nplayed">
+    <form>{% csrf_token %}</form>
+    <h4>Laatst afgespeeld</h4>
+        <table>
+            {% for item in items %}
+            <tr>
+                <td class="hyperlink">
+                    <div class="title">
+                    ({{ item.Piece.NPlayed }})
+                    <a onclick="play(this, {{ item.Piece.ID }})"
+                    title="{{ item.Piece.Name }}">
+                        {{ item.Piece.Name }}</a>
+                    </div>
+                    <div>{{ item.Piece.LastPlayed|date:"j b Y G:i" }}</div>
+                </td>
+                <td>
+                    <a href="{% url 'album' item.Album.ID %}">
+                        {{ item.Album.Title }}
+                        <div class="image-container">
+                            <img data-src="/image/{{ item.Album.ID }}/album/"
+                                class="album-image-thumb lazy">
+                        </div>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

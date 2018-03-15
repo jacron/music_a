@@ -1,0 +1,87 @@
+{% extends "website/_base.html" %}
+{% load static %}
+{% load page_tags %}
+{% block title %}
+    {{ album.Title }}
+{% endblock %}
+{% block page %}
+<div class="album">
+    <form>{% csrf_token %}</form>
+    <input type="hidden" id="album_id" value="{{ album.ID }}">
+    {% album_controls album.ID website %}
+{% if album_folder_image %}
+<img src="/image/{{ album.ID }}/album/"
+{% if album_back_image %}
+    title="Klik voor achterzijde"
+{% endif %}
+     class="album-image folder">
+{% endif %}
+{% if album_back_image %}
+    <div class="fa fa-caret-right back-indicator"></div>
+<img src="/imageback/{{ album.ID }}/album/"
+     class="album-image back">
+{% endif %}
+<h4>
+    <span class="ID">{{ album.ID }}
+        <div class="fa fa-times-circle remove" id="{{ person.ID }}"
+             title="Album verwijderen"
+        ></div>
+    </span>:
+    <span contenteditable="true" class="edit-title">
+    {{ album.Title }}
+    </span>
+</h4>
+<div contenteditable="true" class="edit-description">
+    {{ album.Description|default_if_none:'' }}</div>
+{% for tag in album_tags %}
+    <i class="tag hyperlink"><a href="/tag/{{ tag.ID }}">{{ tag.Name }}</a>
+        <span class="fa fa-times-circle remove" id="{{ tag.ID }}"></span>
+    </i>,
+{% endfor %}
+{% persons_list album_componisten '/componist/' 'componist' %}
+{% persons_list album_performers '/performer/' 'performer' %}
+{%  album_instrument_list album_instrument  %}
+<div style="float: left">
+{% for tag, value in album_metatags.items %}
+    {{ tag }}:
+    {% for t in value %}
+        {{ t }}{% if not forloop.last %},&nbsp;{% endif %}
+    {% endfor %}<br>
+{% endfor %}
+</div>
+<div class="clear nav">
+    <span class="title-to-tag cmd" title="title to tag">T&gt;</span>
+    <span class="all-to-tag cmd" title="all to tag">All&gt;</span><br>
+    {% pages prev_id next_id mother_title 'album' album.AlbumID %}
+    {% pages prev_list_id next_list_id list_title list_name list_id %}
+    {% cuesheetlist cuesheets 1 %}
+    {% cuesheetlist invalidcues 0 %}
+</div>
+<div class="clear nav">
+        {% if notfounds|length %}
+            Niet gevonden: {{ notfounds|length }} |
+        {% endif %}
+        <a class="refetch">Haal opnieuw de stukken op</a>
+    {% pieceslist pieces %}
+    <div class="hyperlink album-tail">
+        {% if has_subdirs %}|
+            <a class="make-subs" title="Maak cuelist voor subdirectories">
+                Maak cuelist voor subs</a> |
+            <a class="combine-subs" title="Combineer cuelist voor subdirectories">
+                Combineer sub-cuelists</a> |
+            <a class="inherit-elements" title="Erf eigenschappen in subalbums">
+                Erf</a> |
+            <a class="read_albums" title="Lees albums in">Lees albums in</a>
+        {% endif %}
+        {% proposallist proposals artists show_proposals %}
+    </div>
+{% if albums|length %}
+    {% alfabet %}
+    {% albumlist albums %}
+{% endif %}
+{% for double in path_doubles %}
+    <a href="/album/{{ double.ID }}">{{ double.Title }}</a>
+{% endfor %}
+    </div>
+</div>
+{% endblock %}

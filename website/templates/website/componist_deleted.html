@@ -1,0 +1,50 @@
+{% extends "website/_base.html" %}
+{% load page_tags %}
+{% block title %}
+    deleted: {{ componist.FullName }}
+{% endblock %}
+{% block page %}
+    <div class="componist">
+    <div class="left-pane">
+        <form>
+            {% csrf_token %}
+            <input type="hidden" id="componist_id" value="{{ componist.ID }}">
+        </form>
+            <span class="hyperlink btn">
+                <a onclick="openfinder('{{ componist.ID }}', 'componist')">open finder</a>
+            </span> |
+            <span>
+                <a target="_blank"
+                   href="https://google.nl/search?q={{ componist.FullName }}">google</a>
+            </span> |
+            <span class="hyperlink btn">
+                <a onclick="exportAlbums('{{ componist.ID }}', 'componist')">export</a>
+            </span> |
+        <span>
+            <input class="search-inside-componist" placeholder="Zoek" value="{{ query }}">
+        </span>
+            <div id="drop-area-componist">
+                <h4><i>deleted:</i>
+                    <span contenteditable="true" name="title"
+                          class="edit-componist-name">
+                        {{ componist.FullName }}
+                    </span>
+                </h4>
+                <div class="crop">
+                    <div class="c-image"
+                style="background-image: url('/image/{{ componist.ID }}/componist/')"
+                    ></div>
+                </div>
+            </div>
+            <div class="componist-years">
+                <input type="text"
+                        name="birth" class="edit-componist-birth"
+                      value="{{ componist.Birth }}">
+                </input> - <input type="text"
+                        name="death" class="edit-componist-death"
+                      value="{{ componist.Death }}">
+                </input>
+            </div>
+        </div>
+    </div>
+{% endblock %}

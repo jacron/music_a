@@ -1,0 +1,14 @@
+{% extends "website/_base.html" %}
+{% load page_tags %}
+{% block title %}
+    deleted: {{ instrument.Name }}
+{% endblock %}
+{% block page %}
+    <div class="instrument">
+        <form>
+            {% csrf_token %}
+            <input type="hidden" id="instrument_id" value="{{ instrument_id }}">
+        </form>
+        <h4><i>deleted:</i>{{ instrument.Name }}</h4>
+    </div>
+{% endblock %}
