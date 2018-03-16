@@ -7,8 +7,10 @@
     <tr>
         <td>
             <input type="checkbox" class="edit-stukken"> <i>maak cue</i>&nbsp;&nbsp;
-            <input type="checkbox" class="edit-stukken-codes"> <i>bewerk codes</i>&nbsp;
-            <input type="checkbox" class="edit-stukken-tags"> <i>toon tags</i>
+            <input type="checkbox" class="edit-stukken-codes"> <i>bewerk codes</i><br>
+            <input type="checkbox" class="edit-stukken-tags"> <i>toon tags</i>&nbsp;
+            <input type="checkbox" class="edit-stukken-tag-title"> <i>toon tag-title</i>&nbsp;
+            <a class="stukken-remove-title-tag cmd">wis tag-title</a>
             <div class="edit-stuk">
                 <br>
                 <input class="album-componist typeahead" type="text" placeholder="Componist">
@@ -65,7 +67,11 @@
                 </span>
             </td>
         {% for tag, value in item.tags.items %}
-            <td class="tag-values">
+            <td class="tag-values
+            {% if tag == 'title' %}
+                tag-title
+            {% endif %}
+">
             {{ tag }}:
             {% for t in value %}
                 {{ t }}{% if not forloop.last %},&nbsp;{% endif %}

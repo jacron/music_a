@@ -1,7 +1,7 @@
 from website.db.fetch import (get_pieces, get_album_albums,
-                      get_album_componisten, get_album_performers,
-                      get_album_instruments, get_album,
-                      get_piece, )
+                              get_album_componisten, get_album_performers,
+                              get_album_instruments, get_album,
+                              get_piece, )
 from website.db.insert import (
     insert_album_componist, insert_album_performer,
     insert_album_instrument, insert_album, )
@@ -11,7 +11,6 @@ from music.settings import SKIP_DIRS
 from website.scripts.helper.socket import socket_log
 from website.services.services import splits_naam, splits_years, get_extension
 from .connect import connect
-# from services import splits_naam, splits_years
 import os
 
 
@@ -66,7 +65,7 @@ def update_librarycode(code, favorite):
     SET Favorite=?
     WHERE Code=?'''
     con, c = connect()
-    c.execute(sql, (favorite, code, )).fetchone()
+    c.execute(sql, (favorite, code,)).fetchone()
     con.commit()
 
 
@@ -86,7 +85,7 @@ def update_piece_library_code(piece_id, code):
     VALUES(?)
     '''
     con, c = connect()
-    c.execute(sql, (code, )).fetchone()
+    c.execute(sql, (code,)).fetchone()
     con.commit()
 
 
@@ -97,7 +96,7 @@ def update_album_title(album_id, title):
     WHERE Album.ID=?
     """
     con, c = connect()
-    c.execute(sql, (title, album_id, )).fetchone()
+    c.execute(sql, (title, album_id,)).fetchone()
     con.commit()
 
 
@@ -108,7 +107,7 @@ def update_album_description(album_id, description):
     WHERE Album.ID=?
     """
     con, c = connect()
-    c.execute(sql, (description, album_id, )).fetchone()
+    c.execute(sql, (description, album_id,)).fetchone()
     con.commit()
 
 
@@ -120,7 +119,7 @@ def add_new_componist_to_album(name, albumid):
     WHERE FirstName || ' ' || LastName=?
     """
     con, c = connect()
-    componist_id = c.execute(sql, (name, )).fetchone()
+    componist_id = c.execute(sql, (name,)).fetchone()
     con.close()
     if not componist_id:
         componist_id = new_componist(name)
@@ -136,7 +135,7 @@ def add_new_performer_to_album(name, albumid):
     WHERE FirstName || ' ' || LastName=?
     """
     con, c = connect()
-    performer_id = c.execute(sql, (name, )).fetchone()
+    performer_id = c.execute(sql, (name,)).fetchone()
     con.close()
     if not performer_id:
         performer_id = new_performer(name)
@@ -151,7 +150,7 @@ def add_componist_to_album(componistid, albumid):
     VALUES(?,?)
     """
     con, c = connect()
-    c.execute(sql, (componistid, albumid, )).fetchone()
+    c.execute(sql, (componistid, albumid,)).fetchone()
     con.commit()
 
 
@@ -162,7 +161,7 @@ def add_performer_to_album(performerid, albumid):
     VALUES(?,?)
     """
     con, c = connect()
-    c.execute(sql, (performerid, albumid, )).fetchone()
+    c.execute(sql, (performerid, albumid,)).fetchone()
     con.commit()
 
 
@@ -183,7 +182,7 @@ def delete_piece(piece_id):
      WHERE ID=?
     """
     con, c = connect()
-    c.execute(sql, (piece_id, )).fetchone()
+    c.execute(sql, (piece_id,)).fetchone()
     con.commit()
 
 
@@ -195,6 +194,9 @@ def remove_piece(album_id, piece_name):
     except FileNotFoundError as ex:
         ColorPrint.print_c(str(ex), ColorPrint.CYAN)
         socket_log(str(ex), 'error', album_id)
+    except PermissionError as p:
+        ColorPrint.print_c(str(p), ColorPrint.CYAN)
+        socket_log(str(p), 'error', album_id)
 
 
 def delete_album_ape(album_id):
@@ -203,7 +205,7 @@ def delete_album_ape(album_id):
         if get_extension(piece['Name']) == 'ape':
             remove_piece(album_id, piece['Name'])
             delete_piece(piece['ID'])
-            socket_log(msg=piece['Name'] + ' deleted',mode='info',id=album_id)
+            socket_log(msg=piece['Name'] + ' deleted', mode='info', id=album_id)
 
 
 def remove_tag_from_album(tagid, albumid):
@@ -257,7 +259,7 @@ def add_instrument_to_album(instrumentid, albumid):
     WHERE ID=?
     """
     con, c = connect()
-    c.execute(sql, (instrumentid, albumid, )).fetchone()
+    c.execute(sql, (instrumentid, albumid,)).fetchone()
     con.commit()
 
 
@@ -267,7 +269,7 @@ def add_new_instrument_to_album(name, albumid):
     SELECT ID FROM Instrument WHERE Name=?
     '''
     con, c = connect()
-    instrument_id = c.execute(sql, (name, )).fetchone()
+    instrument_id = c.execute(sql, (name,)).fetchone()
     con.close()
     print(instrument_id)
     if not instrument_id:
@@ -284,12 +286,12 @@ def new_componist(name):
     VALUES(?,?)
     """
     con, c = connect()
-    c.execute(sql, (c_firstname, c_lastname, )).fetchone()
+    c.execute(sql, (c_firstname, c_lastname,)).fetchone()
     con.commit()
     sql = '''
-    SELECT ID from Componist WHERE FirstName=? AND LastName=?
+    SELECT ID FROM Componist WHERE FirstName=? AND LastName=?
     '''
-    return c.execute(sql, (c_firstname, c_lastname, )).fetchone()
+    return c.execute(sql, (c_firstname, c_lastname,)).fetchone()
 
 
 def new_performer(name):
@@ -300,12 +302,12 @@ def new_performer(name):
     VALUES(?,?)
     """
     con, c = connect()
-    c.execute(sql, (c_firstname, c_lastname, )).fetchone()
+    c.execute(sql, (c_firstname, c_lastname,)).fetchone()
     con.commit()
     sql = '''
-    SELECT ID from Performer WHERE FirstName=? AND LastName=?
+    SELECT ID FROM Performer WHERE FirstName=? AND LastName=?
     '''
-    return c.execute(sql, (c_firstname, c_lastname, )).fetchone()
+    return c.execute(sql, (c_firstname, c_lastname,)).fetchone()
 
 
 def new_tag(name):
@@ -315,12 +317,12 @@ def new_tag(name):
     VALUES(?)
     """
     con, c = connect()
-    c.execute(sql, (name, )).fetchone()
+    c.execute(sql, (name,)).fetchone()
     con.commit()
     sql = '''
-    SELECT ID from Tag WHERE Name=?
+    SELECT ID FROM Tag WHERE Name=?
     '''
-    return c.execute(sql, (name, )).fetchone()
+    return c.execute(sql, (name,)).fetchone()
 
 
 def new_instrument(name):
@@ -330,12 +332,12 @@ def new_instrument(name):
     VALUES(?)
     """
     con, c = connect()
-    c.execute(sql, (name, )).fetchone()
+    c.execute(sql, (name,)).fetchone()
     con.commit()
     sql = '''
-    SELECT ID from Instrument WHERE Name=?
+    SELECT ID FROM Instrument WHERE Name=?
     '''
-    return c.execute(sql, (name, )).fetchone()
+    return c.execute(sql, (name,)).fetchone()
 
 
 def update_componistname(name, componist_id):
@@ -346,7 +348,7 @@ def update_componistname(name, componist_id):
     WHERE ID=?
     """
     con, c = connect()
-    c.execute(sql, (first_name, last_name, componist_id, )).fetchone()
+    c.execute(sql, (first_name, last_name, componist_id,)).fetchone()
     con.commit()
 
 
@@ -358,7 +360,7 @@ def update_componistyears(years, componist_id):
     WHERE ID=?
     """
     con, c = connect()
-    c.execute(sql, (birth, death, componist_id, )).fetchone()
+    c.execute(sql, (birth, death, componist_id,)).fetchone()
     con.commit()
 
 
@@ -369,7 +371,7 @@ def update_componistbirth(years, componist_id):
     WHERE ID=?
     """
     con, c = connect()
-    c.execute(sql, (years, componist_id, )).fetchone()
+    c.execute(sql, (years, componist_id,)).fetchone()
     con.commit()
 
 
@@ -380,7 +382,7 @@ def update_componistdeath(years, componist_id):
     WHERE ID=?
     """
     con, c = connect()
-    c.execute(sql, (years, componist_id, )).fetchone()
+    c.execute(sql, (years, componist_id,)).fetchone()
     con.commit()
 
 
@@ -600,5 +602,5 @@ def toggle_setting(name):
     WHERE Name=?
     """
     con, c = connect()
-    c.execute(sql, (name, )).fetchone()
+    c.execute(sql, (name,)).fetchone()
     con.commit()

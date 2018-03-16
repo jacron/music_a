@@ -1,13 +1,7 @@
-import taglib
 import os
-
 import mutagen
-from tinytag import TinyTag
+from mutagen import MutagenError
 
-
-# from flac.db import get_album, get_pieces, get_album_performers, \
-#     get_album_componisten
-# from flac.services import get_extension
 from website.db.fetch import get_album_performers, get_album_componisten, \
     get_album, get_pieces
 from website.lib.color import ColorPrint
@@ -25,7 +19,7 @@ def composers(album_id):
 
 
 def title2tag(p, title):
-    song = taglib.File(p)
+    song = mutagen.File(p)
     try:
         song.tags['ALBUM'] = [title]
         song.save()
@@ -34,7 +28,6 @@ def title2tag(p, title):
 
 
 def all2tag(p, title, album_id):
-    # song = taglib.File(p)
     song = mutagen.File(p)
     try:
         song.tags['ALBUM'] = [title]
@@ -43,6 +36,30 @@ def all2tag(p, title, album_id):
         song.save()
     except TypeError as t:
         ColorPrint.print_c(str(t), ColorPrint.CYAN)
+
+
+def remove_tagtitle(p):
+    song = mutagen.File(p)
+    try:
+        del song['title']
+        song.save()
+    except TypeError as te:
+        ColorPrint.print_c(str(te), ColorPrint.CYAN)
+        ColorPrint.print_c(p, ColorPrint.BLUE)
+    except MutagenError as t:
+        ColorPrint.print_c(str(t), ColorPrint.CYAN)
+        ColorPrint.print_c(p, ColorPrint.BLUE)
+
+
+def remove_tagtitles(album_id):
+    album = get_album(album_id)
+    print(album['Title'])
+    pieces = get_pieces(album_id)
+    for piece in pieces:
+        if get_extension(piece['Name']) != 'cue':
+            p = os.path.join(album['Path'], piece['Name'])
+            remove_tagtitle(p)
+    return ''
 
 
 def set_metatags(album_id, mode):

@@ -2,6 +2,7 @@ from datetime import datetime
 
 import os
 
+# from website.db.update import delete_album_ape
 from website.services.services import get_extension
 from .connect import connect
 
@@ -1079,11 +1080,7 @@ def get_apeflac_albums():
     FROM Album 
         '''
     conn, c = connect()
-    items = []
-    try:
-        items = c.execute(sql).fetchall()
-    except:
-        print_error(sql, 'apeflac')
+    items = c.execute(sql).fetchall()
     conn.close()
     out = []
     for item in items:

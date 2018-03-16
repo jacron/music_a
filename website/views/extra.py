@@ -5,7 +5,7 @@ from ..db.fetch import (get_setting, get_codes, get_scarlatti_k_pieces,
                         get_scarlatti, get_bach_k_pieces, get_widow_albums,
                         get_apeflac_albums, get_pathdoubles_albums,
                         get_apealone_albums)
-from ..db.update import toggle_setting
+from ..db.update import toggle_setting, delete_album_ape
 
 
 def extra_view(request, albums=None, cmd=None):
@@ -46,7 +46,17 @@ def list_bach(request):
         }, request))
 
 
+def delete_apes(apes):
+    for ape in apes:
+        if ape['CountApe'] == 1:
+            print(str(ape['ID']) + ' to delete')
+            delete_album_ape(ape['ID'])
+
+
 def cmd_view(request, cmd_code):
+    apeflac_albums = get_apeflac_albums()
+    # delete_apes(apeflac_albums)
+
     if cmd_code == 'scarlatti':
         return list_scarlatti(request)
     if cmd_code == 'bach':
@@ -57,7 +67,7 @@ def cmd_view(request, cmd_code):
     if cmd_code == 'widows':
         return extra_view(request, get_widow_albums())
     if cmd_code == 'apeflac':
-        return extra_view(request, get_apeflac_albums(), 'del_ape')
+        return extra_view(request, apeflac_albums, 'del_ape')
     if cmd_code == 'apealone':
         return extra_view(request, get_apealone_albums(), 'split')
     if cmd_code == 'pathdoubles':

@@ -128,7 +128,7 @@ $(function () {
     }
     function renameCuesheet($this, albumid) {
         const title = $this.attr('title');
-        var answer = prompt('hernoemen?', title);
+        const answer = prompt('hernoemen?', title);
         if (!answer) {
             return;
         }
@@ -176,9 +176,9 @@ $(function () {
         })
     }
     function filterAlbums($input) {
-        var search = $input.val().toLowerCase();
+        const search = $input.val().toLowerCase();
         $('.album-list li').each(function() {
-            var li = $(this),
+            const li = $(this),
                 title = li.find('.title'),
                 text = title.text().toLowerCase();
             if (!search.length || text.indexOf($input.val()) !== -1) {
@@ -189,9 +189,9 @@ $(function () {
         });
     }
 
-    function applyClass($this, classActive, containerClass) {
+    function applyClass(cb, classActive, containerClass) {
         const container = $(containerClass);
-        if ($this.is(':checked')) {
+        if ($(cb).is(':checked')) {
             container.addClass(classActive)
         } else {
             container.removeClass(classActive);
@@ -217,7 +217,7 @@ $(function () {
                 refetch();
             }
         });
-        $('.album-image').dblclick(function (e) {
+        $('.album-image').dblclick(function () {
             cycleSizes($(this));
         });
         $('.cue-plus').click(function () {
@@ -270,31 +270,25 @@ $(function () {
             });
         });
         $('.edit-stukken').change(function(){
-            var container = $('.stukken-container');
-            if ($(this).is(':checked')) {
-                container.addClass('editable');
-            } else {
-                container.removeClass('editable');
-            }
+            applyClass(this, 'editable', '.stukken-container');
         });
         $('.edit-stukken-codes').change(function() {
-            var container = $('.stukken-container');
-            if ($(this).is(':checked')) {
-                container.addClass('codable');
-            } else {
-                container.removeClass('codable');
-            }
+            applyClass(this, 'codable', '.stukken-container');
         });
         $('.edit-stukken-tags').change(function() {
-            applyClass($(this), 'active', '.tag-values');
+            applyClass(this, 'active', '.tag-values');
+        });
+        $('.edit-stukken-tag-title').change(function() {
+            applyClass(this, 'active', '.tag-title');
+        });
+        $('.stukken-remove-title-tag').click(function() {
+            ajaxPost({
+                cmd: 'remove_tag_titles',
+                albumid: albumId
+            })
         });
         $('.edit-cuesheet-codes').change(function() {
-            var container = $('.cuesheets-content');
-            if ($(this).is(':checked')) {
-                container.addClass('codable');
-            } else {
-                container.removeClass('codable');
-            }
+            applyClass(this, 'codable', '.cuesheets-content');
         });
         $('.title-to-tag').click(function(){
             ajaxPost({
@@ -313,11 +307,11 @@ $(function () {
 
     }
     $('.cue-split-id').click(function() {
-        var albumId = $(this).attr('id');
+        const albumId = $(this).attr('id');
         splitOneCueAlbum(albumId);
     });
     $('.reload-pieces').click(function() {
-        var albumId = $(this).attr('id');
+        const albumId = $(this).attr('id');
         reloadPieces(albumId);
     });
     $('.cue-del-ape').click(function() {
