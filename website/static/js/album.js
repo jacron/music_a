@@ -48,6 +48,7 @@ $(function () {
         })
     }
     function splitOneCueAlbum(albumid) {
+        $('#album-logger').show();
         ajaxPost({
             cmd: 'split_one_cue_album',
             albumid: albumid

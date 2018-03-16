@@ -185,9 +185,7 @@ nav a.selected {
 .codable .edit-code-all {
     display: block;
 }
-/*.codable .piece .hyperlink:hover .code-edit {*/
 
-/*.hyperlink.cuesheet:hover .code-edit */
 .codable .hyperlink.cuesheet .code-edit {
     display: inline-block;
 }
@@ -553,7 +551,7 @@ div[class="pattern"] img {
     max-width: 300px;
 }
 .person:hover .person-loup {
-    display: inline-block;
+    /*display: inline-block;*/
 }
 .played {
     color: brown;
@@ -711,11 +709,13 @@ div[class="pattern"] img {
     /*width: 170px;*/
     white-space: normal;
 }
-#logger {
+#logger,
+#album-logger {
     width: 500px;
     height: 200px;
 }
-.cuesheetslist-logger {
+.cuesheetslist-logger,
+#album-logger {
     display: none;
 }
 .tag-values {

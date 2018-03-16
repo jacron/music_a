@@ -3,6 +3,7 @@ import glob
 import os
 
 # from website.services.tag import get_metatags
+from website.services.services import get_extension
 from website.services.tag import get_metatags
 from ..db.fetch import (get_pieces, get_componist, get_performer, get_tag,
                       get_album_componisten, get_album_performers,
@@ -119,6 +120,21 @@ def images_album(album_o):
     return album_folder_image, album_back_image
 
 
+def add_count(albums):
+    for album in albums:
+        count_pieces = 0
+        count_cue = 0
+        pieces = get_pieces(album['ID'])
+        for piece in pieces:
+            extension = get_extension(piece['Name'])
+            if extension != 'cue':
+                count_pieces += 1
+            else:
+                count_cue += 1
+        album['CountPieces'] = count_pieces
+        album['CountCues'] = count_cue
+
+
 def album_context(album_id, list_name=None, list_id=None):
     album_o = get_album(album_id)
     if not album_o:
@@ -143,12 +159,15 @@ def album_context(album_id, list_name=None, list_id=None):
                                                          list_id)
     prev_id, next_id = album_paging(mother_id, album_id)  # for collections
     album_folder_image, album_back_image = images_album(album_o)
+    album_albums = get_album_albums(album_id)
+    if len(album_albums) > 0:
+        add_count(album_albums)
     return {
         'albumid': album_id,
         'album_folder_image': album_folder_image,
         'album_back_image': album_back_image,
         'pieces': pieces,
-        'albums': get_album_albums(album_id),
+        'albums': album_albums,
         'album': album_o,
         'mother_title': mother_title,
         'album_componisten': album_componisten,

@@ -45,6 +45,11 @@ def trimextension(ffile):
 
 
 def get_extension(s):
+    """
+    return extension of a filename (without leading point)
+    :param s: filename
+    :return: extension
+    """
     return s.split('.')[-1]
 
 

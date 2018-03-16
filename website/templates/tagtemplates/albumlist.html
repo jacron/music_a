@@ -29,7 +29,7 @@
             {% endif %}
             </a>
         {% if cmd == 'split' %}
-            ({{ item.Count }})
+            ({{ item.CountCues }}, {{ item.CountPieces }})
             &nbsp;<a class="cue-split-id" id="{{ item.ID }}">split</a> |
             <a class="reload-pieces" id="{{ item.ID }}">reload</a>
         {% endif %}

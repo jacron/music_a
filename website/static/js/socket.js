@@ -27,7 +27,7 @@ function ajaxPost(data, cb) {
 $(function(){
     var socket = new WebSocket('ws://' + window.location.host + '/chat/');
     function addToLog(data) {
-        const logger = document.getElementById('logger');
+        const logger = document.getElementById('logger') || document.getElementById('album-logger');
         if (logger) {
             if (logger.value.length) {
                 logger.value += '\n';

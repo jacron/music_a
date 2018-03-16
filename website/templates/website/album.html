@@ -58,10 +58,13 @@
     {% cuesheetlist invalidcues 0 %}
 </div>
 <div class="clear nav">
-        {% if notfounds|length %}
-            Niet gevonden: {{ notfounds|length }} |
-        {% endif %}
-        <a class="refetch">Haal opnieuw de stukken op</a>
+    {% if notfounds|length %}
+        Niet gevonden: {{ notfounds|length }} |
+    {% endif %}
+<textarea id="album-logger"></textarea>
+<div>
+    <a class="refetch">Haal opnieuw de stukken op</a>
+</div>
     {% pieceslist pieces %}
     <div class="hyperlink album-tail">
         {% if has_subdirs %}|
@@ -77,11 +80,14 @@
     </div>
 {% if albums|length %}
     {% alfabet %}
-    {% albumlist albums %}
+    {% albumlist albums None None 'split' %}
 {% endif %}
-{% for double in path_doubles %}
-    <a href="/album/{{ double.ID }}">{{ double.Title }}</a>
-{% endfor %}
+{% if path_doubles|length %}
+    <h4>Dubbelen</h4>
+    {% for double in path_doubles %}
+        <a href="/album/{{ double.ID }}">{{ double.Title }}</a>
+    {% endfor %}
+{% endif %}
     </div>
 </div>
 {% endblock %}
