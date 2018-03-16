@@ -49,10 +49,12 @@
 {%  album_instrument_list album_instrument  %}
 <div style="float: left">
 {% for tag, value in album_metatags.items %}
+    {% if tag != 'cuesheet' %}
     {{ tag }}:
     {% for t in value %}
         {{ t }}{% if not forloop.last %},&nbsp;{% endif %}
     {% endfor %}<br>
+    {% endif %}
 {% endfor %}
 </div>
 <div class="clear nav">
