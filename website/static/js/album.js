@@ -288,6 +288,15 @@ $(function () {
                 albumid: albumId
             })
         });
+        $('.stukken-remove-generic-tag').keydown(function(e) {
+            if (e.key === 'Enter') {
+                ajaxPost({
+                    cmd: 'remove_tag_generic',
+                    tag: $(this).val(),
+                    albumid: albumId
+                })
+            }
+        });
         $('.edit-cuesheet-codes').change(function() {
             applyClass(this, 'codable', '.cuesheets-content');
         });

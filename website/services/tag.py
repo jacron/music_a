@@ -1,6 +1,7 @@
 import os
 import mutagen
 from mutagen import MutagenError
+from mutagen.apev2 import APEBadItemError
 
 from website.db.fetch import get_album_performers, get_album_componisten, \
     get_album, get_pieces
@@ -38,10 +39,10 @@ def all2tag(p, title, album_id):
         ColorPrint.print_c(str(t), ColorPrint.CYAN)
 
 
-def remove_tagtitle(p):
+def remove_tag(p, tag):
     song = mutagen.File(p)
     try:
-        del song['title']
+        del song[tag]
         song.save()
     except TypeError as te:
         ColorPrint.print_c(str(te), ColorPrint.CYAN)
@@ -49,16 +50,19 @@ def remove_tagtitle(p):
     except MutagenError as t:
         ColorPrint.print_c(str(t), ColorPrint.CYAN)
         ColorPrint.print_c(p, ColorPrint.BLUE)
+    except APEBadItemError as a:
+        ColorPrint.print_c(str(a), ColorPrint.CYAN)
+        ColorPrint.print_c(p, ColorPrint.BLUE)
 
 
-def remove_tagtitles(album_id):
+def remove_taggeneric(album_id, tag):
     album = get_album(album_id)
     print(album['Title'])
     pieces = get_pieces(album_id)
     for piece in pieces:
         if get_extension(piece['Name']) != 'cue':
             p = os.path.join(album['Path'], piece['Name'])
-            remove_tagtitle(p)
+            remove_tag(p, tag)
     return ''
 
 
@@ -80,6 +84,9 @@ def get_metatags(p):
     try:
         song = mutagen.File(p)
         return song
+    except MutagenError as t:
+        ColorPrint.print_c(str(t), ColorPrint.CYAN)
+        ColorPrint.print_c(p, ColorPrint.BLUE)
     except Exception as ex:
         ColorPrint.print_c(str(ex), ColorPrint.CYAN)
         ColorPrint.print_c(str(p), ColorPrint.CYAN)

@@ -4,7 +4,8 @@ from six.moves.urllib.request import urlopen
 from channels import Group
 from django.conf import settings
 from website.scripts.flacs import process_album
-from website.services.tag import set_metatags, remove_tagtitles
+from website.services.tag import set_metatags, \
+    remove_taggeneric
 from ..db.fetch import get_piece, get_album
 from ..db.insert import abs_insert_componist
 from ..db.pieces import refetch_pieces
@@ -123,7 +124,11 @@ def delete_ape(album_id):
 
 
 def remove_tag_titles(album_id):
-    return remove_tagtitles(album_id)
+    return remove_taggeneric(album_id, 'title')
+
+
+def remove_tag_generic(album_id, tag):
+    return remove_taggeneric(album_id, tag)
 
 
 def tageditoralbum(album_id):
@@ -316,5 +321,7 @@ def do_post(post):
         return delete_ape(post['albumid'])
     if cmd == 'remove_tag_titles':
         return remove_tag_titles(post['albumid'])
+    if cmd == 'remove_tag_generic':
+        return remove_tag_generic(post['albumid'], post['tag'])
 
     print(cmd, 'not a valid cmd')

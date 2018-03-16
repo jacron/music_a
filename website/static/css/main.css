@@ -433,7 +433,8 @@ fieldset {
     background-color: #ff9;
     text-decoration: none;
 }
-.nav a.enabled:hover {
+.nav a.enabled:hover,
+.cmd:hover {
     background-color: #9ff;
 }
 .refetch {

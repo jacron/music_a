@@ -31,6 +31,12 @@
     {{ album.Title }}
     </span>
 </h4>
+{% if path_doubles|length %}
+    <h4>Dubbelen</h4>
+    {% for double in path_doubles %}
+        <a href="/album/{{ double.ID }}">{{ double.Title }}</a>
+    {% endfor %}
+{% endif %}
 <div contenteditable="true" class="edit-description">
     {{ album.Description|default_if_none:'' }}</div>
 {% for tag in album_tags %}
@@ -51,7 +57,9 @@
 </div>
 <div class="clear nav">
     <span class="title-to-tag cmd" title="title to tag">T&gt;</span>
-    <span class="all-to-tag cmd" title="all to tag">All&gt;</span><br>
+    <span class="all-to-tag cmd" title="all to tag">All&gt;</span>
+    <a class="stukken-remove-title-tag cmd" style="color:darkred">wis tag-title</a>
+    <br>
     {% pages prev_id next_id mother_title 'album' album.AlbumID %}
     {% pages prev_list_id next_list_id list_title list_name list_id %}
     {% cuesheetlist cuesheets 1 %}
@@ -81,12 +89,6 @@
 {% if albums|length %}
     {% alfabet %}
     {% albumlist albums None None 'split' %}
-{% endif %}
-{% if path_doubles|length %}
-    <h4>Dubbelen</h4>
-    {% for double in path_doubles %}
-        <a href="/album/{{ double.ID }}">{{ double.Title }}</a>
-    {% endfor %}
 {% endif %}
     </div>
 </div>
