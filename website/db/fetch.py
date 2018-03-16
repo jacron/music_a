@@ -1101,6 +1101,8 @@ def get_apeflac_albums():
                 'Title': item[0],
                 'ID': item[1],
                 'Path': item[2],
+                'CountApe': count_ape,
+                'CountFlac': count_flac,
             }
             out.append(it)
     return out

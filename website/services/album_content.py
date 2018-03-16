@@ -18,13 +18,13 @@ from ..services.proposals import get_proposals, get_artists
 
 
 def has_notfound_files(cuesheet, album_path):
-    # for file in cuesheet['cue']['files']:
-    # fname = file['name'].encode('utf-8')
-    # path = '{}/{}'.format(album_path, fname)
-    # if not os.path.exists(path):
-    #     return True
-    # return False
-    pass
+    for file in cuesheet['cue']['files']:
+        # fname = file['name'].encode('utf-8')
+        path = os.path.join(album_path, file['name'])
+        if not os.path.exists(path):
+            return True
+    return False
+    # pass
 
 
 def organize_pieces(album_id, album_path):
@@ -39,14 +39,13 @@ def organize_pieces(album_id, album_path):
                 extension = ffile.split('.')[-1]
                 if extension == 'cue':
                     cuesheet = get_full_cuesheet(path, item[1])
-                    if has_notfound_files(cuesheet, album_path):
-                        invalidcues.append(cuesheet)
-                    else:
-                        cuesheet['Code'] = item[2]
-                        cuesheets.append(cuesheet)
+                    cuesheet['Code'] = item[2]
+                    cuesheet['Invalid'] = has_notfound_files(cuesheet, album_path)
+                    cuesheets.append(cuesheet)
                 else:
                     item['tags'] = get_metatags(path)
-                    album_metatags = item['tags']
+                    if item['tags']:
+                        album_metatags = item['tags']
                     pieces.append(item)
             else:
                 notfounds.append(path)

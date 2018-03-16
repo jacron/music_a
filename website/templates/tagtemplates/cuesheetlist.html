@@ -12,7 +12,7 @@
         {% endif %}
     <textarea id="logger" class="cuesheetslist-logger"></textarea>
 {% for cuesheet in cuesheets %}
-    <div {% if not valid %}
+    <div {% if cuesheet.Invalid %}
             class="error"
             {% endif %}
     >

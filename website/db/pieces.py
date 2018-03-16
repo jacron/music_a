@@ -2,6 +2,7 @@ import glob
 import os
 
 from music.settings import MUSIC_FILES
+# from .update import delete_piece
 from .connect import connect
 from .fetch import get_album_path_by_id, get_pieces
 from .insert import insert_piece
@@ -27,7 +28,7 @@ def insert_or_delete_pieces(path, album_id, conn, c):
     # delete non-existing pieces
     for p in pieces:
         if not os.path.exists(os.path.join(path, p['Name'])):
-            from db.update import delete_piece
+            from website.db.update import delete_piece
             delete_piece(p['ID'])
     # insert pieces that exist in directory, not in database
     for card in MUSIC_FILES:

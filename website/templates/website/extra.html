@@ -25,7 +25,7 @@
         <li><a href="{% url 'cmd' 'pathdoubles' %}">path doubles</a></li>
     {#    <li><a href="{% url 'cmd' 'missingscore' %}">missing score</a></li>#}
     </ul>
-{% if cmd == 'split' %}
+{% if cmd == 'split' or cmd == 'del_ape' %}
     <textarea id="logger"></textarea>
 {% endif %}
     {% albumlist albums None None cmd %}

@@ -19,7 +19,7 @@ from ..db.update import update_played, update_piece_library_code, \
     add_tag_to_album, \
     new_tag, remove_tag_from_album, delete_album, read_albums, \
     update_album_title, update_album_description, adjust_kk, inherit_elements, \
-    toggle_setting
+    toggle_setting, delete_album_ape
 from ..services.album_content import get_website
 from ..services.clipboard import delete_score_fragment
 from ..services.clipboard import save_score_fragment, save_person
@@ -115,6 +115,11 @@ def toggle_code_favorite(librarycode, favorite):
 
 def title2tag(album_id, mode):
     return set_metatags(album_id, mode)
+
+
+def delete_ape(album_id):
+    delete_album_ape(album_id)
+    return 'deleted ape'
 
 
 def tageditoralbum(album_id):
@@ -303,5 +308,7 @@ def do_post(post):
         return tageditoralbum(post['albumid'])
     if cmd == 'title2tag':
         return title2tag(post['albumid'], post['mode'])
+    if cmd == 'delete_ape':
+        return delete_ape(post['albumid'])
 
     print(cmd, 'not a valid cmd')

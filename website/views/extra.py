@@ -57,7 +57,7 @@ def cmd_view(request, cmd_code):
     if cmd_code == 'widows':
         return extra_view(request, get_widow_albums())
     if cmd_code == 'apeflac':
-        return extra_view(request, get_apeflac_albums())
+        return extra_view(request, get_apeflac_albums(), 'del_ape')
     if cmd_code == 'apealone':
         return extra_view(request, get_apealone_albums(), 'split')
     if cmd_code == 'pathdoubles':

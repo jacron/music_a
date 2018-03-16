@@ -59,6 +59,13 @@ $(function () {
             albumid: albumid
         })
     }
+    function deleteApe(albumid) {
+        $('#logger').show();
+        ajaxPost({
+            cmd: 'delete_ape',
+            albumid: albumid
+        })
+    }
     function splitCuedFile($this, albumid) {
         $('.cuesheetslist-logger').show();
         ajaxPost({
@@ -182,6 +189,15 @@ $(function () {
         });
     }
 
+    function applyClass($this, classActive, containerClass) {
+        const container = $(containerClass);
+        if ($this.is(':checked')) {
+            container.addClass(classActive)
+        } else {
+            container.removeClass(classActive);
+        }
+    }
+
     const albumId = $('#album_id').val();
     if (albumId) {
         // functions for the single album page
@@ -269,6 +285,9 @@ $(function () {
                 container.removeClass('codable');
             }
         });
+        $('.edit-stukken-tags').change(function() {
+            applyClass($(this), 'active', '.tag-values');
+        });
         $('.edit-cuesheet-codes').change(function() {
             var container = $('.cuesheets-content');
             if ($(this).is(':checked')) {
@@ -300,6 +319,10 @@ $(function () {
     $('.reload-pieces').click(function() {
         var albumId = $(this).attr('id');
         reloadPieces(albumId);
+    });
+    $('.cue-del-ape').click(function() {
+        const albumId = $(this).attr('id');
+        deleteApe(albumId);
     });
 
     // albumlist also lives on componist page etc

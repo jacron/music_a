@@ -8,7 +8,8 @@ from website.db.insert import (
 from website.db.pieces import insert_pieces
 from website.lib.color import ColorPrint
 from music.settings import SKIP_DIRS
-from website.services.services import splits_naam, splits_years
+from website.scripts.helper.socket import socket_log
+from website.services.services import splits_naam, splits_years, get_extension
 from .connect import connect
 # from services import splits_naam, splits_years
 import os
@@ -174,6 +175,35 @@ def add_tag_to_album(tagid, albumid):
     con, c = connect()
     c.execute(sql, (tagid, albumid,)).fetchone()
     con.commit()
+
+
+def delete_piece(piece_id):
+    sql = """
+    DELETE FROM Piece
+     WHERE ID=?
+    """
+    con, c = connect()
+    c.execute(sql, (piece_id, )).fetchone()
+    con.commit()
+
+
+def remove_piece(album_id, piece_name):
+    album = get_album(album_id)
+    p = os.path.join(album['Path'], piece_name)
+    try:
+        os.remove(p)
+    except FileNotFoundError as ex:
+        ColorPrint.print_c(str(ex), ColorPrint.CYAN)
+        socket_log(str(ex), 'error', album_id)
+
+
+def delete_album_ape(album_id):
+    pieces = get_pieces(album_id)
+    for piece in pieces:
+        if get_extension(piece['Name']) == 'ape':
+            remove_piece(album_id, piece['Name'])
+            delete_piece(piece['ID'])
+            socket_log(msg=piece['Name'] + ' deleted',mode='info',id=album_id)
 
 
 def remove_tag_from_album(tagid, albumid):

@@ -10,6 +10,7 @@ from tinytag import TinyTag
 # from flac.services import get_extension
 from website.db.fetch import get_album_performers, get_album_componisten, \
     get_album, get_pieces
+from website.lib.color import ColorPrint
 from website.services.services import get_extension
 
 
@@ -25,17 +26,23 @@ def composers(album_id):
 
 def title2tag(p, title):
     song = taglib.File(p)
-    song.tags['ALBUM'] = [title]
-    song.save()
+    try:
+        song.tags['ALBUM'] = [title]
+        song.save()
+    except TypeError as t:
+        ColorPrint.print_c(str(t), ColorPrint.CYAN)
 
 
 def all2tag(p, title, album_id):
     # song = taglib.File(p)
     song = mutagen.File(p)
-    song.tags['ALBUM'] = [title]
-    song.tags['ARTIST'] = performers(album_id)
-    song.tags['COMPOSER'] = composers(album_id)
-    song.save()
+    try:
+        song.tags['ALBUM'] = [title]
+        song.tags['ARTIST'] = performers(album_id)
+        song.tags['COMPOSER'] = composers(album_id)
+        song.save()
+    except TypeError as t:
+        ColorPrint.print_c(str(t), ColorPrint.CYAN)
 
 
 def set_metatags(album_id, mode):
@@ -54,11 +61,9 @@ def set_metatags(album_id, mode):
 
 def get_metatags(p):
     try:
-        # song = taglib.File(p)
         song = mutagen.File(p)
-        # song = TinyTag.get(p)
         return song
     except Exception as ex:
-        print(ex)
-        print(p)
-    return ''
+        ColorPrint.print_c(str(ex), ColorPrint.CYAN)
+        ColorPrint.print_c(str(p), ColorPrint.CYAN)
+    return None

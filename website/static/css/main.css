@@ -42,8 +42,8 @@ body {
 }
 .hyperlink a:hover:not(.fa-play){
     text-decoration: underline;
-    background: #87CEEB;
-    color: #fff;
+    /*background: #87CEEB;*/
+    /*color: #fff;*/
 }
 .hyperlink.error {
     border: 1px solid red;
@@ -695,7 +695,7 @@ div[class="pattern"] img {
     /*width: 80%;*/
     /*padding: 0 4px;*/
 /*}*/
-.title {
+.thumb-title {
     overflow-x: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -717,4 +717,10 @@ div[class="pattern"] img {
 }
 .cuesheetslist-logger {
     display: none;
+}
+.tag-values {
+    display: none;
+}
+.tag-values.active {
+    display: table-cell;
 }
