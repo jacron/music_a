@@ -1,5 +1,5 @@
 <div>
-<ul>
+<ul class="{{ type }}">
 {% for person in persons %}
     <li class="hyperlink {{ type }} person">
         <a href="{{ person_url }}{{ person.ID }}/" title="{{ person.FullName }}">

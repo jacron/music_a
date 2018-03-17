@@ -30,34 +30,40 @@ def has_notfound_files(cuesheet, album_path):
 
 def organize_pieces(album_id, album_path):
     items = get_pieces(album_id)
-    cuesheets, pieces, notfounds, invalidcues, album_metatags = \
-        [], [], [], [], {}
+    cuesheets, pieces, notfounds, invalidcues, album_metatags, \
+    album_metatag_titles = \
+        [], [], [], [], {}, []
     for item in items:
-        ffile = item[0]
+        ffile = item['Name']
         if ffile:
             path = u'{}/{}'.format(album_path, ffile)
             if os.path.exists(path):
                 extension = ffile.split('.')[-1]
                 if extension == 'cue':
-                    cuesheet = get_full_cuesheet(path, item[1])
-                    cuesheet['Code'] = item[2]
+                    cuesheet = get_full_cuesheet(path, item['ID'])
+                    cuesheet['Code'] = item['LibraryCode']
                     cuesheet['Invalid'] = has_notfound_files(cuesheet, album_path)
                     cuesheets.append(cuesheet)
                 else:
-                    item['tags'] = get_metatags(path)
-                    if item['tags']:
+                    metatags = get_metatags(path)
+                    if metatags:
+                        item['tags'] = metatags
                         album_metatags = item['tags']
+                        if metatags.get('title'):
+                            album_metatag_titles.append(metatags['title'])
                     pieces.append(item)
             else:
                 notfounds.append(path)
-    return cuesheets, pieces, notfounds, invalidcues, album_metatags
+    return cuesheets, pieces, notfounds, invalidcues, album_metatags, \
+           album_metatag_titles
 
 
 def check_subdirs(path):
-    for d in os.listdir(path):
-        p = os.path.join(path, d)
-        if os.path.isdir(p) and d not in SKIP_DIRS:
-            return True
+    if os.path.exists(path):
+        for d in os.listdir(path):
+            p = os.path.join(path, d)
+            if os.path.isdir(p) and d not in SKIP_DIRS:
+                return True
     return False
 
 
@@ -144,7 +150,8 @@ def album_context(album_id, list_name=None, list_id=None):
     if album_o['AlbumID']:
         mother_id = album_o['AlbumID']
         mother_title = get_mother_title(mother_id)
-    cuesheets, pieces, notfounds, invalidcues, album_metatags = \
+    cuesheets, pieces, notfounds, invalidcues, album_metatags, \
+    album_metatag_titles = \
         organize_pieces(album_id, album_o['Path'])
     album_componisten, album_performers, album_instruments = get_elements(
         album_id)
@@ -190,5 +197,6 @@ def album_context(album_id, list_name=None, list_id=None):
         'has_subdirs': check_subdirs(album_o['Path']),
         'website': get_website(album_o['Path']),
         'album_metatags': album_metatags,
+        'album_metatag_titles': album_metatag_titles,
         'path_doubles': get_path_doubles(album_o)
     }

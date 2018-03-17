@@ -46,9 +46,12 @@
             </div>
         </div>
     {% alfabet %}
+
         <div class="clear"></div>
-        <div>
+        <div class="content-pane">
             {% albumlist items performer.ID 'performer' %}
+            <div class="clear"></div>
         </div>
+    <a href="/performer/{{ performer.ID }}/delete/">verwijder performer</a>
     </div>
 {% endblock %}

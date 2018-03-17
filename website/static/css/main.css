@@ -76,7 +76,7 @@ body {
 .album-image {
     height: 360px;
     float: left;
-    margin: 0 4px 16px 0;
+    margin: 0 40px 16px 40px;
 }
 .album-image.back {
     display: none;
@@ -372,9 +372,17 @@ fieldset {
 }
 .hyperlink.componist,
 .hyperlink.performer {
-    float: left;
+    /*float: left;*/
     list-style: none;
     margin-top: 4px;
+}
+ul.performer {
+    float: left;
+    background: #cfcfaa;
+}
+ul.componist {
+    float: left;
+    background: #cfcf33;
 }
 .componist-years {
     margin-top: 2px;
@@ -508,7 +516,27 @@ div[class="pattern"] img {
 .pages {
     /*border: 1px solid #efefef;*/
     padding: 6px;
-    width: 500px;
+    /*width: 500px;*/
+    background: #efefef;
+}
+.pages a {
+    text-decoration: none;
+    padding: 2px 4px;
+}
+.pages a  i {
+    opacity: .2;
+}
+.pages a.name:hover {
+    text-decoration: underline;
+}
+.pages a.enabled i {
+    opacity: .6;
+}
+.pages a.enabled:hover {
+    background: #cfcfcf;
+}
+.pages .control {
+    float: right;
 }
 .album-collection a {
     color: darkgreen;
@@ -555,7 +583,7 @@ div[class="pattern"] img {
     /*display: inline-block;*/
 }
 .played {
-    color: brown;
+    color: brown !important;
 }
 .play {
     /*opacity: 0.6;*/
@@ -724,4 +752,14 @@ div[class="pattern"] img {
 }
 .tag-values.active {
     display: table-cell;
+}
+.album-tags {
+    float: left;
+}
+.generic-tag {
+    display: none;
+    position: absolute;
+}
+.album-tags:hover .generic-tag {
+    display: inline-block;
 }

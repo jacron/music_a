@@ -360,9 +360,9 @@ def get_pieces(album_id):
         if code == '0':
             code = None
         out.append({
-            0: item[0],
-            1: item[1],
-            2: code,
+            # 0: item[0],
+            # 1: item[1],
+            # 2: code,
             'Name': item[0],
             'ID': item[1],
             'LibraryCode': code,

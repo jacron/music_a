@@ -100,6 +100,17 @@ def update_album_title(album_id, title):
     con.commit()
 
 
+def update_db_piece_name(piece_id, piece_name):
+    sql = """
+    UPDATE Piece 
+    SET Name=?
+    WHERE ID=?
+    """
+    con, c = connect()
+    c.execute(sql, (piece_name, piece_id,)).fetchone()
+    con.commit()
+
+
 def update_album_description(album_id, description):
     sql = """
     UPDATE Album 

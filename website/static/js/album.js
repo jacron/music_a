@@ -16,6 +16,14 @@ $(function () {
             albumid: albumId
         })
     }
+    function editPieceName($this, albumId) {
+        ajaxPost({
+            cmd: 'update_piece_name',
+            pieceid: $this.attr('id'),
+            name: $this.text().trim(),
+            albumid: albumId
+        })
+    }
     function editAlbumDescription($this, albumId) {
         ajaxPost({
             cmd: 'update_album_description',
@@ -203,6 +211,10 @@ $(function () {
     if (albumId) {
         // functions for the single album page
         $('.edit-title').keydown(function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                editAlbumTitle($(this), albumId);
+            }
             if (e.key === 'Tab') {
                 editAlbumTitle($(this), albumId);
             }
@@ -286,7 +298,11 @@ $(function () {
             ajaxPost({
                 cmd: 'remove_tag_titles',
                 albumid: albumId
-            })
+            },function(res){
+                // console.log(res);
+                // $('.last-title').hide();
+                // location.reload();
+            });
         });
         $('.stukken-remove-generic-tag').keydown(function(e) {
             if (e.key === 'Enter') {
@@ -312,9 +328,19 @@ $(function () {
                 cmd: 'title2tag',
                 albumid: albumId,
                 mode: 'long'
+            }, function(){
+                location.reload();
             })
         });
-
+        $('.edit-piece').keydown(function(e){
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                editPieceName($(this), albumId);
+            }
+            if (e.key === 'Tab') {
+                editPieceName($(this), albumId);
+            }
+        })
     }
     $('.cue-split-id').click(function() {
         const albumId = $(this).attr('id');

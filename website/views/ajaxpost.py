@@ -3,6 +3,8 @@ import os
 from six.moves.urllib.request import urlopen
 from channels import Group
 from django.conf import settings
+
+from website.lib.color import ColorPrint
 from website.scripts.flacs import process_album
 from website.services.tag import set_metatags, \
     remove_taggeneric
@@ -20,7 +22,7 @@ from ..db.update import update_played, update_piece_library_code, \
     add_tag_to_album, \
     new_tag, remove_tag_from_album, delete_album, read_albums, \
     update_album_title, update_album_description, adjust_kk, inherit_elements, \
-    toggle_setting, delete_album_ape
+    toggle_setting, delete_album_ape, update_db_piece_name
 from ..services.album_content import get_website
 from ..services.clipboard import delete_score_fragment
 from ..services.clipboard import save_score_fragment, save_person
@@ -140,6 +142,22 @@ def tageditoralbum(album_id):
 def tageditor(path):
     opentageditor(path)
     return 'editor'
+
+
+def rename_piece_name(piece_id, piece_name, album_id):
+    album = get_album(album_id)
+    piece = get_piece(piece_id)
+    src = os.path.join(album['Path'], piece['Name'])
+    dst = os.path.join(album['Path'], piece_name)
+    os.rename(src, dst)
+
+
+def update_piece_name(piece_id, piece_name, album_id):
+    try:
+        rename_piece_name(piece_id, piece_name, album_id)
+        update_db_piece_name(piece_id, piece_name)
+    except Exception as ex:
+        ColorPrint.print_c(str(ex), ColorPrint.CYAN)
 
 
 def upload(path, componist_id, mother_id, is_collection):
@@ -263,6 +281,8 @@ def do_post(post):
     if cmd == 'update_album_description':
         return update_album_description(album_id=int(post['albumid']),
                                         description=post['description'])
+    if cmd == 'update_piece_name':
+        return update_piece_name(post['pieceid'], post['name'], post['albumid'])
     if cmd == 'adjust_kk':
         return adjust_kk(album_id=int(post['albumid']))
     if cmd == 'inherit_elements':

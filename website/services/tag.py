@@ -44,8 +44,11 @@ def remove_tag(p, tag):
     try:
         del song[tag]
         song.save()
+    except KeyError as ke:
+        ColorPrint.print_c('key not found: ' + str(ke), ColorPrint.CYAN)
+        ColorPrint.print_c(p, ColorPrint.BLUE)
     except TypeError as te:
-        ColorPrint.print_c(str(te), ColorPrint.CYAN)
+        ColorPrint.print_c('type error: ' + str(te), ColorPrint.CYAN)
         ColorPrint.print_c(p, ColorPrint.BLUE)
     except MutagenError as t:
         ColorPrint.print_c(str(t), ColorPrint.CYAN)

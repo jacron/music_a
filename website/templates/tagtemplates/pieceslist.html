@@ -8,12 +8,19 @@
         <td>
             <input type="checkbox" class="edit-stukken"> <i>maak cue</i> |
                 <a class="auto-create">auto</a>&nbsp; |
-            <input type="checkbox" class="edit-stukken-codes"> <i>bewerk codes</i><br>
+            <input type="checkbox" class="edit-stukken-codes"> <i>bewerk codes</i>&nbsp;
             <input type="checkbox" class="edit-stukken-tags"> <i>toon tags</i>&nbsp;
             <input type="checkbox" class="edit-stukken-tag-title"> <i>toon tag-title</i>&nbsp;
-            <a class="stukken-remove-title-tag cmd" style="color:darkred">
-                wis tag-title</a> |
-            wis tag:<input type="text" class="stukken-remove-generic-tag">
+        </td>
+    </tr>
+    <tr class="edit-stuk">
+        <td class="hyperlink control">
+            <button class="check-all">alles selecteren</button>
+            <button class="check-nothing">niets selecteren</button>
+        </td>
+    </tr>
+    <tr>
+        <td>
             <div class="edit-stuk">
                 <br>
                 <input class="album-componist typeahead" type="text" placeholder="Componist">
@@ -26,13 +33,6 @@
     </tr>
     </table>
     <table class="content stukken">
-    <tr class="edit-stuk">
-        <td class="hyperlink control">
-            <a class="check-all">alles selecteren</a> |
-            <a class="check-nothing">niets selecteren</a> |
-            <a class="clear-title">wis titel</a>
-        </td>
-    </tr>
     <tr class="edit-code-all">
         <td>
             <span class="add-code-all" title="automatisch codes invullen"
@@ -42,29 +42,30 @@
         </td>
     </tr>
     {% for item in pieces %}
-        <tr class="piece" id="{{ item.1 }}">
+        <tr class="piece" id="{{ item.ID }}">
             <td class="hyperlink">
                 <input type="checkbox" title="voeg titel toe aan cuesheet"
-                       id="{{ item.1 }}"
+                       id="{{ item.ID }}"
                        class="select-for-cuesheet edit-stuk">
-                <a onclick="play(this, {{ item.1 }})"
+                <a onclick="play(this, {{ item.ID }})"
                    class="fa fa-play play"
                 title="Afspelen">
                 </a>
-                <span class="title">{{ item.0 }}</span>
-                {% if item.2 %}
-                <a href="{% url 'librarycode' item.2 wild %}">
+                <span class="title edit-piece" contenteditable="true"
+                      id="{{ item.ID }}">{{ item.Name }}</span>
+                {% if item.LibraryCode %}
+                <a href="{% url 'librarycode' item.LibraryCode wild %}">
                     <span class="code">
-                        &lt;{{ item.2 }}&gt;
+                        &lt;{{ item.LibraryCode }}&gt;
                     </span>
                 </a>
                 {% endif %}
                 <span class="code-edit edit-code">
-                    <span class="add-code first" id="{{ item.1 }}" prompt="false" title="Voeg librarycode toe">
+                    <span class="add-code first" id="{{ item.ID }}" prompt="false" title="Voeg librarycode toe">
                         code</span> |
-                    <span class="add-code" id="{{ item.1 }}" prompt="true" title="Voeg librarycode toe (interactive)">
+                    <span class="add-code" id="{{ item.ID }}" prompt="true" title="Voeg librarycode toe (interactive)">
                         prompt</span> |
-                    <span class="remove-code" id="{{ item.1 }}" title="verwijder librarycode">
+                    <span class="remove-code" id="{{ item.ID }}" title="verwijder librarycode">
                         x</span>
                 </span>
             </td>
