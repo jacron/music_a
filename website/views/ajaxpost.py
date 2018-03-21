@@ -29,7 +29,7 @@ from ..services.clipboard import save_score_fragment, save_person
 from ..services.export import export_albums
 from ..services.makecuesheet import make_cuesheet, rename_cuesheet, \
     make_subs_cuesheet, split_cued_file, edit_cuesheet, combine_sub_cuesheets, \
-    norm_cuesheet, remove_cuesheet, split_one_cue_album
+    norm_cuesheet, remove_cuesheet, split_one_cue_album, split_cue_album
 from ..services.path import path_from_id_field, get_path
 from ..services.services import openpath, openterminal, pauseplay, opentageditor
 
@@ -300,6 +300,8 @@ def do_post(post):
         return split_cued_file(post['cue_id'], post['albumid'])
     if cmd == 'split_one_cue_album':
         return split_one_cue_album(post['albumid'])
+    if cmd == 'split_cue_album':
+        return split_cue_album(post['albumid'])
     if cmd == 'editcuesheet':
         return edit_cuesheet(post['id'], post['albumid'])
     if cmd == 'combinesubs':

@@ -347,6 +347,11 @@ def get_gatherers():
 
 
 def get_pieces(album_id):
+    """
+    get pieces for album (Name, ID, LibraryCode)
+    :param album_id:
+    :return:
+    """
     sql = '''
       SELECT Name, ID, LibraryCode 
       FROM Piece 
@@ -1088,7 +1093,7 @@ def get_apeflac_albums():
         count_ape = 0
         count_flac = 0
         for piece in pieces:
-            ext = get_extension(piece[0])
+            ext = get_extension(piece['Name'])
             if ext == 'flac':
                 count_flac += 1
             if ext == 'ape':
@@ -1123,22 +1128,28 @@ def get_apealone_albums():
         count_ape = 0
         count_flac = 0
         count_cue = 0
+        count_piece = 0
         for piece in pieces:
-            ext = get_extension(piece[0])
+            ext = get_extension(piece['Name'])
             if ext == 'flac':
                 count_flac += 1
             if ext == 'ape':
                 count_ape += 1
             if ext == 'cue':
                 count_cue += 1
-        # if count_ape > 0 and count_flac == 0:
-        if 3 > count_ape > 0 == count_flac \
-                and count_cue == 1:
+            else:
+                count_piece += 1
+        if count_ape > 0 and count_flac == 0:
+        # if 3 > count_ape > 0 == count_flac \
+        #         and count_cue == 1:
             it = {
                 'Title': item[0],
                 'ID': item[1],
                 'Path': item[2],
-                'Count': count_ape,
+                'CountApe': count_ape,
+                'CountFlac': count_flac,
+                'CountCues': count_cue,
+                'CountPieces': count_piece
             }
             out.append(it)
     return out
@@ -1676,18 +1687,6 @@ def get_cuesheet(cuesheet_id, c):
         'Name': fields[0],
         'AlbumPath': fields[1],
     }
-
-
-def get_one_cuesheet_of_album(album_id, c):
-    pieces = get_pieces(album_id)  # name, id, librarycode
-    for item in pieces:
-        ext = get_extension(item[0])
-        if ext == 'cue':
-            return {
-                'Title': item[0],
-                'ID': item[1],
-                'Path': item[2],
-            }
 
 
 def get_album_path_by_id(album_id, c):

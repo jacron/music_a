@@ -15,8 +15,8 @@
         <input class="add-componist-extra" type="text" placeholder="Voeg componist toe">
         <span class="componist-extra-added"></span>
     <div class="toggle">
-        <span>onderhoud</span> <span class="fa fa-caret-right"></span></div>
-    <ul class="hyperlink" style="display: none">
+        <span>onderhoud</span> <span class="fa fa-caret-down"></span></div>
+    <ul class="hyperlink">
         <li><a href="{% url 'cmd' 'widows' %}"
                title="albums zonder pad (?)"
         >widows lijst</a></li>
@@ -26,7 +26,7 @@
     {#    <li><a href="{% url 'cmd' 'missingscore' %}">missing score</a></li>#}
     </ul>
 {% if cmd == 'split' or cmd == 'del_ape' %}
-    <textarea id="logger"></textarea>
+    <textarea id="album-logger"></textarea>
 {% endif %}
     {% albumlist albums None None cmd %}
 </div>

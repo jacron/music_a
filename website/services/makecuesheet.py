@@ -5,12 +5,13 @@ import os
 from music.settings import MUSIC_FILES
 from ..db.connect import connect
 from ..db.fetch import get_album_path_by_id, get_piece, \
-    get_one_cuesheet_of_album
+    get_pieces
 from ..db.insert import insert_piece
 from ..lib.color import ColorPrint
 from ..scripts.splitflac import split_flac
 from ..services.cuesheet import get_full_cuesheet
-from ..services.services import subl_path, filename, trimextension
+from ..services.services import subl_path, filename, trimextension, \
+    get_extension, get_filename
 
 
 def write_cuesheet(name, album_id, lines):
@@ -33,13 +34,52 @@ def write_cuesheet(name, album_id, lines):
         conn=conn)
 
 
+def get_cuesheets_of_album(album_id, c):
+    """
+    returns cuesheets (Name, ID)
+    :param album_id: int
+    :param c:
+    :return:
+    """
+    pieces = get_pieces(album_id)  # Name, ID, LibraryCode
+    cuesheets = []
+    other = []
+    for item in pieces:
+        ext = get_extension(item['Name'])
+        if ext == 'cue':
+            cuesheets.append(item)
+        else:
+            other.append(item)
+    return cuesheets, other
+
+
 def split_one_cue_album(album_id):
     conn, cursor = connect()
     path = get_album_path_by_id(album_id, cursor)
-    piece = get_one_cuesheet_of_album(album_id, cursor)
-    src = '{}/{}'.format(path, piece['Title'])
+    cuesheets, other = get_cuesheets_of_album(album_id, cursor)
+    cue = cuesheets[0]
+    src = '{}/{}'.format(path, cue['Name'])
     split_flac(src, album_id)
     return src
+
+
+def split_cue_album(album_id):
+    """
+    split album by using cuesheets that match their names
+    with names of pieces (.ape)
+    :param album_id:
+    :return:
+    """
+    conn, cursor = connect()
+    path = get_album_path_by_id(album_id, cursor)
+    cuesheets, other = get_cuesheets_of_album(album_id, cursor)
+    for cuesheet in sorted(cuesheets, key=lambda cuesheet: cuesheet['Name']):
+        for o in other:
+            if get_filename(cuesheet['Name']) == get_filename(o['Name']):
+                src = '{}/{}'.format(path, cuesheet['Name'])
+                print(src)
+                split_flac(src, album_id)
+    return ''
 
 
 def split_cued_file(piece_id, album_id):

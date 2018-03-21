@@ -32,8 +32,17 @@
         <a href="/album/{{ double.ID }}">{{ double.Title }}</a>
     {% endfor %}
 {% endif %}
-    {% pages prev_id next_id mother_title 'album' album.AlbumID %}
+{% if prev_id or next_id or prev_list or next_list %}
+    {% pages prev_id next_id mother_title 'album' album.AlbumID album.ID %}
     {% pages prev_list_id next_list_id list_title list_name list_id %}
+{% else %}
+    <div class="pages">
+        <div class="control">
+            <a class="cue-del-ape cmd" id="{{ album.ID }}">delete ape</a>
+            <a class="refetch">Haal opnieuw de stukken op</a>
+        </div>
+    </div>
+{% endif %}
 {% persons_list album_componisten '/componist/' 'componist' %}
 {% persons_list album_performers '/performer/' 'performer' %}
 {#{%  album_instrument_list album_instrument  %}#}

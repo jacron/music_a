@@ -54,6 +54,15 @@ def get_extension(s):
     return s.split('.')[-1]
 
 
+def get_filename(s):
+    """
+    return a filename without extension
+    :param s:
+    :return:
+    """
+    return s.split('.')[:-1]
+
+
 def dequote(line):
     line = line.strip()
     if line.startswith('"'):

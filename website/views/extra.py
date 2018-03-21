@@ -8,23 +8,26 @@ from ..db.fetch import (get_setting, get_codes, get_scarlatti_k_pieces,
 from ..db.update import toggle_setting, delete_album_ape
 
 
-def extra_view(request, albums=None, cmd=None):
+def extra_albums_view(request, albums=None, cmd=None):
     template = loader.get_template('website/extra.html')
-    rc = get_setting('read_cuesheet')
-    sp = get_setting('show_proposals')
-    codes = get_codes()
     return HttpResponse(template.render(
         {
-            'read_cuesheet': rc['VALUE'],
-            'show_proposals': sp['VALUE'],
             'albums': albums,
-            'codes': codes,
             'cmd': cmd,
         }, request))
 
 
+def cue_view(request):
+    template = loader.get_template('website/extra.html')
+    rc = get_setting('read_cuesheet')
+    return HttpResponse(template.render(
+        {
+            'read_cuesheet': rc['VALUE'],
+        }, request))
+
+
 def extra(request):
-    return extra_view(request)
+    return extra_albums_view(request)
 
 
 def list_scarlatti(request):
@@ -46,6 +49,11 @@ def list_bach(request):
         }, request))
 
 
+def not_found_view(request, cmd_code):
+    template = loader.get_template('website/notfound.html')
+    return HttpResponse(template.render({}, request))
+
+
 def delete_apes(apes):
     for ape in apes:
         if ape['CountApe'] == 1:
@@ -63,13 +71,13 @@ def cmd_view(request, cmd_code):
         return list_bach(request)
     if cmd_code == 'cue':
         toggle_setting('read_cuesheet')
-        return extra_view(request)
+        return cue_view(request)
     if cmd_code == 'widows':
-        return extra_view(request, get_widow_albums())
+        return extra_albums_view(request, get_widow_albums())
     if cmd_code == 'apeflac':
-        return extra_view(request, apeflac_albums, 'del_ape')
+        return extra_albums_view(request, apeflac_albums, 'del_ape')
     if cmd_code == 'apealone':
-        return extra_view(request, get_apealone_albums(), 'split')
+        return extra_albums_view(request, get_apealone_albums(), 'split')
     if cmd_code == 'pathdoubles':
-        return extra_view(request, get_pathdoubles_albums())
-    return extra_view(request)
+        return extra_albums_view(request, get_pathdoubles_albums())
+    return not_found_view(request, cmd_code)

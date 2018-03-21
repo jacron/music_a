@@ -107,9 +107,12 @@ def split_file(flac, filepath):
 def get_flac(strnr, index, track, basedir, tracks, file_duration):
     # track_title = track['title'].replace('/', '_')
     try:
-        fname = u'{} {}.flac'.format(strnr, track['title'])
+        fname = '{} {}.flac'.format(strnr, track['title'])
     except ValueError as v:
         ColorPrint.print_c(str(v) + ',' + track['title'], ColorPrint.RED)
+        return None
+    except KeyError as k:
+        ColorPrint.print_c(str(k), ColorPrint.RED)
         return None
     fname = fname.replace('/', '_')
     outfile = os.path.join(basedir, fname)
@@ -208,6 +211,7 @@ def split_flac(cuepath, album_id):
         for flac in flacs:
             split_file(flac, filepath)
     socket_log('split finished', 'info')
+    socket_log('>>> ' + filename(basedir), 'info')
     print('split finished')
 
 

@@ -1,0 +1,10 @@
+{% extends "website/_base.html" %}
+{% load page_tags %}
+{% block title %}
+    {{ tag.Name }}
+{% endblock %}
+{% block page %}
+<h4>Niet gevonden
+</h4>
+{% albumlist items tag.ID 'tag' %}
+{% endblock %}

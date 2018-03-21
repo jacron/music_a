@@ -53,9 +53,9 @@ def pieceslist(pieces):
 @register.inclusion_tag(
     'tagtemplates/pages.html',
 )
-def pages(prev_id, next_id, list_title, list_name, list_id):
+def pages(prev_id, next_id, list_title, list_name, list_id, album_id=None):
     return dict(prev_id=prev_id, next_id=next_id, list_title=list_title,
-                list_name=list_name, list_id=list_id)
+                list_name=list_name, list_id=list_id, album_id=album_id)
 
 
 @register.inclusion_tag(

@@ -62,6 +62,13 @@ $(function () {
             albumid: albumid
         })
     }
+    function splitCueAlbum(albumid) {
+        $('#album-logger').show();
+        ajaxPost({
+            cmd: 'split_cue_album',
+            albumid: albumid
+        })
+    }
     function reloadPieces(albumid) {
         ajaxPost({
             cmd: 'refetch',
@@ -344,7 +351,8 @@ $(function () {
     }
     $('.cue-split-id').click(function() {
         const albumId = $(this).attr('id');
-        splitOneCueAlbum(albumId);
+        // splitOneCueAlbum(albumId);
+        splitCueAlbum(albumId);
     });
     $('.reload-pieces').click(function() {
         const albumId = $(this).attr('id');
