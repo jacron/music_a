@@ -39,7 +39,26 @@ def all2tag(p, title, album_id):
         ColorPrint.print_c(str(t), ColorPrint.CYAN)
 
 
-def remove_tag(p, tag):
+def set_tag(p, tag, value):
+    song = mutagen.File(p)
+    try:
+        song[tag] = value
+        song.save()
+    except KeyError as ke:
+        ColorPrint.print_c('key not found: ' + str(ke), ColorPrint.CYAN)
+        ColorPrint.print_c(p, ColorPrint.BLUE)
+    except TypeError as te:
+        ColorPrint.print_c('type error: ' + str(te), ColorPrint.CYAN)
+        ColorPrint.print_c(p, ColorPrint.BLUE)
+    except MutagenError as t:
+        ColorPrint.print_c(str(t), ColorPrint.CYAN)
+        ColorPrint.print_c(p, ColorPrint.BLUE)
+    except APEBadItemError as a:
+        ColorPrint.print_c(str(a), ColorPrint.CYAN)
+        ColorPrint.print_c(p, ColorPrint.BLUE)
+
+
+def delete_tag(p, tag):
     song = mutagen.File(p)
     try:
         del song[tag]
@@ -58,28 +77,35 @@ def remove_tag(p, tag):
         ColorPrint.print_c(p, ColorPrint.BLUE)
 
 
-def remove_taggeneric(album_id, tag):
+def remove_tag(album_id, tag):
     album = get_album(album_id)
     print(album['Title'])
     pieces = get_pieces(album_id)
     for piece in pieces:
         if get_extension(piece['Name']) != 'cue':
             p = os.path.join(album['Path'], piece['Name'])
-            remove_tag(p, tag)
+            delete_tag(p, tag)
     return ''
+
+
+def tag_get_piece_paths(album_id):
+    album = get_album(album_id)
+    print(album['Title'])
+    pieces = get_pieces(album_id)
+    paths = []
+    for piece in pieces:
+        if get_extension(piece['Name']) != 'cue':
+            paths.append(os.path.join(album['Path'], piece['Name']))
+    return paths
 
 
 def set_metatags(album_id, mode):
     album = get_album(album_id)
-    print(album['Title'])
-    pieces = get_pieces(album_id)
-    for piece in pieces:
-        if get_extension(piece['Name']) != 'cue':
-            p = os.path.join(album['Path'], piece['Name'])
-            if mode == 'short':
-                title2tag(p, album['Title'])
-            if mode == 'long':
-                all2tag(p, album['Title'], album['ID'])
+    for p in tag_get_piece_paths(album_id):
+        if mode == 'short':
+            title2tag(p, album['Title'])
+        if mode == 'long':
+            all2tag(p, album['Title'], album['ID'])
     return ''
 
 
@@ -94,3 +120,16 @@ def get_metatags(p):
         ColorPrint.print_c(str(ex), ColorPrint.CYAN)
         ColorPrint.print_c(str(p), ColorPrint.CYAN)
     return None
+
+
+def tag_set_metatag(tag, value, album_id):
+    values = value.split('/')
+    for p in tag_get_piece_paths(album_id):
+        set_tag(p, tag, values)
+    return ''
+
+
+def tag_remove_metatag(tag, album_id):
+    for p in tag_get_piece_paths(album_id):
+        delete_tag(p, tag)
+    return ''

@@ -9,23 +9,22 @@ $(function () {
         const $typeahead = $('.search .' + type + ' .typeahead.tt-input'),
             li = $typeahead.parents('li').first(),
             qq = li.find('.query');  // typeahead class
-        var val = '';
+        let val = '';
         if (qq.length === 0) {
             // console.log('Empty query for type ' + type);
             return null;
         }
-        var count = 0, id = 0;
+        let count = 0;
         $.each(qq, function(){
             const q = $(this);
             console.log('q', q.text());
 
             if (val.length) { val += ','; }
-            id = getId(q.text());
-            val += id;
+            val += getId(q.text());
             count++;
         });
         console.log('val', val);
-        $('.search input[name=' + type + ']').val(getId(val))
+        $('.search input[name=' + type + ']').val(getId(val));
         return {
             type: type,
             count: count,
@@ -33,11 +32,11 @@ $(function () {
         };
     }
     function prepareQueries() {
-        // prepare for subnit, by putting query values in the hidden fields
+        // prepare for submit, by putting query values in the hidden fields
         // or, if just one item is searched, navigate to the matching album list
         const types = ['componist', 'performer', 'tag', 'instrument'],
             title = $('[name=title]').val();
-        var done_types = [], done_type;
+        let done_types = [], done_type;
         types.forEach(function(type) {
             done_type = prepareTypeQuery(type);
             if (done_type) {
@@ -52,7 +51,7 @@ $(function () {
     }
 
     function getId(s) {
-        var pos = s.lastIndexOf('_');
+        const pos = s.lastIndexOf('_');
         return s.substr(pos + 1);
     }
 
@@ -69,8 +68,7 @@ $(function () {
                 .addClass('clear')
                 .on('click', function(e){
                     const clear = $(e.target),
-                        q2 = clear.prev('.query'),
-                        li = q2.parent('li');
+                        q2 = clear.prev('.query');
                     q2.remove();
                     clear.remove();
                 }),
@@ -106,7 +104,7 @@ $(function () {
         ajaxGet({
             cmd: cmdGet
         }, function(response){
-            var items = [];
+            const items = [];
             response.forEach(function(item) {
                 items.push(item[nameField] + '_' + item.ID);
             });

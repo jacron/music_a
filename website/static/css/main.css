@@ -536,6 +536,7 @@ div[class="pattern"] img {
 }
 .pages .control {
     float: right;
+    margin-right: 24px;
 }
 .album-collection a {
     color: darkgreen;
@@ -755,10 +756,13 @@ div[class="pattern"] img {
 .album-tags {
     float: left;
 }
-.generic-tag {
-    display: none;
-    position: absolute;
+.stukken-remove-metatag {
+    display: none !important;
 }
-.album-tags:hover .generic-tag {
-    display: inline-block;
+.edit-metatag-container:hover .stukken-remove-metatag {
+    display: inline-block !important;
+}
+.album-tags-container {
+    text-align: right;
+    height: 30px;
 }

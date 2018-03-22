@@ -76,7 +76,7 @@
 ">
             {{ tag }}:
             {% for t in value %}
-                {{ t }}{% if not forloop.last %},&nbsp;{% endif %}
+                {{ t }}{% if not forloop.last %}/{% endif %}
             {% endfor %}
             </td>
         {% endfor %}

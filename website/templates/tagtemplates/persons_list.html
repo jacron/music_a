@@ -11,12 +11,12 @@
                 {{ person.FullName }}
                 </a>
             </div>
-            <div class="fa fa-times-circle remove"
-                 style="position:relative;"
-                 id="{{ person.ID }}"></div>
             <img class="" src="/image/{{ person.ID }}/{{ type }}/">
             <div>{{ person.Birth }} - {{ person.Death }}</div>
         </div>
+            <div class="fa fa-times-circle remove"
+                 style="position:relative;"
+                 id="{{ person.ID }}"></div>
         <a href="{{ person_url }}{{ person.ID }}/" title="{{ person.FullName }}">
         <div class="thumbnail-container">
     <img class="thumbnail" src="/image/{{ person.ID }}/{{ type }}/">

@@ -21,11 +21,13 @@
 </h4>
 <div contenteditable="true" class="edit-description">
     {{ album.Description|default_if_none:'' }}</div>
+<div class="album-tags-container">
 {% for tag in album_tags %}
     <i class="tag hyperlink"><a href="/tag/{{ tag.ID }}">{{ tag.Name }}</a>
         <span class="fa fa-times-circle remove" id="{{ tag.ID }}"></span>
     </i>{% if not forloop.last %},{% endif %}
 {% endfor %}
+</div>
 {% if path_doubles|length %}
     <h4>Dubbelen</h4>
     {% for double in path_doubles %}
@@ -38,7 +40,7 @@
 {% else %}
     <div class="pages">
         <div class="control">
-            <a class="cue-del-ape cmd" id="{{ album.ID }}">delete ape</a>
+{#            <a class="cue-del-ape cmd" id="{{ album.ID }}">delete ape</a>#}
             <a class="refetch">Haal opnieuw de stukken op</a>
         </div>
     </div>
@@ -60,41 +62,7 @@
      class="album-image back">
 {% endif %}
     </div>
-<div class="album-tags">
-    <button class="title-to-tag cmd" title="title to tag">album</button>
-    <button class="all-to-tag cmd" title="all to tag">album, artist, composer</button>
-{% if album_metatag_titles|length %}
-    <button class="stukken-remove-title-tag cmd">wis titels</button>
-{% endif %}
-<span class="generic-tag">
-    wis tag:<input type="text" class="stukken-remove-generic-tag"></span>
-    <br>
-{% for tag, value in album_metatags.items %}
-    {% if tag != 'cuesheet' and tag|lower != 'title' %}
-        {{ tag }}:
-        {% for t in value %}
-            {{ t }}{% if not forloop.last %},&nbsp;{% endif %}
-        {% endfor %}<br>
-    {% elif tag|lower == 'title' %}
-        <span class="last-title">
-        last title: {{ value.0 }}
-        <div class="fa fa-times-circle stukken-remove-title-tag cmd"
-             title="stuk-titels verwijderen"></div>
-            <br>
-        </span>
-    {% endif %}
-{% endfor %}
-{#{% if album_metatag_titles|length %}#}
-{#<h4>Titles</h4>#}
-{#<ul>#}
-{#{% for title in album_metatag_titles %}#}
-{#    {% for t in title %}#}
-{#        <li>{{ t }}</li>#}
-{#    {% endfor %}#}
-{#{% endfor %}#}
-{#</ul>#}
-{#{% endif %}#}
-</div>
+{% album_tags album_metatag_titles album_metatags %}
 <div class="clear nav">
     {% cuesheetlist cuesheets 1 %}
 </div>

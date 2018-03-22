@@ -4,7 +4,7 @@
 
 'use strict';
 
-var typeaheadSettings = {
+const typeaheadSettings = {
     hint: true,
     highlight: true,
     minLength: 1,
@@ -12,12 +12,10 @@ var typeaheadSettings = {
     name: 'name'
 };
 
-var match = function (items) {
+const match = function (items) {
     return function findMatches(q, cb) {
-        var matches, substrRegex;
-
-        matches = [];
-        substrRegex = new RegExp(q, 'i');
+        const matches = [];
+        const substrRegex = new RegExp(q, 'i');
         $.each(items, function (i, str) {
             if (substrRegex.test(str)) {
                 matches.push(str);
@@ -32,7 +30,7 @@ function typeaheadPost(name, cmd) {
         cmd: cmd,
         name: name,
         albumid: $('#album_id').val()
-    }, function(result){
+    }, function(){
         location.reload();
     });
 }
@@ -52,7 +50,7 @@ function typeAheadAlbumItems(cmdGet, nameField, $typeahead, cmdPost) {
     ajaxGet({
         cmd: cmdGet
     }, function(response){
-        var items = [];
+        const items = [];
         response.forEach(function(item) {
             items.push(item[nameField]);
         });
@@ -77,7 +75,7 @@ function typeAheadUpload(cmdGet, nameField, type) {
     ajaxGet({
         cmd: cmdGet
     }, function(response){
-        var items = [];
+        const items = [];
         response.forEach(function(item) {
             items.push(item[nameField] + '_' + item.ID);
         });
@@ -102,7 +100,7 @@ function typeaheadAlbumComponisten($typeahead, $makeCuesheet) {
 
 function goResult($naam, val, href, attrId) {
     $naam.each(function () {
-        var $this = $(this);
+        const $this = $(this);
         if ($this.text() === val) {
             location.href = href + $this.attr(attrId);
         }
@@ -110,7 +108,7 @@ function goResult($naam, val, href, attrId) {
 }
 
 function quickSearch($naam, $typeahead, href, attrId) {
-    var items = [];
+    const items = [];
     $naam.each(function () {
         items.push($(this).text());
     });
@@ -125,7 +123,7 @@ function quickSearch($naam, $typeahead, href, attrId) {
 }
 
 //https://stackoverflow.com/questions/21530063/how-do-we-set-remote-in-typeahead-js
-var albums = new Bloodhound({
+const albums = new Bloodhound({
     datumTokenizer: function (datum) {
         return Bloodhound.tokenizers.whitespace(datum.value);
     },
@@ -144,11 +142,11 @@ var albums = new Bloodhound({
     }
 });
 
-var albumIds = [];
+let albumIds = [];
 
 function generalSearch($typeahead) {
     function getId(s) {
-        var pos = s.lastIndexOf('_');
+        const pos = s.lastIndexOf('_');
         return s.substr(pos + 1);
     }
 
@@ -174,7 +172,7 @@ function searchTagsTypeahead($typeahead, cmdGet, nameField) {
     ajaxGet({
         cmd: cmdGet
     }, function(response){
-        var items = [];
+        const items = [];
         response.forEach(function(item) {
             items.push(item[nameField]);
         });

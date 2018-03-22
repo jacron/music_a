@@ -8,6 +8,14 @@ register = Library()
 
 
 @register.inclusion_tag(
+    'tagtemplates/albumtags.html'
+)
+def album_tags(album_metatag_titles, album_metatags):
+    return dict(album_metatag_titles=album_metatag_titles,
+                album_metatags=album_metatags)
+
+
+@register.inclusion_tag(
     'tagtemplates/navbar.html',
     takes_context=True
 )

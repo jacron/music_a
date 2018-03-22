@@ -1,0 +1,20 @@
+<div class="album-tags">
+    <button class="title-to-tag cmd" title="title to tag">album</button>
+    <button class="all-to-tag cmd" title="all to tag">album, artist, composer</button>
+{% if album_metatag_titles|length %}
+    <button class="stukken-remove-title-tag cmd">wis titels</button>
+{% endif %}
+    <br>
+    <ul>
+    {% for tag, value in album_metatags.items %}
+        {% if tag != 'cuesheet' %}<li>
+            <span class="edit-metatag-container">{{ tag }}:
+                <span contenteditable="true" tag="{{ tag }}"
+                            class="edit-metatag"
+                >{% for t in value %}{{ t }}{% if not forloop.last %}/{% endif %}{% endfor %}</span>
+                    <span class="fa fa-times-circle stukken-remove-metatag cmd" tag="{{ tag }}"
+                 title="metatag verwijderen"></span></span></li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+</div>

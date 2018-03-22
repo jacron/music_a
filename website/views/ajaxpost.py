@@ -7,7 +7,7 @@ from django.conf import settings
 from website.lib.color import ColorPrint
 from website.scripts.flacs import process_album
 from website.services.tag import set_metatags, \
-    remove_taggeneric
+    remove_tag, tag_set_metatag, tag_remove_metatag
 from ..db.fetch import get_piece, get_album
 from ..db.insert import abs_insert_componist
 from ..db.pieces import refetch_pieces
@@ -126,11 +126,7 @@ def delete_ape(album_id):
 
 
 def remove_tag_titles(album_id):
-    return remove_taggeneric(album_id, 'title')
-
-
-def remove_tag_generic(album_id, tag):
-    return remove_taggeneric(album_id, tag)
+    return remove_tag(album_id, 'title')
 
 
 def tageditoralbum(album_id):
@@ -150,6 +146,14 @@ def rename_piece_name(piece_id, piece_name, album_id):
     src = os.path.join(album['Path'], piece['Name'])
     dst = os.path.join(album['Path'], piece_name)
     os.rename(src, dst)
+
+
+def update_metatag(tag, value, album_id):
+    return tag_set_metatag(tag, value, album_id)
+
+
+def remove_metatag(tag, album_id):
+    return tag_remove_metatag(tag, album_id)
 
 
 def update_piece_name(piece_id, piece_name, album_id):
@@ -287,6 +291,10 @@ def do_post(post):
         return adjust_kk(album_id=int(post['albumid']))
     if cmd == 'inherit_elements':
         return inherit_elements(post['albumid'])
+    if cmd == 'update_metatag':
+        return update_metatag(post['tag'], post['value'], post['albumid'])
+    if cmd == 'remove_metatag':
+        return remove_metatag(post['tag'], post['albumid'])
 
     # cuesheets
     if cmd == 'makecuesheet':
@@ -343,7 +351,5 @@ def do_post(post):
         return delete_ape(post['albumid'])
     if cmd == 'remove_tag_titles':
         return remove_tag_titles(post['albumid'])
-    if cmd == 'remove_tag_generic':
-        return remove_tag_generic(post['albumid'], post['tag'])
 
     print(cmd, 'not a valid cmd')

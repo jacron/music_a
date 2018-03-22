@@ -858,7 +858,7 @@ def get_albums_by_cql(cql):
         where_sql = add_to_where(
             where_sql,
             'A.Title LIKE {}',
-            cql.get('title'),
+            '%' + cql.get('title') + '%',
             parameters)
     # prevent returning all our thousands of albums
     if len(where_sql):

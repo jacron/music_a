@@ -24,6 +24,14 @@ $(function () {
             albumid: albumId
         })
     }
+    function editMetaTag($this, albumId) {
+        ajaxPost({
+            cmd: 'update_metatag',
+            tag: $this.attr('tag'),
+            value: $this.text().trim(),
+            albumid: albumId
+        })
+    }
     function editAlbumDescription($this, albumId) {
         ajaxPost({
             cmd: 'update_album_description',
@@ -214,23 +222,20 @@ $(function () {
         }
     }
 
+    function removeMetatag($this, albumId) {
+        ajaxPost({
+            cmd: 'remove_metatag',
+            tag: $this.attr('tag'),
+            albumid: albumId
+        },function(){
+            const li = $this.parents('li');
+            li.hide();
+        });
+    }
+
     const albumId = $('#album_id').val();
     if (albumId) {
         // functions for the single album page
-        $('.edit-title').keydown(function (e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                editAlbumTitle($(this), albumId);
-            }
-            if (e.key === 'Tab') {
-                editAlbumTitle($(this), albumId);
-            }
-        });
-        $('.edit-description').keydown(function(e){
-            if (e.key === 'Tab') {
-                editAlbumDescription($(this), albumId);
-            }
-        });
         $('.refetch').click(function(){
             // if (confirm("De stukken opniew ophalen?"))
             {
@@ -306,19 +311,10 @@ $(function () {
                 cmd: 'remove_tag_titles',
                 albumid: albumId
             },function(res){
-                // console.log(res);
-                // $('.last-title').hide();
-                // location.reload();
             });
         });
-        $('.stukken-remove-generic-tag').keydown(function(e) {
-            if (e.key === 'Enter') {
-                ajaxPost({
-                    cmd: 'remove_tag_generic',
-                    tag: $(this).val(),
-                    albumid: albumId
-                })
-            }
+        $('.stukken-remove-metatag').click(function() {
+            removeMetatag($(this), albumId);
         });
         $('.edit-cuesheet-codes').change(function() {
             applyClass(this, 'codable', '.cuesheets-content');
@@ -339,6 +335,25 @@ $(function () {
                 location.reload();
             })
         });
+        $('.edit-title').keydown(function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const $this = $(this),
+                    h4 = $this.parent('h4'),
+                    nextEditable = h4.next('div');
+
+                nextEditable.focus();
+                editAlbumTitle($this, albumId);
+            }
+            if (e.key === 'Tab') {
+                editAlbumTitle($(this), albumId);
+            }
+        });
+        $('.edit-description').keydown(function(e){
+            if (e.key === 'Tab') {
+                editAlbumDescription($(this), albumId);
+            }
+        });
         $('.edit-piece').keydown(function(e){
             if (e.key === 'Enter') {
                 e.preventDefault();
@@ -347,7 +362,22 @@ $(function () {
             if (e.key === 'Tab') {
                 editPieceName($(this), albumId);
             }
-        })
+        });
+        $('.edit-metatag').keydown(function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const $this = $(this),
+                    li = $this.parents('li'),
+                    nextLi = li.next(),
+                    nextEdit = nextLi.find('.edit-metatag');
+
+                nextEdit.focus();
+                editMetaTag($this, albumId);
+            }
+            if (e.key === 'Tab') {
+                editMetaTag($(this), albumId);
+            }
+        });
     }
     $('.cue-split-id').click(function() {
         const albumId = $(this).attr('id');

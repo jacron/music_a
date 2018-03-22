@@ -4,7 +4,7 @@
 'use strict';
 
 $(function () {
-    var $uploadPath = $('.upload-album-path');
+    const $uploadPath = $('.upload-album-path');
     function getAlbumForPath(path) {
        ajaxGet({
            cmd: 'album_by_path',
@@ -18,43 +18,39 @@ $(function () {
        });
     }
     function dirname(path) {
-        var w = path.split('/');
+        const w = path.split('/');
         if (w[w.length -1].indexOf('.') !== -1) {
             w.pop();
         }
         return w.join('/');
     }
     $('.get-album-for-path').click(function(){
-        var p = dirname($uploadPath.val());
-        getAlbumForPath(p);
+        getAlbumForPath($uploadPath.val());
     });
     $('.upload .finder').click(function(){
-        var p = dirname($uploadPath.val());
-        openpath(p)
+        openpath(dirname($uploadPath.val()))
     });
     $('.upload .dirname').click(function(){
         $uploadPath.val(dirname($uploadPath.val()));
+        getAlbumForPath($uploadPath.val());
     });
     $('.upload .tag-editor').click(function() {
-        var p = dirname($uploadPath.val());
-        // console.log('p', p);
         ajaxPost({
             cmd: 'tageditor',
-            path: p
+            path: dirname($uploadPath.val())
         });
     });
     $('.upload-go').click(function(){
         function getId(val) {
-            var w = val.split('_');
+            const w = val.split('_');
             return w[w.length - 1];
         }
-        var componist = $('.componist .tt-input').val(),
-            componistId = null,
-            motherId = null;
+        let componist = $('.componist .tt-input').val(),
+            componistId = null;
         if (componist && componist.length) {
             componistId = getId(componist);
         }
-        motherId = $('.upload .mother-id input').val();
+        const motherId = $('.upload .mother-id input').val();
         console.log(motherId);
         ajaxPost({
             cmd: 'upload',
@@ -62,7 +58,6 @@ $(function () {
             motherId: motherId,
             path: $('.upload-album-path').val(),
             collection: $('.upload .check-collection').is(':checked')
-            // stepin: $('.upload .check-stepin').is(':checked')
         }, function(response) {
 
         });

@@ -7,13 +7,13 @@
 $(function () {
     $('.input-album').keydown(function(e){
         if (e.key === 'Enter') {
-            var target = $(e.target).val();
+            const target = $(e.target).val();
             location.href="/album/" + target;
         }
     });
     $('.delete-album').keydown(function(e){
         if (e.key === 'Enter') {
-            var target = $(e.target).val();
+            const target = $(e.target).val();
             if (confirm('album ' + target + ' verwijderen?')){
                 const data = {
                     cmd: 'delete_album',
@@ -25,12 +25,12 @@ $(function () {
     });
     $('.extra .add-componist').keydown(function (e) {
         if (e.key === 'Enter') {
-            var $target = $('.componisten input.add');
+            const $target = $('.componisten input.add');
             addNewComponist($target);
         }
     });
     $('.remove-score-fragment').click(function(){
-        var code = $(this).attr('code');
+        const code = $(this).attr('code');
         ajaxPost({
             cmd: 'remove_score_fragment',
             code: code
@@ -39,7 +39,7 @@ $(function () {
         });
     });
     $('.paste-score-fragment').click(function(){
-        var code = $(this).attr('code');
+        const code = $(this).attr('code');
         ajaxPost({
             cmd: 'paste_score_fragment',
             code: code
@@ -49,7 +49,7 @@ $(function () {
         });
     });
     $('.favorite-librarycode').change(function(){
-        var $this = $(this),
+        const $this = $(this),
             code = $this.attr('code');
         console.log($this.is(':checked'));
         ajaxPost({
