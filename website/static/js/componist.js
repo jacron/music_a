@@ -78,14 +78,18 @@ function saveInputYears($input, cmd, person_id) {
         .focus(function(){$(this).select()})
         .mouseup(function(e){e.preventDefault()})
         .keydown(function(e) {
-        if (e.key === 'Tab' || e.key === 'Enter') {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            editPersonYears($(this), cmd, person_id);
+        }
+        if (e.key === 'Tab') {
             editPersonYears($(this), cmd, person_id);
         }
     });
 }
 
 function pastePerson($this) {
-    var id = $this.attr('id'),
+    const id = $this.attr('id'),
         type = $this.attr('type');
     // console.log(id, type);
     ajaxPost({
@@ -109,8 +113,8 @@ $(function () {
     });
     $('input.add-componist-extra').keydown(function (e) {
         if (e.key === 'Enter') {
-            var $input = $('input.add-componist-extra');
-            newComponist($input, function(response) {
+            const $input = $('input.add-componist-extra');
+            newComponist($input, function() {
                 $('.componist-extra-added').text($input.val());
                 $input.val();
             });
@@ -140,6 +144,10 @@ $(function () {
     const componist_id = $('#componist_id').val();
     if (componist_id) {
         $('.edit-componist-name').keydown(function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                editComponistName($(this), componist_id);
+            }
             if (e.key === 'Tab') {
                 editComponistName($(this), componist_id);
             }

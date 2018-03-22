@@ -88,6 +88,10 @@ $(function() {
     const performer_id = $('#performer_id').val();
     if (performer_id) {
         $('.edit-performer-name').keydown(function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                editPerformerName($(this), performer_id);
+            }
             if (e.key === 'Tab') {
                 editPerformerName($(this), performer_id);
             }
