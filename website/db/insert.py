@@ -24,6 +24,16 @@ def delete_album_completely(album_id, c, conn):
 
 
 def insert_album(title, path, album_id, is_collectie, c, conn):
+    """
+
+    :param title:
+    :param path:
+    :param album_id:
+    :param is_collectie:
+    :param c:
+    :param conn:
+    :return:
+    """
     print(title)
     print(path)
     sql = '''

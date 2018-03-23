@@ -378,6 +378,12 @@ $(function () {
                 editMetaTag($(this), albumId);
             }
         });
+        $('.put-picture').click(function () {
+            ajaxPost({
+                cmd: 'set_tag_picture',
+                albumid: albumId
+            })
+        });
     }
     $('.cue-split-id').click(function() {
         const albumId = $(this).attr('id');

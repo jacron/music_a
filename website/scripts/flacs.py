@@ -1,7 +1,8 @@
-import glob
+from inspect import currentframe
+
 from website.lib.color import ColorPrint
 from music.settings import SKIP_DIRS, MUSIC_FILES
-from website.services.services import filename
+from website.services.services import get_extension
 
 """flac
 
@@ -25,16 +26,15 @@ from website.scripts.helper.insert import (
 
 
 def insert_pieces(path, album_id, conn, c):
-    for card in MUSIC_FILES:
-        files_path = u"{}{}".format(path, "/*.{}".format(card))
-        for f in glob.iglob(files_path):
-            print(f)
-            insert_piece(
-                name=filename(f),
-                code='',  # kirkpatrick(f, 'K ', ' '),
-                album_id=album_id,
-                c=c,
-                conn=conn)
+    for ext in MUSIC_FILES:
+        for f in os.listdir(path):
+            if ext == get_extension(f):
+                insert_piece(
+                    name=f,
+                    code='',  # kirkpatrick(f, 'K ', ' '),
+                    album_id=album_id,
+                    c=c,
+                    conn=conn)
 
 
 def process_pieces(path, album_id):
@@ -46,10 +46,21 @@ def process_album(path, componist_id=None, mother_id=None, is_collectie=0):
     """
     haal stukken (cuesheets en music files) op voor een album
     """
-    # global componist, ComponistID, PerformerID, artiest
-    if len(path.split('[')) > 1:
-        ColorPrint.print_c('cue_path mag geen accolades of vierkante haken bevatten - quitting', ColorPrint.RED)
-        return -1
+    # if len(path.split('[')) > 1:
+    #     print('from: ' + __file__, currentframe().f_lineno)
+    #     ColorPrint.print_c('cue_path mag geen accolades of vierkante haken bevatten - quitting', ColorPrint.RED)
+    #     return -1
+    count = 0
+    for ext in MUSIC_FILES:
+        for f in os.listdir(path):
+            if ext == get_extension(f):
+                count += 1
+    if count == 0:
+        print('from: ' + __file__, currentframe().f_lineno)
+        ColorPrint.print_c('No music files in this directory - quitting',
+                           ColorPrint.RED)
+        return
+
     conn, c = connect()
     w = path.split('/')
     album_title = w[-1].replace("_", " ")
@@ -61,6 +72,7 @@ def process_album(path, componist_id=None, mother_id=None, is_collectie=0):
         conn=conn,
         album_id=mother_id,
     )[0]
+    print('from: ' + __file__, currentframe().f_lineno)
     ColorPrint.print_c("created album id: {}".format(album_id), ColorPrint.LIGHTCYAN)
     insert_pieces(path, album_id, conn, c)
     if componist_id:
@@ -77,7 +89,9 @@ def count_album_by_path(p):
 
 def process_a(p, mother_id, iscollectie, step_in):
     '''
-    Lees in directory p alle stukken in voor een album, onthoud album_id als mother. Als step_in waar is, doe hetzelfde in de subdirectories (1 niveau diep) met album_id als mother.
+    Lees in directory p alle stukken in voor een album, onthoud album_id als
+    mother. Als step_in waar is, doe hetzelfde in de subdirectories
+    (1 niveau diep) met album_id als mother.
     '''
     album_id = process_album(p, mother_id, iscollectie)
     if step_in:

@@ -1,5 +1,6 @@
 {% extends "website/_base.html" %}
 {% load page_tags %}
+{% load static %}
 {% block title %}
     {{ performer.FullName }}
 {% endblock %}
@@ -22,17 +23,10 @@
             <i>plak</i></a>
             </span>
             <div id="drop-area-performer">
-                <h4>
-        <span contenteditable="true" name="title"
+                <h4><span contenteditable="true" name="title"
               class="edit-performer-name">
-            {{ performer.FullName }}
-        </span>
-                </h4>
-                    <div class="crop">
-                        <div class="c-image"
-                    style="background-image: url('/image/{{ performer.ID }}/performer/')"
-                        ></div>
-                    </div>
+            {{ performer.FullName }}</span></h4>
+                <img src="{% url 'image' performer.ID 'performer' %}" class="person-image">
             <div class="performer-years">
                 <input type="text"
                         name="birth" class="edit-performer-birth"

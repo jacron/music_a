@@ -1,7 +1,8 @@
 import os
 import mutagen
-from mutagen import MutagenError
+from mutagen import MutagenError, id3
 from mutagen.apev2 import APEBadItemError
+from mutagen.flac import Picture
 
 from website.db.fetch import get_album_performers, get_album_componisten, \
     get_album, get_pieces
@@ -37,6 +38,14 @@ def all2tag(p, title, album_id):
         song.save()
     except TypeError as t:
         ColorPrint.print_c(str(t), ColorPrint.CYAN)
+
+
+def set_pic(p, pic):
+    song = mutagen.File(p)
+    # try:
+    song.add_picture(pic)
+    song.save()
+    # except
 
 
 def set_tag(p, tag, value):
@@ -133,3 +142,20 @@ def tag_remove_metatag(tag, album_id):
     for p in tag_get_piece_paths(album_id):
         delete_tag(p, tag)
     return ''
+
+
+def tag_put_picture(album_id):
+    pic = Picture()
+    album = get_album(album_id)
+    with open(album['Path'] + "/folder.jpg", "rb") as f:
+        pic.data = f.read()
+    if not pic.data:
+        return 'No folder.jpg found'
+    pic.type = id3.PictureType.COVER_FRONT
+    pic.mime = u"image/jpeg"
+    pic.width = 500
+    pic.height = 500
+    pic.depth = 16
+    for p in tag_get_piece_paths(album_id):
+        set_pic(p, pic)
+    return 'success'

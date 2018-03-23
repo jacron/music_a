@@ -1,15 +1,17 @@
-# from __future__ import unicode_literals
-
 import glob
 import os
 import sqlite3
 
-from website.services import filename
+# from website.services import filename
+from music.settings import SKIP_DIRS, MUSIC_FILES
+from website.db.fetch import get_album_id_by_path
+from website.db.insert import insert_piece, insert_album
 from website.lib.color import ColorPrint
-from website.scripts.helper.insert import play_types, insert_componist_by_id, kirkpatrick
-from website.db import (get_album_id_by_path,
-                          insert_album, insert_piece, )
-from website.scripts.flacs import skipdirs
+from website.scripts.helper.insert import insert_componist_by_id, kirkpatrick
+# from website.db import (get_album_id_by_path,
+#                           insert_album, insert_piece, )
+# from website.scripts.flacs import skipdirs
+from website.services.services import filename
 
 db_path = '../../db.sqlite3'
 check_out = 'out/check.txt'
@@ -43,7 +45,7 @@ def getfiles(p, extension):
 
 def process(p, c, conn, lines, present):
     count = 0
-    for card in play_types:
+    for card in MUSIC_FILES:
         files = getfiles(p, card)
         count += len(files)
     if count == 0:
@@ -63,10 +65,10 @@ def check(path):
     count = 0
     for d in os.listdir(path):
         p = '{}/{}'.format(path, d)
-        if os.path.isdir(p) and d not in skipdirs:
+        if os.path.isdir(p) and d not in SKIP_DIRS:
             for d2 in os.listdir(p):
                 p2 = '{}/{}'.format(p, d2)
-                if os.path.isdir(p2) and d2 not in skipdirs:
+                if os.path.isdir(p2) and d2 not in SKIP_DIRS:
                     print(d2)
                     count += 1
                     process(p2, c, conn, lines, present)
@@ -76,7 +78,7 @@ def check(path):
 
 
 def insert_pieces(path, album_id, conn, c):
-    for card in play_types:
+    for card in MUSIC_FILES:
         files_path = u"{}{}".format(path, "/*.{}".format(card))
         for f in glob.iglob(files_path):
             print(f)
@@ -94,11 +96,10 @@ def create(path, album_title, cid):
     album_id = insert_album(
         title=album_title,
         path=path,
-        instrument_id=None,
+        album_id=None,
         is_collectie=0,
         c=c,
         conn=conn,
-        album_id=None,
     )[0]
     ColorPrint.print_c("album_id={}".format(album_id), ColorPrint.LIGHTCYAN)
     # cid = get_componist_by_lastname(componist_name, c)[0]
@@ -160,9 +161,10 @@ def create_albums():
 
 def main():
     path = "/Volumes/Media/Audio/Klassiek/Componisten"
-    # check(path)
+    check(path)
     # create_componisten(check_out)
     # create_albums()
+
 
 if __name__ == '__main__':
     main()

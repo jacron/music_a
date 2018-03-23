@@ -3,6 +3,8 @@ import glob
 import os
 
 # from website.services.tag import get_metatags
+from mutagen.id3 import APIC
+
 from website.services.services import get_extension
 from website.services.tag import get_metatags
 from ..db.fetch import (get_pieces, get_componist, get_performer, get_tag,
@@ -20,12 +22,10 @@ from ..services.proposals import get_proposals, get_artists
 
 def has_notfound_files(cuesheet, album_path):
     for file in cuesheet['cue']['files']:
-        # fname = file['name'].encode('utf-8')
         path = os.path.join(album_path, file['name'])
         if not os.path.exists(path):
             return True
     return False
-    # pass
 
 
 def organize_pieces(album_id, album_path):

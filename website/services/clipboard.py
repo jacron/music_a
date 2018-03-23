@@ -1,7 +1,7 @@
 # from tkinter import Image
 import subprocess
 
-# from PIL import ImageGrab
+from PIL import ImageGrab
 
 from website.lib.color import ColorPrint
 
@@ -11,6 +11,8 @@ from music.settings import COVER_PATH, TMP_PATH, SCORE_FRAGMENT_PATH, \
     PERSON_FILE, SAVECLIP_PATH, PYTHON_3_PATH
 # from db import get_componist_path, get_performer_path
 import os
+
+from website.services.services import openpath
 
 rug = 0
 
@@ -37,15 +39,12 @@ def get_person_image_path(id, type):
 
 
 def clipboard_save(path, file):
-    # PYTHON_PATH = '/Users/orion/anaconda/bin/python'
-    cmd = '"{}" "{}" "{}" "{}" "False"'\
-        .format(PYTHON_3_PATH, SAVECLIP_PATH, file, str(path))
-    os.system(cmd)
-    # args = ['sh', SAVECLIP_PATH, file, path, ]
-    # p = subprocess.Popen(args, shell=True)
-    # print(p.stdout.read())
-    # output = subprocess.call(args)
-    # print(output)
+    img = ImageGrab.grabclipboard()
+    if img:
+        img.save(os.path.join(path, file))
+        ColorPrint.print_c(file + ' saved!', ColorPrint.LIGHTCYAN)
+    else:
+        ColorPrint.print_c('No image on clipboard!', ColorPrint.RED)
 
 
 # def save_person_grab(id, type):
@@ -65,9 +64,9 @@ def clipboard_save(path, file):
 def save_person_remote(id, type):
     image_path = get_person_image_path(id, type)
     if image_path:
-        # img.save(image_path + PERSON_FILE)
         clipboard_save(image_path, PERSON_FILE)
         return True
+    return False
 
 
 def save_person(id, type):
@@ -89,22 +88,24 @@ def crop_back(img):
     return img.crop(bbox)
 
 
-# def save_cb_images(cover, nback):
-#     img = PIL.ImageGrab.grabclipboard()
-#     if img:
-#         front = crop_front(img)
-#         back = crop_back(img)
-#         front.save(COVER_PATH.format(cover))
-#         back.save(COVER_PATH.format(nback))
-#         openpath(TMP_PATH)
-#     else:
-#         ColorPrint.print_c('no valid image on clipboard', ColorPrint.RED)
-#
-#
-# def save_cb_image(cover):
-#     img = PIL.ImageGrab.grabclipboard()
-#     if img:
-#         img.save(COVER_PATH.format(cover))
-#         openpath(TMP_PATH)
+def save_cb_images(cover, nback):
+    img = ImageGrab.grabclipboard()
+    if img:
+        front = crop_front(img)
+        back = crop_back(img)
+        front.save(COVER_PATH.format(cover))
+        back.save(COVER_PATH.format(nback))
+        openpath(TMP_PATH)
+    else:
+        ColorPrint.print_c('no valid image on clipboard', ColorPrint.RED)
+
+
+def save_cb_image(cover):
+    img = ImageGrab.grabclipboard()
+    if img:
+        img.save(COVER_PATH.format(cover))
+        openpath(TMP_PATH)
+    else:
+        ColorPrint.print_c('no valid image on clipboard', ColorPrint.RED)
 
 

@@ -1177,6 +1177,10 @@ def get_apealone_albums():
 
 
 def get_widow_albums():
+    """
+    albums zonder stukken erin en tegelijk ook geen albums die erin zitten
+    :return:
+    """
     sql = '''
 SELECT A1.Title, A1.ID, A1.Path
 FROM Album A1
@@ -1807,9 +1811,9 @@ def get_album_by_path(path, c):
     '''
     fields = c.execute(sql, (path,)).fetchone()
     if not fields:
-        print(path)
-        print('has no items')
-        return {}
+        # print(path)
+        # print('has no items')
+        return None
     return {
         "Title": fields[0],
         "Label": fields[1],
@@ -1838,6 +1842,8 @@ def get_mother_title(id_album):
     WHERE Album.ID=?
     '''
     fields = get_item_with_id(sql, id_album)
+    if not fields:
+        return None
     return fields[0]
 
 

@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.template import loader
 
+from website.services.clipboard import save_cb_image, save_cb_images
 from ..db.fetch import (get_setting, get_codes, get_scarlatti_k_pieces,
                         get_scarlatti, get_bach_k_pieces, get_widow_albums,
                         get_apeflac_albums, get_pathdoubles_albums,
@@ -80,4 +81,13 @@ def cmd_view(request, cmd_code):
         return extra_albums_view(request, get_apealone_albums(), 'split')
     if cmd_code == 'pathdoubles':
         return extra_albums_view(request, get_pathdoubles_albums())
+    if cmd_code == 'folder':
+        save_cb_image('folder')
+        return extra_albums_view(request)
+    if cmd_code == 'back':
+        save_cb_image('back')
+        return extra_albums_view(request)
+    if cmd_code == 'folderback':
+        save_cb_images('folder', 'back')
+        return extra_albums_view(request)
     return not_found_view(request, cmd_code)

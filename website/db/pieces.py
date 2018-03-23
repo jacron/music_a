@@ -1,12 +1,11 @@
-import glob
+# import glob
 import os
 
 from music.settings import MUSIC_FILES
-# from .update import delete_piece
+from website.services.services import get_extension
 from .connect import connect
 from .fetch import get_album_path_by_id, get_pieces
 from .insert import insert_piece
-from ..scripts.helper.insert import filename, kirkpatrick
 
 
 def refetch_pieces(album_id):
@@ -18,46 +17,28 @@ def refetch_pieces(album_id):
     :return:
     """
     # delete_pieces_of_album(album_id)
-    con, c = connect()
+    conn, c = connect()
     path = get_album_path_by_id(album_id, c)
-    insert_or_delete_pieces(path, album_id, con, c)
+    delete_pieces(path, album_id, conn, c)
+    insert_pieces(path, album_id, conn, c)
 
 
-def insert_or_delete_pieces(path, album_id, conn, c):
+def delete_pieces(path, album_id, conn, c):
     pieces = get_pieces(album_id)
-    # delete non-existing pieces
     for p in pieces:
-        if not os.path.exists(os.path.join(path, p['Name'])):
-            from website.db.update import delete_piece
-            delete_piece(p['ID'])
-    # insert pieces that exist in directory, not in database
-    for card in MUSIC_FILES:
-        files_path = u"{}{}".format(path, "/*.{}".format(card))
-        for f in glob.iglob(files_path):
-            print(f)
-            name = filename(f)
-            found = False
-            for p in pieces:
-                if name == p['Name']:
-                    found = True
-                    break
-            if not found:
+        from website.db.update import delete_piece
+        delete_piece(p['ID'])
+
+
+def insert_pieces(path, album_id, conn, c):
+    for ext in MUSIC_FILES:
+        for f in sorted(os.listdir(path)):
+            if ext == get_extension(f):
                 insert_piece(
-                    name=name,
-                    code=kirkpatrick(f),
+                    name=f,
+                    code='',  # kirkpatrick(f, 'K ', ' '),
                     album_id=album_id,
                     c=c,
                     conn=conn)
 
 
-def insert_pieces(path, album_id, conn, c):
-    for card in MUSIC_FILES:
-        files_path = u"{}{}".format(path, "/*.{}".format(card))
-        for f in glob.iglob(files_path):
-            print(f)
-            insert_piece(
-                name=filename(f),
-                code=kirkpatrick(f),
-                album_id=album_id,
-                c=c,
-                conn=conn)

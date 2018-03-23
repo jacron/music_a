@@ -203,6 +203,7 @@ nav a.selected {
 }
 .album ul {
     margin-top: 0;
+    padding-left: 20px;
 }
 .album .content.stukken {
     /*margin: 0 0 0 10px;*/
@@ -256,6 +257,9 @@ nav a.selected {
 .performer:hover .remove,
 .instrument:hover .remove {
     display: inline-block;
+}
+.person .remove {
+    margin: 2px 0 0 -20px;
 }
 .componist-years {
     width: 200px;
@@ -765,4 +769,13 @@ div[class="pattern"] img {
 .album-tags-container {
     text-align: right;
     height: 30px;
+}
+.person-image {
+    height: 300px;
+}
+.hyperlink.person {
+    width: 100px;
+    overflow-x: hidden;
+    white-space: nowrap;
+    padding-bottom: 10px;
 }

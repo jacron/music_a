@@ -5,13 +5,24 @@
 
 $(function () {
     const $uploadPath = $('.upload-album-path');
+    if ($uploadPath.length) {
+        $uploadPath.focus();
+    }
+    $uploadPath.keydown(function (e) {
+        if (e.key === 'Enter') {
+            getAlbumForPath($uploadPath.val());
+        }
+    });
+    $uploadPath.click(function (e) {
+        e.target.select();
+    });
     function getAlbumForPath(path) {
        ajaxGet({
            cmd: 'album_by_path',
            path: path
        }, function(response) {
            console.log(response);
-           if (response.Title) {
+           if (response && response.Title) {
                $('.upload-album .title').text(response.Title);
                $('.upload-album a').attr('href', '/album/' + response.ID);
            }
@@ -23,6 +34,13 @@ $(function () {
             w.pop();
         }
         return w.join('/');
+    }
+    function updir(p) {
+        const rpos = p.lastIndexOf('/');
+        if (rpos !== -1) {
+            return p.substr(0, rpos);
+        }
+        return p;
     }
     $('.get-album-for-path').click(function(){
         getAlbumForPath($uploadPath.val());
@@ -61,5 +79,15 @@ $(function () {
         }, function(response) {
 
         });
+    });
+    $('.rename-music-files').click(function () {
+        ajaxPost({
+            cmd: 'rename_music_files',
+            path: $uploadPath.val()
+        })
+    });
+    $('.upload .updir').click(function () {
+        $uploadPath.val(updir($uploadPath.val()));
+        getAlbumForPath($uploadPath.val());
     });
 });

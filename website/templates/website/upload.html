@@ -11,17 +11,16 @@
 <div id="drop-album" class="upload">
     <form>{% csrf_token %}</form>
     <h4>Upload</h4>
-    <input type="text" class="upload-album-path" placeholder="pad">
+    <input type="text" class="upload-album-path" placeholder="pad"><br>
+    <button class="updir" title="directory hoger">up</button>
     <button class="fa fa-caret-right dirname"
             title="dirname"></button>
-    <button class="fa fa-music tag-editor" title="edit tags">
-    </button>
+    <button class="fa fa-music tag-editor" title="edit tags"></button>
     <img src="{% static 'images/finder.png' %}" class="finder"
-         title="open pad in Finder"
-    >
+         title="open pad in Finder">
     <button class="fa fa-download get-album-for-path"
-        title="Haal album op">
-    </button>
+        title="Haal album op"></button>
+    <button class="rename-music-files" title="rename music files">rename</button>
     <div class="upload-album">
         <a><span class="title"></span></a>
     </div>

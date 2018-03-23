@@ -74,10 +74,12 @@
                 tag-title
             {% endif %}
 ">
+            {% if tag != 'APIC:' %}
             {{ tag }}:
             {% for t in value %}
-                {{ t }}{% if not forloop.last %}/{% endif %}
+                {{ t }}{% if not forloop.last %},&nbsp;{% endif %}
             {% endfor %}
+            {% endif %}
             </td>
         {% endfor %}
         </tr>

@@ -6,8 +6,9 @@ from django.conf import settings
 
 from website.lib.color import ColorPrint
 from website.scripts.flacs import process_album
+from website.scripts.rename import rename_music_files
 from website.services.tag import set_metatags, \
-    remove_tag, tag_set_metatag, tag_remove_metatag
+    remove_tag, tag_set_metatag, tag_remove_metatag, tag_put_picture
 from ..db.fetch import get_piece, get_album
 from ..db.insert import abs_insert_componist
 from ..db.pieces import refetch_pieces
@@ -129,6 +130,10 @@ def remove_tag_titles(album_id):
     return remove_tag(album_id, 'title')
 
 
+def set_tag_picture(album_id):
+    return tag_put_picture(album_id)
+
+
 def tageditoralbum(album_id):
     path = get_path(album_id, 'album')
     opentageditor(path)
@@ -173,6 +178,9 @@ def upload(path, componist_id, mother_id, is_collection):
                              mother_id=mother_id, is_collectie=collection)
     return album_id
 
+
+def do_rename_music_files(path):
+    return rename_music_files(path)
 
 def do_post(post):
     cmd = post['cmd']
@@ -351,5 +359,9 @@ def do_post(post):
         return delete_ape(post['albumid'])
     if cmd == 'remove_tag_titles':
         return remove_tag_titles(post['albumid'])
+    if cmd == 'set_tag_picture':
+        return set_tag_picture(post['albumid'])
+    if cmd == 'rename_music_files':
+        return do_rename_music_files(post['path'])
 
     print(cmd, 'not a valid cmd')

@@ -151,9 +151,9 @@ PYTHON_3_PATH = '/Users/orion/anaconda/bin/python'
 
 TMP_PATH = '/Volumes/Media/tmpscan'
 SKIP_DIRS = ['website', 'websites', 'artwork', 'Artwork', 'etc', 'scans',
-             'Scans', 'scan',
+             'Scans', 'scan', 'covers',
              'website boxset', '#Booklets', 'Pixels', 'Graphics', 'Info + Art',
-             'Art', 'Covers', ]
+             'Art', 'Covers', 'boxset_files', ]
 MUSIC_FILES = ('cue', "flac", "ape", "mp3", "iso", "wma", "wav", "mp3", "m4a",
                'dsf', 'dff')
 NOT_FOUND_IMAGE_PATH = '/Volumes/Media/Audio/Klassiek/empty/notfound.jpg'
