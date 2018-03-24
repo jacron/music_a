@@ -42,7 +42,17 @@ def process_pieces(path, album_id):
     insert_pieces(path, album_id, conn, c)
 
 
-def process_album(path, componist_id=None, mother_id=None, is_collectie=0):
+def has_music_files(path):
+    count = 0
+    for ext in MUSIC_FILES:
+        for f in os.listdir(path):
+            if ext == get_extension(f):
+                count += 1
+    return count > 0
+
+
+def process_album(path, componist_id=None, performer_id=None, mother_id=None,
+                  is_collectie=0):
     """
     haal stukken (cuesheets en music files) op voor een album
     """
@@ -55,16 +65,11 @@ def process_album(path, componist_id=None, mother_id=None, is_collectie=0):
         ColorPrint.print_c('This directory does not exist - quitting',
                            ColorPrint.RED)
         return
-    count = 0
-    for ext in MUSIC_FILES:
-        for f in os.listdir(path):
-            if ext == get_extension(f):
-                count += 1
-    if count == 0:
-        print('from: ' + __file__, currentframe().f_lineno)
-        ColorPrint.print_c('No music files in this directory - quitting',
-                           ColorPrint.RED)
-        return
+    # if has_music_files(path):
+    #     print('from: ' + __file__, currentframe().f_lineno)
+    #     ColorPrint.print_c('No music files in this directory - quitting',
+    #                        ColorPrint.RED)
+    #     return
 
     conn, c = connect()
     w = path.split('/')
@@ -82,6 +87,8 @@ def process_album(path, componist_id=None, mother_id=None, is_collectie=0):
     insert_pieces(path, album_id, conn, c)
     if componist_id:
         insert_componist_by_id(componist_id, c, conn, album_id)
+    if performer_id:
+        insert_performer_by_id(performer_id, c, conn, album_id)
     conn.close()
     return album_id
 

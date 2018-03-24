@@ -1,20 +1,14 @@
 {% if prev_id or next_id %}
-    <div class="pages">
-        <a {% if prev_id %}
-            href="/album/{{ prev_id }}"
-            class="enabled"
-       {% endif %}
-        ><i class="fa fa-chevron-left arrow"></i></a>
-        <a href="/{{ list_name }}/{{ list_id }}/" class="name">
-            {{ list_title }}</a>
-        <a {% if next_id %}
-            href="/album/{{ next_id }}"
-            class="enabled"
-            {% endif %}
-        ><i class="fa fa-chevron-right arrow"></i></a>
-        <div class="control">
-{#            <a class="cue-del-ape cmd" id="{{ album_id }}">delete ape</a>#}
-            <a class="refetch">Haal opnieuw de stukken op</a>
-        </div>
-    </div>
+    <a {% if prev_id %}
+        href="/album/{{ prev_id }}"
+        class="enabled"
+   {% endif %}
+    ><i class="fa fa-chevron-left arrow"></i></a>
+    <a href="/{{ list_name }}/{{ list_id }}/" class="name">
+        {{ list_title }}</a>
+    <a {% if next_id %}
+        href="/album/{{ next_id }}"
+        class="enabled"
+        {% endif %}
+    ><i class="fa fa-chevron-right arrow"></i></a>
 {% endif %}

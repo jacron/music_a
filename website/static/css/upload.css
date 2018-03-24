@@ -2,7 +2,7 @@
     padding: 0 0 0 6px;
 }
 .upload-album-path {
-    width: calc(100% - 150px);
+    width: calc(100% - 30px);
 }
 .upload-controls .autofill {
     display: none;

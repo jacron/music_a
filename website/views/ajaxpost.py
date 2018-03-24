@@ -169,12 +169,13 @@ def update_piece_name(piece_id, piece_name, album_id):
         ColorPrint.print_c(str(ex), ColorPrint.CYAN)
 
 
-def upload(path, componist_id, mother_id, is_collection):
-    print(path, componist_id, mother_id, is_collection)
+def upload(path, componist_id, performer_id, mother_id, is_collection):
+    print(path, componist_id, performer_id, mother_id, is_collection)
     collection = 1
     if is_collection == 'false':
         collection = 0
     album_id = process_album(path=path, componist_id=componist_id,
+                             performer_id=performer_id,
                              mother_id=mother_id, is_collectie=collection)
     return album_id
 
@@ -347,7 +348,10 @@ def do_post(post):
         return toggle_setting('show_proposals')
 
     if cmd == 'upload':
-        return upload(post['path'], post['componistId'], post['motherId'],
+        return upload(post['path'],
+                      post['componistId'],
+                      post['performerId'],
+                      post['motherId'],
                       post['collection'])
     if cmd == 'tageditor':
         return tageditor(post['path'])

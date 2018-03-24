@@ -28,6 +28,10 @@ $(function () {
            }
        });
     }
+    function getId(val) {
+        const w = val.split('_');
+        return w[w.length - 1];
+    }
     function dirname(path) {
         const w = path.split('/');
         if (w[w.length -1].indexOf('.') !== -1) {
@@ -41,6 +45,14 @@ $(function () {
             return p.substr(0, rpos);
         }
         return p;
+    }
+    function personId(clsType) {
+        let person = $(clsType + ' .tt-input').val(),
+            personId = null;
+        if (person && person.length) {
+            personId = getId(person);
+        }
+        return personId;
     }
     $('.get-album-for-path').click(function(){
         getAlbumForPath($uploadPath.val());
@@ -59,20 +71,14 @@ $(function () {
         });
     });
     $('.upload-go').click(function(){
-        function getId(val) {
-            const w = val.split('_');
-            return w[w.length - 1];
-        }
-        let componist = $('.componist .tt-input').val(),
-            componistId = null;
-        if (componist && componist.length) {
-            componistId = getId(componist);
-        }
+        const componistId = personId('.componist');
+        const performerId = personId('.performer');
         const motherId = $('.upload .mother-id input').val();
         console.log(motherId);
         ajaxPost({
             cmd: 'upload',
             componistId: componistId,
+            performerId: performerId,
             motherId: motherId,
             path: $('.upload-album-path').val(),
             collection: $('.upload .check-collection').is(':checked')
