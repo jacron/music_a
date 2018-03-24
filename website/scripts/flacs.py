@@ -50,6 +50,11 @@ def process_album(path, componist_id=None, mother_id=None, is_collectie=0):
     #     print('from: ' + __file__, currentframe().f_lineno)
     #     ColorPrint.print_c('cue_path mag geen accolades of vierkante haken bevatten - quitting', ColorPrint.RED)
     #     return -1
+    if not os.path.exists(path):
+        print('from: ' + __file__, currentframe().f_lineno)
+        ColorPrint.print_c('This directory does not exist - quitting',
+                           ColorPrint.RED)
+        return
     count = 0
     for ext in MUSIC_FILES:
         for f in os.listdir(path):
