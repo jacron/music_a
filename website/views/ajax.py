@@ -23,12 +23,13 @@ def upload(post, files):
     pass
 
 
-def ajax(request):
-    msg = 'No post, files or get!'
-    if request.FILES:
-        msg = upload(request.POST, request.FILES)
-    if request.POST:
-        msg = do_post(request.POST)
-    if request.GET:
-        msg = do_get(request.GET)
-    return HttpResponse(msg)
+# def ajax(request):
+#     print(request)
+#     msg = 'No post, files or get!'
+#     if request.FILES:
+#         msg = upload(request.POST, request.FILES)
+#     if request.POST:
+#         msg = do_post(request.POST)
+#     if request.GET:
+#         msg = do_get(request.GET)
+#     return HttpResponse(msg)

@@ -13,6 +13,10 @@ def make_fullname(first_name, last_name):
     return u'{} {}'.format(first_name, last_name)
 
 
+def make_fullname_formatted(first_name, last_name, frmat):
+    return frmat.replace('%Last', last_name).replace('%First', first_name)
+
+
 def print_error(sql, msg):
     print('in db encoding error:', msg)
     print(sql)
@@ -392,19 +396,26 @@ def named_persons(items):
     return out
 
 
-def get_componisten_typeahead():
+def get_componisten_typeahead(format):
     sql = '''
       SELECT FirstName, LastName, ID
       FROM Componist
+      ORDER BY LastName
     '''
     items = get_items(sql)
     out = []
     for item in items:
-        out.append({
-            'FullName': make_fullname(item[0], item[1]),
-            'LastName': item[1],
-            'ID': item[2],
-        })
+        if format:
+            out.append({
+                'Name': make_fullname_formatted(item[0], item[1], format),
+                'ID': item[2],
+            })
+        else:
+            out.append({
+                'FullName': make_fullname(item[0], item[1]),
+                'LastName': item[1],
+                'ID': item[2],
+            })
     return out
 
 

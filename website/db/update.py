@@ -98,6 +98,7 @@ def update_album_title(album_id, title):
     con, c = connect()
     c.execute(sql, (title, album_id,)).fetchone()
     con.commit()
+    return 'Album title updated to: ' + title
 
 
 def update_db_piece_name(piece_id, piece_name):

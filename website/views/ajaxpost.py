@@ -1,5 +1,5 @@
-# import urllib
 import os
+
 from six.moves.urllib.request import urlopen
 from channels import Group
 from django.conf import settings
@@ -182,6 +182,7 @@ def upload(path, componist_id, performer_id, mother_id, is_collection):
 
 def do_rename_music_files(path):
     return rename_music_files(path)
+
 
 def do_post(post):
     cmd = post['cmd']

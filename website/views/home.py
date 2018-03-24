@@ -1,4 +1,6 @@
 # from channels import Group
+import json
+
 from django.http import HttpResponse
 from django.template import loader
 
@@ -16,8 +18,10 @@ def home(request):
 
 def ajax(request):
     msg = 'No post, files or get!'
+    msg = json.dumps(msg)
     if request.POST:
         msg = do_post(request.POST)
+        msg = json.dumps(msg)
     if request.GET:
         msg = do_get(request.GET)
     if request.FILES:

@@ -7,15 +7,17 @@ import json
 from ..db.connect import connect
 from ..db.fetch import get_tags, get_componisten_typeahead, \
     get_performers_typeahead, get_instruments_typeahead, get_general_search, \
-    get_album_by_path, get_element
+    get_album_by_path, get_element, get_componist_albums
 
 
 def do_get(get):
     cmd = get['cmd']
+    if cmd == 'albums_componist':
+        return json.dumps(get_componist_albums(get['componistId']))
     if cmd == 'tags':
         return json.dumps(get_tags())
     if cmd == 'componisten':
-        return json.dumps(get_componisten_typeahead())
+        return json.dumps(get_componisten_typeahead(get.get('format')))
     if cmd == 'performers':
         return json.dumps(get_performers_typeahead())
     if cmd == 'instruments':
@@ -28,4 +30,4 @@ def do_get(get):
     if cmd == 'element':
         conn, c = connect()
         return json.dumps(get_element(get['albumid'], get['name'], c))
-    return 'unknown cmd'
+    return json.dumps(cmd + ':cmd unknown')
