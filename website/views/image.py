@@ -87,3 +87,4 @@ def image(request, album_id, image_type):
         return instrumentimage(album_id)
     if image_type == 'librarycode':
         return librarycodeimage(album_id)
+    return HttpResponse('unknown image_type:' + image_type)

@@ -1,7 +1,7 @@
 'use strict';
 
 $(function () {
-    var lazy;
+    let lazy;
 
     setLazy();
     lazyLoad();
@@ -16,7 +16,7 @@ $(function () {
         // console.log('Found ' + lazy.length + ' lazy images');
     }
     function lazyLoad() {
-        for (var i = 0; i < lazy.length; i++) {
+        for (let i = 0; i < lazy.length; i++) {
             if (isInViewport(lazy[i])) {
                 if (lazy[i].getAttribute('data-src')) {
                     // lazy[i].error(function(){
@@ -35,7 +35,7 @@ $(function () {
         });
     }
     function isInViewport(el) {
-        var rect = el.getBoundingClientRect();
+        const rect = el.getBoundingClientRect();
 
         return (
             rect.bottom >= 0 &&

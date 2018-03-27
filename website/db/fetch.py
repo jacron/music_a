@@ -396,13 +396,7 @@ def named_persons(items):
     return out
 
 
-def get_componisten_typeahead(format):
-    sql = '''
-      SELECT FirstName, LastName, ID
-      FROM Componist
-      ORDER BY LastName
-    '''
-    items = get_items(sql)
+def get_persons_typeahead(items, format):
     out = []
     for item in items:
         if format:
@@ -419,19 +413,25 @@ def get_componisten_typeahead(format):
     return out
 
 
-def get_performers_typeahead():
+def get_componisten_typeahead(format):
+    sql = '''
+      SELECT FirstName, LastName, ID
+      FROM Componist
+      ORDER BY LastName
+    '''
+    items = get_items(sql)
+    out = get_persons_typeahead(items, format)
+    return out
+
+
+def get_performers_typeahead(format):
     sql = '''
       SELECT FirstName, LastName, ID
       FROM Performer
+      ORDER BY LastName
     '''
     items = get_items(sql)
-    out = []
-    for item in items:
-        out.append({
-            'FullName': make_fullname(item[0], item[1]),
-            'LastName': item[1],
-            'ID': item[2],
-        })
+    out = get_persons_typeahead(items, format)
     return out
 
 
@@ -449,6 +449,23 @@ def get_general_search(query):
         # out.append(item[0])
         out.append({
             'name': item[0],
+            'ID': item[1],
+        })
+    return out
+
+
+def get_collections_typeahead():
+    sql = '''
+      SELECT Title, ID
+      FROM Album
+      WHERE IsCollection=1
+      ORDER BY Title COLLATE NOCASE
+    '''
+    items = get_items(sql)
+    out = []
+    for item in items:
+        out.append({
+            'Title': item[0],
             'ID': item[1],
         })
     return out
@@ -690,7 +707,8 @@ def filter_contained_children(items):
         if album.get('mother'):
             mothers.append(album)
             children.remove(album)
-    mothers.sort(key=lambda a: str(album['Title'].lower))
+    # mothers.sort(key=lambda a: str(album['Title'].lower))
+    mothers = sorted(mothers, key=lambda x: x['Title'].lower())
     return {
         'mothers': mothers,
         'children': children
@@ -1701,6 +1719,23 @@ def get_cuesheet(cuesheet_id, c):
     return {
         'Name': fields[0],
         'AlbumPath': fields[1],
+    }
+
+
+def get_album_by_id(album_id):
+    sql = '''
+    SELECT Title, ID 
+    FROM Album 
+    WHERE Album.ID=?
+    '''
+    c, conn = connect()
+    fields = c.execute(sql, (album_id,)).fetchone()
+    if not fields:
+        print('ID not found')
+        return None
+    return {
+        'Title': fields[0],
+        'ID': fields[1]
     }
 
 

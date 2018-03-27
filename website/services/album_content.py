@@ -15,7 +15,7 @@ from ..db.fetch import (get_pieces, get_componist, get_performer, get_tag,
                       get_album, get_mother_title, get_setting,
                       get_album_albums, get_album_tags,
                       get_path_doubles, )
-from music.settings import SKIP_DIRS
+from music.settings import SKIP_DIRS, MUSIC_FILES
 from ..services.cuesheet import get_full_cuesheet
 from ..services.proposals import get_proposals, get_artists
 
@@ -63,7 +63,9 @@ def check_subdirs(path):
         for d in os.listdir(path):
             p = os.path.join(path, d)
             if os.path.isdir(p) and d not in SKIP_DIRS:
-                return True
+                for f in os.listdir(p):
+                    if f[0] != '.' and get_extension(f) in MUSIC_FILES:
+                        return True
     return False
 
 
