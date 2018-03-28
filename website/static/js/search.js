@@ -14,13 +14,14 @@ $(function () {
             // console.log('Empty query for type ' + type);
             return null;
         }
-        let count = 0;
+        let count = 0, id = 0;
         $.each(qq, function(){
             const q = $(this);
             console.log('q', q.text());
 
             if (val.length) { val += ','; }
-            val += getId(q.text());
+            id = getId(q.text());
+            val += id;
             count++;
         });
         console.log('val', val);

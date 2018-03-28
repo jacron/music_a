@@ -144,26 +144,34 @@ CHANNEL_LAYERS = {
 
 MEDIA_PLAYER = '/Applications/Media Center 21.app'
 TAG_EDITOR = '/Applications/Tag Editor.app'
-# SQLITE3_FILE = '/Users/orion/db/db.music.sqlite3'
-SQLITE3_FILE = '/Users/orion/db/db.abeel.sqlite'
-
 COVER_FILE = '/folder.jpg'
 BACK_FILE = '/back.jpg'
 PERSON_FILE = 'person.jpg'
-INSTRUMENTS_PATH = '/Volumes/Media/Audio/Klassiek/Instrumenten/'
-COMPONIST_PATH = '/Volumes/Media/Audio/Klassiek/Componisten/'
-PERFORMER_PATH = '/Volumes/Media/Audio/Klassiek/Performers/'
-LIBRARYCODE_PATH = '/Volumes/Media/Audio/Klassiek/LibraryCode/'
-COVER_PATH = '/Volumes/Media/tmpscan/{}.jpg'
-SCORE_FRAGMENT_PATH = '/Volumes/Media/Audio/Klassiek/LibraryCode/{}.png'
 PYTHON_3_PATH = '/Users/orion/anaconda/bin/python'
+SAVECLIP_PATH = '/Users/orion/scripts/saveclip.py'
 
-TMP_PATH = '/Volumes/Media/tmpscan'
+# INSTRUMENTS_PATH = '/Volumes/Media/Audio/Klassiek/Instrumenten/'
+# COMPONIST_PATH = '/Volumes/Media/Audio/Klassiek/Componisten/'
+# PERFORMER_PATH = '/Volumes/Media/Audio/Klassiek/Performers/'
+# LIBRARYCODE_PATH = '/Volumes/Media/Audio/Klassiek/LibraryCode/'
+# SCORE_FRAGMENT_PATH = '/Volumes/Media/Audio/Klassiek/LibraryCode/{}.png'
+# TMP_PATH = '/Volumes/Media/tmpscan'
+# COVER_PATH = '/Volumes/Media/tmpscan/{}.jpg'
+# NOT_FOUND_IMAGE_PATH = '/Volumes/Media/Audio/Klassiek/empty/notfound.jpg'
+# SQLITE3_FILE = '/Users/orion/db/db.music.sqlite3'
+INSTRUMENTS_PATH = '/Volumes/Abeel/Instrumenten/'
+COMPONIST_PATH = '/Volumes/Abeel//Componisten/'
+PERFORMER_PATH = '/Volumes/Abeel/Performers/'
+LIBRARYCODE_PATH = '/Volumes/Abeel/LibraryCode/'
+SCORE_FRAGMENT_PATH = '/Volumes/Abeel/LibraryCode/{}.png'
+TMP_PATH = '/Volumes/Abeel/tmpscan'
+COVER_PATH = '/Abeel/tmpscan/{}.jpg'
+NOT_FOUND_IMAGE_PATH = '/Volumes/Abeel/empty/notfound.jpg'
+SQLITE3_FILE = '/Users/orion/db/db.abeel.sqlite'
+
 SKIP_DIRS = ['website', 'websites', 'artwork', 'Artwork', 'etc', 'scans',
              'Scans', 'scan', 'covers',
              'website boxset', '#Booklets', 'Pixels', 'Graphics', 'Info + Art',
              'Art', 'Covers', 'boxset_files', ]
 MUSIC_FILES = ('cue', "flac", "ape", "mp3", "iso", "wma", "wav", "mp3", "m4a",
                'dsf', 'dff')
-NOT_FOUND_IMAGE_PATH = '/Volumes/Media/Audio/Klassiek/empty/notfound.jpg'
-SAVECLIP_PATH = '/Users/orion/scripts/saveclip.py'
