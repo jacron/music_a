@@ -413,7 +413,7 @@ def get_persons_typeahead(items, format):
     return out
 
 
-def get_componisten_typeahead(format):
+def get_componisten_typeahead(format, selection):
     sql = '''
       SELECT FirstName, LastName, ID
       FROM Componist
@@ -424,37 +424,70 @@ def get_componisten_typeahead(format):
     return out
 
 
-def get_performers_typeahead(format):
-    sql = '''
-      SELECT FirstName, LastName, ID
-      FROM Performer
-      ORDER BY LastName
-    '''
-    items = get_items(sql)
-    out = get_persons_typeahead(items, format)
-    return out
+def process_selection(cql, skip):
+    parameters = []
+    where_sql = ''
+    sql = ''
+    if cql:
+        if skip != 'idcomp' and cql.get('idcomp'):
+            sql += '''
+                JOIN Performer_Album PA ON PA.PerformerID = P.ID 
+                JOIN Componist_Album CA ON CA.AlbumID = PA.AlbumID
+                WHERE CA.ComponistID=? 
+            '''
+            parameters.append(cql.get('idcomp'))
+        if skip != 'idperf' and cql.get('idperf'):
+            sql += '''
+                JOIN Performer_Album ON Performer_Album.AlbumID = A.ID
+            '''
+            where_sql = add_to_where(
+                where_sql,
+                'Performer_Album.PerformerID IN ({})',
+                cql.get('performer'),
+                parameters)
+        # if skip != 'idcoll' and cql.get('idcoll'):
+        #     sql += '''
+        #         JOIN Tag_Album ON Tag_Album.AlbumID = A.ID
+        #     '''
+        #     where_sql = add_to_where(
+        #         where_sql,
+        #         'Tag_Album.TagID IN ({})',
+        #         cql.get('tag'),
+        #         parameters)
+    return parameters, where_sql, sql
 
 
-def get_general_search(query):
-    # get album by name, as a simple beginning
+def get_performers_typeahead(format, selection):
+    parameters, where_sql, sql = process_selection(selection, 'idperf')
+    # if len(where_sql):
     sql = '''
-      SELECT Title, ID
-      FROM Album
-      WHERE Title LIKE ?
-      LIMIT 10
+        SELECT DISTINCT 
+            P.FirstName,
+            P.LastName,
+            P.ID
+        FROM Performer P''' + sql + where_sql
+    sql += '''
+    ORDER BY LastName
     '''
-    items = get_items_with_parameter(sql, '%' + query + '%')
+    # sql = '''
+    #   SELECT FirstName, LastName, ID
+    #   FROM Performer
+    #   ORDER BY LastName
+    # '''
+    conn, c = connect()
+    items = []
     out = []
-    for item in items:
-        # out.append(item[0])
-        out.append({
-            'name': item[0],
-            'ID': item[1],
-        })
+    try:
+        items = c.execute(sql, parameters).fetchall()
+        out = get_persons_typeahead(items, format)
+    except:
+        print_error(sql, 'get_albums_by_cql')
+    conn.close()
+    # items = get_items(sql)
     return out
 
 
-def get_collections_typeahead():
+def get_collections_typeahead(selection):
     sql = '''
       SELECT Title, ID
       FROM Album
@@ -481,6 +514,25 @@ def get_instruments_typeahead():
     for item in items:
         out.append({
             'Name': item[0],
+            'ID': item[1],
+        })
+    return out
+
+
+def get_general_search(query):
+    # get album by name, as a simple beginning
+    sql = '''
+      SELECT Title, ID
+      FROM Album
+      WHERE Title LIKE ?
+      LIMIT 10
+    '''
+    items = get_items_with_parameter(sql, '%' + query + '%')
+    out = []
+    for item in items:
+        # out.append(item[0])
+        out.append({
+            'name': item[0],
             'ID': item[1],
         })
     return out
@@ -1064,6 +1116,8 @@ def get_setting(name):
     '''
     conn, c = connect()
     fields = c.execute(sql, (name, )).fetchone()
+    if not fields:
+        return None
     return {
         'VALUE': fields[0],
     }

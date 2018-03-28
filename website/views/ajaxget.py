@@ -29,11 +29,23 @@ def do_get(get):
     if cmd == 'tags':
         return json.dumps(get_tags())
     if cmd == 'componisten':
-        return json.dumps(get_componisten_typeahead(get.get('format')))
+        selection = None
+        # selection = get.get('selection')
+        return json.dumps(get_componisten_typeahead(
+            get.get('format'), selection))
     if cmd == 'performers':
-        return json.dumps(get_performers_typeahead(get.get('format')))
+        # selection = None
+        selection = get.get('selection')
+        if selection:
+            selection = json.loads(selection)
+        return json.dumps(get_performers_typeahead(
+            get.get('format'), selection))
     if cmd == 'collections':
-        return json.dumps(get_collections_typeahead())
+        selection = None
+        # selection = get.get('selection')
+        return json.dumps(get_collections_typeahead(
+            selection
+        ))
     if cmd == 'instruments':
         return json.dumps(get_instruments_typeahead())
     if cmd == 'generalsearch':

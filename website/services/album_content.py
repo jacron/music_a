@@ -158,7 +158,10 @@ def album_context(album_id, list_name=None, list_id=None):
     album_componisten, album_performers, album_instruments = get_elements(
         album_id)
     sp = get_setting('show_proposals')
-    show_proposals = sp['VALUE']
+    if sp:
+        show_proposals = sp['VALUE']
+    else:
+        show_proposals = False
     proposals, artists = [], []
     if show_proposals == '1':
         allsheets = cuesheets + invalidcues

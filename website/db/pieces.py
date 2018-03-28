@@ -33,7 +33,7 @@ def delete_pieces(path, album_id, conn, c):
 def insert_pieces(path, album_id, conn, c):
     for ext in MUSIC_FILES:
         for f in sorted(os.listdir(path)):
-            if ext == get_extension(f):
+            if f[0] != '.' and ext == get_extension(f):
                 insert_piece(
                     name=f,
                     code='',  # kirkpatrick(f, 'K ', ' '),

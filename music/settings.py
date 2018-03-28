@@ -144,7 +144,9 @@ CHANNEL_LAYERS = {
 
 MEDIA_PLAYER = '/Applications/Media Center 21.app'
 TAG_EDITOR = '/Applications/Tag Editor.app'
-SQLITE3_FILE = '/Users/orion/db/db.music.sqlite3'
+# SQLITE3_FILE = '/Users/orion/db/db.music.sqlite3'
+SQLITE3_FILE = '/Users/orion/db/db.abeel.sqlite'
+
 COVER_FILE = '/folder.jpg'
 BACK_FILE = '/back.jpg'
 PERSON_FILE = 'person.jpg'
