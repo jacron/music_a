@@ -58,6 +58,25 @@ def organize_pieces(album_id, album_path):
            album_metatag_titles
 
 
+def organize_pieces_for_full(album_id, album_path):
+    items = get_pieces(album_id)
+    cuesheets, pieces = [], []
+    for item in items:
+        ffile = item['Name']
+        if ffile:
+            path = u'{}/{}'.format(album_path, ffile)
+            if os.path.exists(path):
+                extension = ffile.split('.')[-1]
+                if extension == 'cue':
+                    cuesheet = get_full_cuesheet(path, item['ID'])
+                    cuesheet['Code'] = item['LibraryCode']
+                    cuesheet['Invalid'] = has_notfound_files(cuesheet, album_path)
+                    cuesheets.append(cuesheet)
+                else:
+                    pieces.append(item)
+    return cuesheets, pieces
+
+
 def check_subdirs(path):
     if os.path.exists(path):
         for d in os.listdir(path):
@@ -143,12 +162,33 @@ def add_count(albums):
         album['CountCues'] = count_cue
 
 
+def full_album(album_id):
+    album_o = get_album(album_id)
+    if not album_o:
+        return None
+    cuesheets, pieces = organize_pieces_for_full(album_id, album_o['Path'])
+    album_componisten, album_performers, album_instruments = get_elements(
+        album_id)
+    return {
+        'ID': album_id,
+        'Title': album_o['Title'],
+        'Description': album_o['Description'],
+        'Path': album_o['Path'],
+        'pieces': pieces,
+        'album_componisten': album_componisten,
+        'album_performers': album_performers,
+        'album_instrument': album_instruments,
+        'cuesheets': cuesheets,
+        'website': get_website(album_o['Path'])
+    }
+
+
 def album_context(album_id, list_name=None, list_id=None):
     album_o = get_album(album_id)
     if not album_o:
         return None
     mother_title, mother_id = None, None
-    album_o = get_album(album_id)
+    # album_o = get_album(album_id)
     if album_o['AlbumID']:
         mother_id = album_o['AlbumID']
         mother_title = get_mother_title(mother_id)

@@ -4,6 +4,7 @@ import json
 #     get_tags,
 #     get_componisten_typeahead, get_performers_typeahead, get_instruments_typeahead,
 #     get_general_search, get_album_by_path, connect, get_element)
+from website.services.album_content import album_context, full_album
 from ..db.connect import connect
 from ..db.fetch import get_tags, get_componisten_typeahead, \
     get_performers_typeahead, get_instruments_typeahead, get_general_search, \
@@ -24,7 +25,9 @@ def do_get(get):
         albums = get_album_albums(get['albumId'])
         return json.dumps(albums)
     if cmd == 'album_by_id':
-        album = get_album_by_id(get['id'])
+        album = full_album(get['id'])
+        # album = get_album_by_id(get['id'])
+        # album['context'] = album_context(get['id'])
         return json.dumps(album)
     if cmd == 'tags':
         return json.dumps(get_tags())

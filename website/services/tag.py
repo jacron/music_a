@@ -120,8 +120,12 @@ def set_metatags(album_id, mode):
 
 def get_metatags(p):
     try:
-        song = mutagen.File(p)
-        return song
+        return mutagen.File(p)
+        # ntags = {}
+        # for tag, value in tags.tags:
+        #     if tag != 'cuesheet' and tag !='APIC:':
+        #         ntags[tag] = value
+        # return ntags
     except MutagenError as t:
         ColorPrint.print_c(str(t), ColorPrint.CYAN)
         ColorPrint.print_c(p, ColorPrint.BLUE)
