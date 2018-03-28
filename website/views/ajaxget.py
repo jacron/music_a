@@ -18,7 +18,7 @@ def do_get(get):
         return json.dumps(albums)
     if cmd == 'cql_search':
         cql = json.loads(get['cql'])
-        albums = get_albums_by_cql(cql)
+        albums = get_albums_by_cql(cql, 'flat')
         return json.dumps(albums)
     if cmd == 'album_albums':
         albums = get_album_albums(get['albumId'])

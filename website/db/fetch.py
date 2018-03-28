@@ -839,14 +839,7 @@ def add_to_where(where_sql, cql, parameter_list, parameters):
     return where_sql
 
 
-def get_albums_by_cql(cql):
-    """
-    our semi query language contains id's for several elements
-    these id's can be multiple, comma-seperated values
-    :param cql: dict
-    :return: albums in groups (mother- and children albums)
-    """
-    # print cql
+def process_cql(cql):
     parameters = []
     where_sql = ''
     sql = ''
@@ -889,7 +882,24 @@ def get_albums_by_cql(cql):
             'A.Title LIKE {}',
             '%' + cql.get('title') + '%',
             parameters)
-    # prevent returning all our thousands of albums
+    if cql.get('mother'):
+        where_sql = add_to_where(
+            where_sql,
+            'A.AlbumID IN ({})',
+            cql.get('mother'),
+            parameters)
+    return parameters, where_sql, sql
+
+
+def get_albums_by_cql(cql, mode='deep'):
+    """
+    our semi query language contains id's for several elements
+    these id's can be multiple, comma-seperated values
+    :param cql: dict
+    :param mode: string 'deep' | 'flat'
+    :return: albums in groups (mother- and children albums)
+    """
+    parameters, where_sql, sql = process_cql(cql)
     if len(where_sql):
         sql = '''
             SELECT
@@ -908,8 +918,11 @@ def get_albums_by_cql(cql):
             print_error(sql, 'get_albums_by_cql')
         conn.close()
         named_items = named_albums_with_mother(items)
-        grouped_items = filter_contained_children(named_items)
-        return grouped_items
+        if mode == 'deep':
+            grouped_items = filter_contained_children(named_items)
+            return grouped_items
+        else:
+            return named_items
     return {}
 
 
