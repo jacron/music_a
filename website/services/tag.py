@@ -4,6 +4,7 @@ from mutagen import MutagenError, id3
 from mutagen.apev2 import APEBadItemError
 from mutagen.flac import Picture
 
+from music.settings import INTERESTING_METATAGS
 from website.db.fetch import get_album_performers, get_album_componisten, \
     get_album, get_pieces
 from website.lib.color import ColorPrint
@@ -27,6 +28,18 @@ def title2tag(p, title):
         song.save()
     except TypeError as t:
         ColorPrint.print_c(str(t), ColorPrint.CYAN)
+
+
+def get_album_metatags(album_path, pieces):
+    album_metatags = {}
+    if len(pieces):
+        path = u'{}/{}'.format(album_path, pieces[0]['Name'])
+        metatags = get_metatags(path)
+        if metatags:
+            for tag in INTERESTING_METATAGS:
+                if metatags.get(tag):
+                    album_metatags[tag] = metatags[tag]
+    return album_metatags
 
 
 def all2tag(p, title, album_id):

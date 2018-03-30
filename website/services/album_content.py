@@ -6,7 +6,7 @@ import os
 from mutagen.id3 import APIC
 
 from website.services.services import get_extension
-from website.services.tag import get_metatags
+from website.services.tag import get_metatags, get_album_metatags
 from ..db.fetch import (get_pieces, get_componist, get_performer, get_tag,
                       get_album_componisten, get_album_performers,
                       get_album_instruments,
@@ -170,6 +170,7 @@ def full_album(album_id):
     album_componisten, album_performers, album_instruments = get_elements(
         album_id)
     album_folder_image, album_back_image = images_album(album_o)
+    album_metatags = get_album_metatags(album_o['Path'], pieces)
     return {
         'ID': album_id,
         'Title': album_o['Title'],
@@ -182,7 +183,9 @@ def full_album(album_id):
         'cuesheets': cuesheets,
         'album_folder_image': album_folder_image,
         'album_back_image': album_back_image,
-        'website': get_website(album_o['Path'])
+        'website': get_website(album_o['Path']),
+        'album_tags': get_album_tags(album_id),
+        'album_metatags': album_metatags,
     }
 
 
