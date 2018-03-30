@@ -166,11 +166,17 @@ def full_album(album_id):
     album_o = get_album(album_id)
     if not album_o:
         return None
+    mother = None
+    if album_o['AlbumID']:
+        mother = get_album(album_o['AlbumID'])
+        if mother['IsCollection'] != 1:
+            mother = None
     cuesheets, pieces = organize_pieces_for_full(album_id, album_o['Path'])
     album_componisten, album_performers, album_instruments = get_elements(
         album_id)
     album_folder_image, album_back_image = images_album(album_o)
     album_metatags = get_album_metatags(album_o['Path'], pieces)
+
     return {
         'ID': album_id,
         'Title': album_o['Title'],
@@ -186,6 +192,7 @@ def full_album(album_id):
         'website': get_website(album_o['Path']),
         'album_tags': get_album_tags(album_id),
         'album_metatags': album_metatags,
+        'mother': mother,
     }
 
 

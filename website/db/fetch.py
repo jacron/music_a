@@ -1014,6 +1014,7 @@ def get_componist(id_componist):
         "Death": fields[3],
         "Path": fields[4],
         "ID": fields[5],
+        "Name": fields[1] + ', ' + fields[0],
     }
 
 
@@ -1772,6 +1773,7 @@ def get_performer(id_performer):
         "Death": fields[3],
         "Path": fields[4],
         "ID": fields[5],
+        "Name": fields[1] + ', ' + fields[0],
     }
 
 
@@ -1841,7 +1843,7 @@ def get_componist_id_from_album(album_id, c):
 
 def get_album(id_album):
     sql = '''
-    SELECT Title, Label, Path, AlbumID, Description, ID 
+    SELECT Title, Label, Path, AlbumID, Description, ID, IsCollection 
     FROM Album
     WHERE Album.ID=?
     '''
@@ -1857,6 +1859,7 @@ def get_album(id_album):
         "AlbumID": fields[3],
         "Description": fields[4],
         "ID": fields[5],
+        "IsCollection": fields[6],
     }
 
 

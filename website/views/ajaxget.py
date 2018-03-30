@@ -9,7 +9,8 @@ from ..db.connect import connect
 from ..db.fetch import get_tags, get_componisten_typeahead, \
     get_performers_typeahead, get_instruments_typeahead, get_general_search, \
     get_album_by_path, get_element, get_componist_albums, get_album_albums, \
-    get_album_by_id, get_collections_typeahead, get_albums_by_cql
+    get_album_by_id, get_collections_typeahead, get_albums_by_cql, \
+    get_componist, get_performer
 
 
 def do_get(get):
@@ -17,6 +18,12 @@ def do_get(get):
     if cmd == 'albums_componist':
         albums = get_componist_albums(get['componistId'])
         return json.dumps(albums)
+    if cmd == 'composer_by_id':
+        person = get_componist(get['id'])
+        return json.dumps(person)
+    if cmd == 'performer_by_id':
+        person = get_performer(get['id'])
+        return json.dumps(person)
     if cmd == 'cql_search':
         cql = json.loads(get['cql'])
         albums = get_albums_by_cql(cql, 'flat')
