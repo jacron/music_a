@@ -1814,7 +1814,7 @@ def get_album_path_by_id(album_id, c):
     '''
     fields = c.execute(sql, (album_id,)).fetchone()
     if not fields:
-        print('ID not found')
+        print('ID not found:' + album_id)
         return None
     return fields[0]
 

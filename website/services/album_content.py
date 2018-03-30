@@ -137,7 +137,7 @@ def list_paging(album_id, list_name, list_id):
 
 
 def images_album(album_o):
-    album_folder_image, album_back_image = None, None
+    album_folder_image, album_back_image = False, False
     path = os.path.join(album_o['Path'], 'folder.jpg')
     if os.path.exists(path):
         album_folder_image = True
@@ -169,6 +169,7 @@ def full_album(album_id):
     cuesheets, pieces = organize_pieces_for_full(album_id, album_o['Path'])
     album_componisten, album_performers, album_instruments = get_elements(
         album_id)
+    album_folder_image, album_back_image = images_album(album_o)
     return {
         'ID': album_id,
         'Title': album_o['Title'],
@@ -179,6 +180,8 @@ def full_album(album_id):
         'album_performers': album_performers,
         'album_instrument': album_instruments,
         'cuesheets': cuesheets,
+        'album_folder_image': album_folder_image,
+        'album_back_image': album_back_image,
         'website': get_website(album_o['Path'])
     }
 

@@ -2,6 +2,7 @@
 import os
 
 from music.settings import MUSIC_FILES
+from website.services.album_content import full_album
 from website.services.services import get_extension
 from .connect import connect
 from .fetch import get_album_path_by_id, get_pieces
@@ -21,6 +22,7 @@ def refetch_pieces(album_id):
     path = get_album_path_by_id(album_id, c)
     delete_pieces(path, album_id, conn, c)
     insert_pieces(path, album_id, conn, c)
+    return full_album(album_id)
 
 
 def delete_pieces(path, album_id, conn, c):

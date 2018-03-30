@@ -95,9 +95,11 @@ def split_cued_file(piece_id, album_id):
 def edit_cuesheet(piece_id, album_id):
     conn, cursor = connect()
     path = get_album_path_by_id(album_id, cursor)
+    if not path:
+        return 'path not found for album ID=' + album_id
     piece = get_piece(piece_id)
     src = '{}/{}'.format(path, piece['Name'])
-    subl_path(src)
+    return subl_path(src)
 
 
 # def rename_cuesheet(piece_id, album_id):
