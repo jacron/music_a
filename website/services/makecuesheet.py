@@ -98,6 +98,14 @@ def split_cued_file(piece_id, album_id):
     return src
 
 
+def cuesheet_title_from_filename(piece_id, album_id):
+    conn, cursor = connect()
+    path = get_album_path_by_id(album_id, cursor)
+    piece = get_piece(piece_id)
+    # cuesheet = get_full_cuesheet(path, piece_id)
+    return trimextension(piece['Name'])
+
+
 def edit_cuesheet(piece_id, album_id):
     conn, cursor = connect()
     path = get_album_path_by_id(album_id, cursor)
