@@ -30,7 +30,8 @@ from ..services.clipboard import save_score_fragment, save_person
 from ..services.export import export_albums
 from ..services.makecuesheet import make_cuesheet, rename_cuesheet, \
     make_subs_cuesheet, split_cued_file, edit_cuesheet, combine_sub_cuesheets, \
-    norm_cuesheet, remove_cuesheet, split_one_cue_album, split_cue_album
+    norm_cuesheet, remove_cuesheet, split_one_cue_album, split_cue_album, \
+    cuesheet_rename_title
 from ..services.path import path_from_id_field, get_path
 from ..services.services import openpath, openterminal, pauseplay, opentageditor
 
@@ -159,6 +160,10 @@ def update_metatag(tag, value, album_id):
 
 def remove_metatag(tag, album_id):
     return tag_remove_metatag(tag, album_id)
+
+
+def update_cuesheet_title(cuesheet_id, title, album_id):
+    return cuesheet_rename_title(cuesheet_id, title, album_id)
 
 
 def update_piece_name(piece_id, piece_name, album_id):
@@ -297,6 +302,8 @@ def do_post(post):
                                         description=post['description'])
     if cmd == 'update_piece_name':
         return update_piece_name(post['pieceid'], post['name'], post['albumid'])
+    if cmd == 'update_cuesheet_title':
+        return update_cuesheet_title(post['id'], post['title'], post['albumid'])
     if cmd == 'adjust_kk':
         return adjust_kk(album_id=int(post['albumid']))
     if cmd == 'inherit_elements':

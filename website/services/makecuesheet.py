@@ -5,7 +5,7 @@ import os
 from music.settings import MUSIC_FILES
 from ..db.connect import connect
 from ..db.fetch import get_album_path_by_id, get_piece, \
-    get_pieces
+    get_pieces, get_album
 from ..db.insert import insert_piece
 from ..lib.color import ColorPrint
 from ..scripts.splitflac import split_flac
@@ -278,6 +278,23 @@ def read_cuesheets(p, album_id):
     return lines
 
 
+def write_full_cuesheet(wpath, cuesheet):
+    cue = cuesheet['cue']
+    with codecs.open(wpath, 'w', 'utf-8') as f:
+        f.write('\ufeff')
+        f.write('TITLE "{}"\n'.format(cue['title']))
+        f.write('PERFORMER "{}"\n'.format(cue['performer']))
+        for rem in cue['rem']:
+            f.write('REM {}\n'.format(rem))
+        for ff in cue['files']:
+            f.write('FILE "{}" WAVE\n'.format(ff['name']))
+            for t in ff['tracks']:
+                f.write('  TRACK {} {}\n'.format(t['nr'], t['name']))
+                f.write('    TITLE "{}"\n'.format(t['title']))
+                f.write('    INDEX {} {}\n'.format(t['index']['nr'],
+                                                 t['index']['time']))
+
+
 def combine_sub_cuesheets(album_id):
     """
     Combine cuesheets in each subdirectory in one,
@@ -296,3 +313,15 @@ def combine_sub_cuesheets(album_id):
         lines += read_cuesheets(p, album_id)
     if len(lines):
         write_cuesheet(title, album_id, lines)
+
+
+def cuesheet_rename_title(cuesheet_id, title, album_id):
+    album = get_album(album_id)
+    piece = get_piece(cuesheet_id)
+    cuesheet_path = os.path.join(album['Path'], piece['Name'])
+    cuesheet = get_full_cuesheet(cuesheet_path, cuesheet_id)
+    cuesheet['Title'] = title
+    cuesheet['cue']['title'] = title
+    # out_path = os.path.join(album['Path'], 'temp_' + piece['Name'])
+    write_full_cuesheet(cuesheet_path, cuesheet)
+    return cuesheet_path + ' written'

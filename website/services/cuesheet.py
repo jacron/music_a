@@ -1,3 +1,6 @@
+import codecs
+
+from website.db.fetch import get_album, get_piece
 from website.lib.color import ColorPrint
 from .services import dequote
 import os
@@ -47,69 +50,63 @@ def parse(data):
         'files': [],
         'rem': [],
     }
-    cfile = None
-    ctrack = None
-    for line in data.split('\n'):
-        # try:
-        #     line = unidecode(line)
-        # except Exception:
-        #     pass
+    cuefile = None
+    cuetrack = None
+    lines = data.split('\n')
+    for line in lines:
         if len(line) < 1:
             continue
-
-        rem = get_element(line, 'REM ')
-        if rem:
-            cue['rem'].append(rem)
-
-        title = get_element(line, 'TITLE ')
-        if title:
-            if ctrack:
-                ctrack['title'] = replace_haakjes(dequote(title))
+        el_rem = get_element(line, 'REM ')
+        if el_rem:
+            cue['rem'].append(el_rem)
+        el_title = get_element(line, 'TITLE ')
+        if el_title:
+            if cuetrack:
+                cuetrack['title'] = replace_haakjes(dequote(el_title))
             else:
-                cue['title'] = dequote(title)
-
-        performer = get_element(line, 'PERFORMER ')
-        if performer:
-            if ctrack:
-                ctrack['performer'] = dequote(performer)
+                cue['title'] = dequote(el_title)
+        el_performer = get_element(line, 'PERFORMER ')
+        if el_performer:
+            if cuetrack:
+                cuetrack['performer'] = dequote(el_performer)
             else:
-                cue['performer'] = dequote(performer)
-
-        efile = get_element(line, 'FILE ')
-        if efile:
-            if cfile:
-                cue['files'].append(cfile)
+                cue['performer'] = dequote(el_performer)
+        el_file = get_element(line, 'FILE ')
+        if el_file:
+            if cuefile:
+                cue['files'].append(cuefile)
+                if cuetrack:
+                    cuefile['tracks'].append(cuetrack)
+                    cuetrack = None
             # trim WAVE
-            pos = efile.rfind(' ')
-            name = efile[0:pos]
+            pos = el_file.rfind(' ')
+            name = el_file[0:pos]
             # name = efile  # ' '.join(efile.split()[:-1])
-            cfile = {
+            cuefile = {
                 'name': dequote(name),
                 'tracks': [],
             }
-
-        track = get_element(line, 'TRACK ')
-        if track:
-            nr, name = track.split()
-            if ctrack:
-                cfile['tracks'].append(ctrack)
-            ctrack = {
+        el_track = get_element(line, 'TRACK ')
+        if el_track:
+            nr, name = el_track.split()
+            if cuetrack:
+                cuefile['tracks'].append(cuetrack)
+            cuetrack = {
                 'nr': nr,
                 'name': name,
             }
-
-        index = get_element(line, 'INDEX ')
-        if index:
-            nr, time = index.split()
-            if ctrack:
-                ctrack['index'] = {
+        el_index = get_element(line, 'INDEX ')
+        if el_index:
+            nr, time = el_index.split()
+            if cuetrack:
+                cuetrack['index'] = {
                     'nr': nr,
                     'time': time,
                 }
-    if ctrack:
-        cfile['tracks'].append(ctrack)
-    if cfile:
-        cue['files'].append(cfile)
+    if cuetrack:
+        cuefile['tracks'].append(cuetrack)
+    if cuefile:
+        cue['files'].append(cuefile)
     return cue
 
 
@@ -118,6 +115,7 @@ def get_full_cuesheet(path, cue_id):
     filename = ' '.join(filename.split('.')[:-1])
     if os.path.exists(path):
         with open(path, 'r') as f:
+            data = None
             try:
                 data = f.read()
             except UnicodeDecodeError as u:
@@ -129,6 +127,8 @@ def get_full_cuesheet(path, cue_id):
                         data = f.read()
                     except Exception as e:
                         ColorPrint.print_c(str(e), ColorPrint.BLUE)
+            if not data:
+                return None
             cue = None
             try:
                 cue = parse(data)
@@ -143,3 +143,5 @@ def get_full_cuesheet(path, cue_id):
             }
     else:
         raise NotFoundError
+
+
