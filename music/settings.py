@@ -183,5 +183,5 @@ MUSIC_FILES = ('cue', "flac", "ape", "mp3", "iso", "wma", "wav", "mp3", "m4a",
                'dsf', 'dff')
 INTERESTING_METATAGS = [
     'performer', 'totaltracks', 'title', 'album', 'albumartist', 'artist',
-    'composer', 'comment', 'date', 'year', 'totaldiscs'
+    'composer', 'comment', 'date', 'year', 'totaldiscs', 'discid'
 ]
