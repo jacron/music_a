@@ -15,13 +15,20 @@ Stel, een cuesheet adresseert een enkel muziekbestand (ape of flac) en verdeelt
 dat in stukken. In dat geval kunnen we het muziekbestand splitsen in de stukken 
 van de cuesheet. Dat doet dit script.
 
+Aanleiding was de onwenselijkheid van het opsplisen van een cuesheet in meerdere
+om bijvoorbeeld concerten op een plaat apart te zetten. Zo'n cuesheet eindigt
+vaak onzuiver, met een remainder. Je kunt met een cuesheet immers tegen
+een player wel zeggen wanneer een stuk start, maar niet wanneer hij moet eindigen.
+
 Bij het alfabetisch sorteren moet bijv. deel 2 niet op deel 1 van een ander 
 muziekstuk volgen. Daarom beginnen de doelbestanden met een volgnummer, 
 aangevuld met nul tot twee voorloopnullen. Als er al genummerde flac-bestanden 
-aanwezig zijn, wordt er met een sprongetje van 10 doorgenummerd.
+aanwezig zijn in de directory, dan wordt daar met een sprongetje van 10 op
+doorgenummerd.
 
 De foutafhandeling voorziet in een uitvoer van de fout naar socket_log.
 Een succesboodschap wordt eveneens naar socket_log uitgevoerd.
+De client kan dus enigszins bijhouden hoe ver deze back-end gevorderd is.
 
 november 2017 - jan h croonen
 """

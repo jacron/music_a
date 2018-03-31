@@ -14,6 +14,12 @@ from ..services.services import subl_path, filename, trimextension, \
     get_extension, get_filename
 
 
+'''
+    todo: Uit het oorspronkelijke cuesheet worden niet alle, maar wel de meeste gegevens
+    overgenomen, bijvoorbeeld performer en rem regels wel maar een extra index 00
+    bij een track niet.
+    
+'''
 def write_cuesheet(name, album_id, lines):
     content = ''
     for line in lines:
@@ -299,6 +305,7 @@ def combine_sub_cuesheets(album_id):
     """
     Combine cuesheets in each subdirectory in one,
     which you write in the directory
+
     :param album_id:
     :return:
     """

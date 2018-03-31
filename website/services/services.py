@@ -1,7 +1,9 @@
-import os, subprocess
+import os
+import subprocess
 
 from website.lib.color import ColorPrint
-from music.settings import COMPONIST_PATH, PERFORMER_PATH, TAG_EDITOR
+from music.settings import COMPONIST_PATH, PERFORMER_PATH, TAG_EDITOR, \
+    MEDIA_PLAYER_APP
 
 
 def replace_haakjes(s):
@@ -109,7 +111,8 @@ def syspath_componist(componist):
     if name:
         path = u'{}{}'.format(COMPONIST_PATH, componist['LastName'])
     else:
-        ColorPrint.print_c('{} has no last name'.format(componist), ColorPrint.RED)
+        ColorPrint.print_c('{} has no last name'.format(componist),
+                           ColorPrint.RED)
     return path
 
 
@@ -162,9 +165,9 @@ def runosascript(osascript):
 def pauseplay():
     # os.system('open -a "{}" /Pause'.format(settings.MEDIA_PLAYER))
     osascript = '''
-    tell application \"Media Center 21\"\n
+    tell application \"{}\"\n
         activate\n
         tell application \"System Events\" to keystroke \" \"\n
     end tell\n
-    '''
+    '''.format(MEDIA_PLAYER_APP)
     runosascript(osascript)
