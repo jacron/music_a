@@ -164,6 +164,7 @@ def add_componist_to_album(componistid, albumid):
     con, c = connect()
     c.execute(sql, (componistid, albumid,)).fetchone()
     con.commit()
+    return 'componist {} added to album {}'.format(componistid, albumid)
 
 
 def add_performer_to_album(performerid, albumid):
@@ -175,6 +176,7 @@ def add_performer_to_album(performerid, albumid):
     con, c = connect()
     c.execute(sql, (performerid, albumid,)).fetchone()
     con.commit()
+    return 'performer {} added to album {}'.format(performerid, albumid)
 
 
 def add_tag_to_album(tagid, albumid):
@@ -186,6 +188,7 @@ def add_tag_to_album(tagid, albumid):
     con, c = connect()
     c.execute(sql, (tagid, albumid,)).fetchone()
     con.commit()
+    return 'tag {} added to album {}'.format(tagid, albumid)
 
 
 def delete_piece(piece_id):
@@ -228,6 +231,7 @@ def remove_tag_from_album(tagid, albumid):
     con, c = connect()
     c.execute(sql, (tagid, albumid,)).fetchone()
     con.commit()
+    return 'tag {} removed from album {}'.format(tagid, albumid)
 
 
 def remove_componist_from_album(componist_id, albumid):
@@ -238,6 +242,7 @@ def remove_componist_from_album(componist_id, albumid):
     con, c = connect()
     c.execute(sql, (componist_id, albumid,)).fetchone()
     con.commit()
+    return 'componist {} removed from album {}'.format(componist_id, albumid)
 
 
 def remove_performer_from_album(performer_id, albumid):
@@ -248,6 +253,7 @@ def remove_performer_from_album(performer_id, albumid):
     con, c = connect()
     c.execute(sql, (performer_id, albumid,)).fetchone()
     con.commit()
+    return 'performer {} removed from album {}'.format(performer_id, albumid)
 
 
 def remove_instrument_from_album(albumid):

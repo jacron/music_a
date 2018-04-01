@@ -224,6 +224,7 @@ def do_post(post):
     if cmd == 'add_performer':
         return add_performer_to_album(int(post['performerid']),
                                       int(post['albumid']))
+
     if cmd == 'new_performer':
         performerid = new_performer(post['name'])
         return add_performer_to_album(int(performerid[0]), int(post['albumid']))
