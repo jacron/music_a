@@ -72,6 +72,7 @@ def save_person_remote(id, type):
 def save_person(id, type):
     # save_person_grab(id, type)
     save_person_remote(id, type)
+    return 'image saved from clipboard for person {}, type {}'.format(id, type)
 
 
 def crop_front(img):
