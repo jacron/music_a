@@ -204,7 +204,11 @@ def do_post(post):
                                       int(post['albumid']))
     if cmd == 'new_componist':
         componistid = new_componist(post['name'])
-        return add_componist_to_album(int(componistid[0]), int(post['albumid']))
+        msg = add_componist_to_album(int(componistid[0]), int(post['albumid']))
+        return {
+            'FullName': post['name'],
+            'ID': componistid[0]
+        }
     if cmd == 'add_new_componist':
         return add_new_componist_to_album(post['name'], int(post['albumid']))
     if cmd == 'abs_new_componist':
@@ -227,7 +231,11 @@ def do_post(post):
 
     if cmd == 'new_performer':
         performerid = new_performer(post['name'])
-        return add_performer_to_album(int(performerid[0]), int(post['albumid']))
+        msg = add_performer_to_album(int(performerid[0]), int(post['albumid']))
+        return {
+            'FullName': post['name'],
+            'ID': performerid[0]
+        }
     if cmd == 'add_new_performer':
         return add_new_performer_to_album(post['name'], int(post['albumid']))
     if cmd == 'remove_performer':
@@ -259,7 +267,11 @@ def do_post(post):
         return add_tag_to_album(int(post['tagid']), int(post['albumid']))
     if cmd == 'new_tag':
         tagid = new_tag(post['name'])
-        return add_tag_to_album(int(tagid[0]), int(post['albumid']))
+        msg = add_tag_to_album(int(tagid[0]), int(post['albumid']))
+        return {
+            'Name': post['name'],
+            'ID': tagid[0]
+        }
     if cmd == 'remove_tag':
         return remove_tag_from_album(post['id'], post['albumid'])
 
