@@ -4,13 +4,13 @@ import json
 #     get_tags,
 #     get_componisten_typeahead, get_performers_typeahead, get_instruments_typeahead,
 #     get_general_search, get_album_by_path, connect, get_element)
-from website.services.album_content import album_context, full_album
+from website.services.album_content import full_album
 from ..db.connect import connect
 from ..db.fetch import get_tags, get_componisten_typeahead, \
     get_performers_typeahead, get_instruments_typeahead, get_general_search, \
     get_album_by_path, get_element, get_componist_albums, get_album_albums, \
-    get_album_by_id, get_collections_typeahead, get_albums_by_cql, \
-    get_componist, get_performer
+    get_collections_typeahead, \
+    get_componist, get_performer, get_flat_albums_by_cql
 
 
 def do_get(get):
@@ -24,9 +24,13 @@ def do_get(get):
     if cmd == 'performer_by_id':
         person = get_performer(get['id'])
         return json.dumps(person)
+    '''
+    ajax call cql_search is for luister-muziek-a
+    which doesn't want albumd divided in mothers/children
+    '''
     if cmd == 'cql_search':
         cql = json.loads(get['cql'])
-        albums = get_albums_by_cql(cql, 'flat')
+        albums = get_flat_albums_by_cql(cql)
         return json.dumps(albums)
     if cmd == 'album_albums':
         albums = get_album_albums(get['albumId'])

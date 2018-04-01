@@ -894,9 +894,9 @@ def add_to_where(where_sql, cql, parameter_list, parameters):
 def process_cql(cql):
     parameters = []
     where_sql = ''
-    sql = ''
+    select_sql = ''
     if cql.get('componist'):
-        sql += '''
+        select_sql += '''
             JOIN Componist_Album ON Componist_Album.AlbumID = A.ID 
         '''
         where_sql = add_to_where(
@@ -906,7 +906,7 @@ def process_cql(cql):
             parameters
         )
     if cql.get('performer'):
-        sql += '''
+        select_sql += '''
             JOIN Performer_Album ON Performer_Album.AlbumID = A.ID
         '''
         where_sql = add_to_where(
@@ -915,7 +915,7 @@ def process_cql(cql):
             cql.get('performer'),
             parameters)
     if cql.get('tag'):
-        sql += '''
+        select_sql += '''
             JOIN Tag_Album ON Tag_Album.AlbumID = A.ID
         '''
         where_sql = add_to_where(
@@ -940,25 +940,62 @@ def process_cql(cql):
             'A.AlbumID IN ({})',
             cql.get('mother'),
             parameters)
-    return parameters, where_sql, sql
+    return parameters, where_sql, select_sql
 
 
-def get_albums_by_cql(cql, mode='deep'):
+def get_flat_albums_by_cql(cql):
+    parameters, where_sql, select_sql = process_cql(cql)
+    if len(where_sql):
+        sql_begin = '''
+          SELECT Title, AlbumID, AID, CP
+          FROM (        
+              SELECT
+                A.Title,
+                A.AlbumID,
+                A.ID AID,
+                COUNT(P.ID) CP
+            FROM Album A
+            JOIN Piece P
+              ON A.ID = P.AlbumID
+        '''
+        after_where = '''
+            GROUP BY A.ID)
+            WHERE CP > 0
+        '''
+        sql_order = '''
+        ORDER BY Title COLLATE NOCASE
+        '''
+        sql = sql_begin + select_sql + where_sql + after_where + sql_order
+        conn, c = connect()
+        items = []
+        try:
+            items = c.execute(sql, parameters).fetchall()
+        except:
+            print_error(sql, 'get_albums_by_cql')
+        conn.close()
+        named_items = named_albums_with_mother(items)
+        return named_items
+    return {}
+
+
+def get_albums_by_cql(cql):
     """
     our semi query language contains id's for several elements
     these id's can be multiple, comma-seperated values
     :param cql: dict
     :param mode: string 'deep' | 'flat'
-    :return: albums in groups (mother- and children albums)
+    :return: when mode is default (deep),
+    albums in groups (mother- and children albums)
     """
     parameters, where_sql, sql = process_cql(cql)
     if len(where_sql):
-        sql = '''
+        sql_begin = '''
             SELECT
                 A.Title,
                 A.AlbumID,
                 A.ID
-            FROM Album A''' + sql + where_sql
+            FROM Album A'''
+        sql = sql_begin + sql + where_sql
         sql += '''
         ORDER BY A.Title COLLATE NOCASE
         '''
@@ -970,11 +1007,8 @@ def get_albums_by_cql(cql, mode='deep'):
             print_error(sql, 'get_albums_by_cql')
         conn.close()
         named_items = named_albums_with_mother(items)
-        if mode == 'deep':
-            grouped_items = filter_contained_children(named_items)
-            return grouped_items
-        else:
-            return named_items
+        grouped_items = filter_contained_children(named_items)
+        return grouped_items
     return {}
 
 
