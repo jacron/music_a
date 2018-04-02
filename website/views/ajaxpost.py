@@ -33,12 +33,8 @@ from ..services.makecuesheet import make_cuesheet, rename_cuesheet, \
     norm_cuesheet, remove_cuesheet, split_one_cue_album, split_cue_album, \
     cuesheet_rename_title, cuesheet_title_from_filename
 from ..services.path import path_from_id_field, get_path
-from ..services.services import openpath, openterminal, pauseplay, opentageditor
-
-
-def controlplayer(mode):
-    if mode == 'pause':
-        pauseplay()
+from ..services.services import openpath, openterminal, \
+    opentageditor, controlplayer
 
 
 def play(args):

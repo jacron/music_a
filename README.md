@@ -18,9 +18,10 @@ _base.html
     <script src="{% static 'bower_components/typeahead.js/dist/bloodhound.min.js' %}"></script>
 
 in terminal
-cd website/static
-nvm use 5 (vermijd het probleem met de tryModuleLoad exceptie)
-bower install jquery 
-bower install typeahead.js
-nvm use 9
+
+    cd website/static
+    nvm use 5 (vermijd het probleem met de tryModuleLoad exceptie)
+    bower install jquery 
+    bower install typeahead.js
+    nvm use 9
 

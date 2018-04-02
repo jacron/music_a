@@ -157,17 +157,44 @@ def subl_path(path):
 
 
 def runosascript(osascript):
-    # args = {"osascript", "-e", osascript};
     args = ["osascript", "-e", osascript]
     subprocess.Popen(args)
 
 
-def pauseplay():
+def controlplayer(cmd):
+    keys = None
+    if cmd == 'pause':
+        keys = '" "'
+    if cmd == 'stop':
+        keys = '"s" using command down'
+    if cmd == 'previous':
+        keys = '"l" using command down'
+    if  cmd == 'next':
+        keys = '"n" using command down'
+    if keys:
+        cmdplay(keys)
+    else:
+        print('unknown cmd: ' + cmd)
+
+# def stopplay():
+#     osascript = '''
+#     tell application \"{}\"\n
+#         activate\n
+#         tell application \"System Events\" to keystroke \"s\" using command down\n
+#     end tell\n
+#     '''.format(MEDIA_PLAYER_APP)
+#     runosascript(osascript)
+
+
+def cmdplay(keys):
     # os.system('open -a "{}" /Pause'.format(settings.MEDIA_PLAYER))
     osascript = '''
     tell application \"{}\"\n
         activate\n
-        tell application \"System Events\" to keystroke \" \"\n
+        tell application \"System Events\" to keystroke {}\n
     end tell\n
-    '''.format(MEDIA_PLAYER_APP)
+    '''.format(MEDIA_PLAYER_APP, keys)
+    # osascript = '''
+    # tell application \"{}\" to pause
+    # '''.format(MEDIA_PLAYER_APP)
     runosascript(osascript)
