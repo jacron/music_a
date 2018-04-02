@@ -132,18 +132,22 @@ def openpath(path):
 
 
 def opentageditor(path):
-    cmd = ['open', '-a', TAG_EDITOR]
-    for f in os.listdir(path):
-        extension = f.split('.')[-1]
-        if extension == 'flac':
-            p = '{}/{}'.format(path, f)
-            cmd.append(p)
+    if os.path.exists(path):
+        cmd = ['open', '-a', TAG_EDITOR]
+        for f in os.listdir(path):
+            extension = f.split('.')[-1]
+            if extension == 'flac':
+                p = '{}/{}'.format(path, f)
+                cmd.append(p)
 
-    process = subprocess.Popen(cmd, stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE)
-    out, err = process.communicate()
-    if len(out) == 0:
-        print(err)
+        process = subprocess.Popen(cmd, stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE)
+        out, err = process.communicate()
+        if len(out) == 0:
+            print(err)
+    else:
+        ColorPrint.print_c('Path does not exist: {}'.format(path),
+                           ColorPrint.RED)
 
 
 def openterminal(path):

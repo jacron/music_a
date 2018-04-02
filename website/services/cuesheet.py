@@ -43,16 +43,9 @@ def replace_haakjes(s):
     return s
 
 
-def parse(data):
-    cue = {
-        'title': None,
-        'performer': None,
-        'files': [],
-        'rem': [],
-    }
-    cuefile = None
-    cuetrack = None
-    lines = data.split('\n')
+def parse_cuesheet(lines):
+    cue = { 'title': None, 'performer': None, 'files': [], 'rem': [], }
+    cuefile, cuetrack = None, None
     for line in lines:
         if len(line) < 1:
             continue
@@ -81,28 +74,18 @@ def parse(data):
             # trim WAVE
             pos = el_file.rfind(' ')
             name = el_file[0:pos]
-            # name = efile  # ' '.join(efile.split()[:-1])
-            cuefile = {
-                'name': dequote(name),
-                'tracks': [],
-            }
+            cuefile = { 'name': dequote(name), 'tracks': [], }
         el_track = get_element(line, 'TRACK ')
         if el_track:
             nr, name = el_track.split()
             if cuetrack:
                 cuefile['tracks'].append(cuetrack)
-            cuetrack = {
-                'nr': nr,
-                'name': name,
-            }
+            cuetrack = { 'nr': nr, 'name': name, }
         el_index = get_element(line, 'INDEX ')
         if el_index:
-            nr, time = el_index.split()
             if cuetrack:
-                cuetrack['index'] = {
-                    'nr': nr,
-                    'time': time,
-                }
+                nr, time = el_index.split()
+                cuetrack['index'] = { 'nr': nr, 'time': time, }
     if cuetrack:
         cuefile['tracks'].append(cuetrack)
     if cuefile:
@@ -110,38 +93,63 @@ def parse(data):
     return cue
 
 
+def data_full_cuesheet(path):
+    data = None
+    with open(path, 'r') as f:
+        try:
+            data = f.read()
+        except UnicodeDecodeError as u:
+            ColorPrint.print_c("can't read unicode here", ColorPrint.RED)
+            ColorPrint.print_c(str(u), ColorPrint.BLUE)
+            ColorPrint.print_c('retrying...', ColorPrint.BLUE)
+            with open(path, 'r', encoding='latin1') as f:
+                try:
+                    data = f.read()
+                except Exception as e:
+                    ColorPrint.print_c(str(e), ColorPrint.BLUE)
+    return data
+
+
+def parse_rem(rem):
+    # e.g. 'DISCID E0116A0E'
+    discid, asin = None, None
+    for r in rem:
+        el_rem = get_element(r, 'DISCID ')
+        print(el_rem)
+        if el_rem:
+            discid = dequote(el_rem)
+        el_rem = get_element(r, 'ASIN')
+        if el_rem:
+            asin = dequote(el_rem)
+    return discid, asin
+
+
+def cue_full_cuesheet(data, cue_id, filename):
+    try:
+        lines = data.split('\n')
+        cue = parse_cuesheet(lines)
+    except:
+        ColorPrint.print_c('*** parse cue failed (utf-8?)', ColorPrint.RED)
+        return None
+    discid, asin = parse_rem(cue['rem'])
+    return {
+        'Filename': filename,
+        'Title': cue.get('title'),
+        'ID': cue_id,
+        'cue': cue,
+        'discid': discid,
+        'asin': asin
+    }
+
+
 def get_full_cuesheet(path, cue_id):
     filename = os.path.split(path)[1]
     filename = ' '.join(filename.split('.')[:-1])
+    cuesheet = None
     if os.path.exists(path):
-        with open(path, 'r') as f:
-            data = None
-            try:
-                data = f.read()
-            except UnicodeDecodeError as u:
-                ColorPrint.print_c("can't read unicode here", ColorPrint.RED)
-                ColorPrint.print_c(str(u), ColorPrint.BLUE)
-                ColorPrint.print_c('retrying...', ColorPrint.BLUE)
-                with open(path, 'r', encoding='latin1') as f:
-                    try:
-                        data = f.read()
-                    except Exception as e:
-                        ColorPrint.print_c(str(e), ColorPrint.BLUE)
-            if not data:
-                return None
-            cue = None
-            try:
-                cue = parse(data)
-            except:
-                ColorPrint.print_c('*** parse cue failed (utf-8?)', ColorPrint.RED)
-                return {}
-            return {
-                'Filename': filename,
-                'Title': cue.get('title'),
-                'ID': cue_id,
-                'cue': cue,
-            }
+        data = data_full_cuesheet(path)
+        if data:
+            cuesheet = cue_full_cuesheet(data, cue_id, filename)
     else:
         raise NotFoundError
-
-
+    return cuesheet
