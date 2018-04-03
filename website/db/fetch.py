@@ -1953,6 +1953,18 @@ def get_element(album_id, name, c):
     return None
 
 
+def get_album_count_for_tag(tag_id):
+    sql = '''
+    SELECT count(*) 
+    FROM main.Album A
+    JOIN main.Tag_Album T
+    ON T.AlbumID=A.ID
+    WHERE T.TagID=?
+    '''
+    field = get_items_with_parameter(sql, tag_id)
+    return field[0]
+
+
 def get_album_by_path(path, c):
     sql = '''
     SELECT Title, Label, Path, AlbumID, ID 

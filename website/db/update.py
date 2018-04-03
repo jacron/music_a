@@ -234,6 +234,18 @@ def remove_tag_from_album(tagid, albumid):
     return 'tag {} removed from album {}'.format(tagid, albumid)
 
 
+def update_tag_name(tag_id, name):
+    sql = """
+    UPDATE Tag
+    SET Name=? 
+     WHERE ID=?
+    """
+    con, c = connect()
+    c.execute(sql, (name, tag_id,)).fetchone()
+    con.commit()
+    return 'Tag {} name changed to {}'.format(tag_id, name)
+
+
 def remove_componist_from_album(componist_id, albumid):
     sql = """
     DELETE FROM Componist_Album
@@ -368,6 +380,7 @@ def update_componistname(name, componist_id):
     con, c = connect()
     c.execute(sql, (first_name, last_name, componist_id,)).fetchone()
     con.commit()
+    return 'name for person {} changed to {}'.format(componist_id, name)
 
 
 def update_componistyears(years, componist_id):
@@ -380,6 +393,7 @@ def update_componistyears(years, componist_id):
     con, c = connect()
     c.execute(sql, (birth, death, componist_id,)).fetchone()
     con.commit()
+    return 'years for person {} changed to {}'.format(componist_id, years)
 
 
 def update_componistbirth(years, componist_id):
@@ -391,6 +405,7 @@ def update_componistbirth(years, componist_id):
     con, c = connect()
     c.execute(sql, (years, componist_id,)).fetchone()
     con.commit()
+    return 'year of birth for person {} changed to {}'.format(componist_id, years)
 
 
 def update_componistdeath(years, componist_id):
@@ -402,6 +417,7 @@ def update_componistdeath(years, componist_id):
     con, c = connect()
     c.execute(sql, (years, componist_id,)).fetchone()
     con.commit()
+    return 'year of death for person {} changed to {}'.format(componist_id, years)
 
 
 def update_performerbirth(years, person_id):
@@ -413,6 +429,7 @@ def update_performerbirth(years, person_id):
     con, c = connect()
     c.execute(sql, (years, person_id,)).fetchone()
     con.commit()
+    return 'yearof birth for person {} changed to {}'.format(person_id, years)
 
 
 def update_performerdeath(years, person_id):
@@ -424,6 +441,7 @@ def update_performerdeath(years, person_id):
     con, c = connect()
     c.execute(sql, (years, person_id,)).fetchone()
     con.commit()
+    return 'year of death for person {} changed to {}'.format(person_id, years)
 
 
 def update_performername(name, performer_id):
@@ -436,6 +454,7 @@ def update_performername(name, performer_id):
     con, c = connect()
     c.execute(sql, (first_name, last_name, performer_id,)).fetchone()
     con.commit()
+    return 'name for person {} changed to {}'.format(performer_id, name)
 
 
 def delete_piece(piece_id):
