@@ -1034,7 +1034,7 @@ def get_codes():
 
 def get_componist(id_componist):
     sql = '''
-    SELECT FirstName, LastName, Birth, Death, Path, ID 
+    SELECT FirstName, LastName, Role, Birth, Death, Path, ID 
     FROM Componist WHERE ID=?
     '''
     fields = get_item_with_id(sql, id_componist)
@@ -1044,10 +1044,11 @@ def get_componist(id_componist):
         "FirstName": fields[0],
         "LastName": fields[1],
         "FullName": make_fullname(fields[0], fields[1]),
-        "Birth": fields[2],
-        "Death": fields[3],
-        "Path": fields[4],
-        "ID": fields[5],
+        "Role": fields[2],
+        "Birth": fields[3],
+        "Death": fields[4],
+        "Path": fields[5],
+        "ID": fields[6],
         "Name": fields[1] + ', ' + fields[0],
     }
 
@@ -1094,6 +1095,7 @@ def get_album_performers(id_album):
         SELECT
             FirstName,
             LastName,
+            Role,
             Birth,
             Death,
             Performer.ID
@@ -1109,9 +1111,10 @@ def get_album_performers(id_album):
             'FirstName': item[0],
             'LastName': item[1],
             'FullName': make_fullname(item[0], item[1]),
-            'Birth': item[2],
-            'Death': item[3],
-            'ID': item[4],
+            'Role': item[2],
+            'Birth': item[3],
+            'Death': item[4],
+            'ID': item[5],
         })
     return out
 
@@ -1121,6 +1124,7 @@ def get_album_componisten(id_album):
         SELECT
             FirstName,
             LastName,
+            Role,
             Birth,
             Death,
             Componist.ID
@@ -1136,9 +1140,10 @@ def get_album_componisten(id_album):
             'FirstName': item[0],
             'LastName': item[1],
             'FullName': make_fullname(item[0], item[1]),
-            'Birth': item[2],
-            'Death': item[3],
-            'ID': item[4],
+            'Role': item[2],
+            'Birth': item[3],
+            'Death': item[4],
+            'ID': item[5],
         })
     return out
 
@@ -1795,7 +1800,7 @@ def get_tag(id_tag):
 
 def get_performer(id_performer):
     sql = '''
-    SELECT FirstName, LastName, Birth, Death, Path, ID 
+    SELECT FirstName, LastName, Role, Birth, Death, Path, ID 
     FROM Performer WHERE ID=?
     '''
     fields = get_item_with_id(sql, id_performer)
@@ -1803,10 +1808,11 @@ def get_performer(id_performer):
         "FirstName": fields[0],
         "LastName": fields[1],
         "FullName": make_fullname(fields[0], fields[1]),
-        "Birth": fields[2],
-        "Death": fields[3],
-        "Path": fields[4],
-        "ID": fields[5],
+        "Role": fields[2],
+        "Birth": fields[3],
+        "Death": fields[4],
+        "Path": fields[5],
+        "ID": fields[6],
         "Name": fields[1] + ', ' + fields[0],
     }
 

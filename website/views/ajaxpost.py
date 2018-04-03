@@ -209,6 +209,7 @@ def update_person(post):
             return update_performerdeath(text, person_id)
         if field == 'Role':
             return update_performerrole(text, person_id)
+    return 'Unknown type "{}", or field "{}"'.format(type, field)
 
 
 def do_post(post):

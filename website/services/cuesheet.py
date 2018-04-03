@@ -115,7 +115,7 @@ def parse_rem(rem):
     discid, asin = None, None
     for r in rem:
         el_rem = get_element(r, 'DISCID ')
-        print(el_rem)
+        # print(el_rem)
         if el_rem:
             discid = dequote(el_rem)
         el_rem = get_element(r, 'ASIN')
