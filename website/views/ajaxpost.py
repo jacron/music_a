@@ -23,7 +23,8 @@ from ..db.update import update_played, update_piece_library_code, \
     add_tag_to_album, \
     new_tag, remove_tag_from_album, delete_album, read_albums, \
     update_album_title, update_album_description, adjust_kk, inherit_elements, \
-    toggle_setting, delete_album_ape, update_db_piece_name, update_tag_name
+    toggle_setting, delete_album_ape, update_db_piece_name, update_tag_name, \
+    update_componistrole, update_performerrole
 from ..services.album_content import get_website
 from ..services.clipboard import delete_score_fragment
 from ..services.clipboard import save_score_fragment, save_person
@@ -197,6 +198,8 @@ def update_person(post):
             return update_componistbirth(text, person_id)
         if field == 'Death':
             return update_componistdeath(text, person_id)
+        if field == 'Role':
+            return update_componistrole(text, person_id)
     if type == 'performer':
         if field == 'Name':
             return update_performername(text, person_id)
@@ -204,6 +207,8 @@ def update_person(post):
             return update_performerbirth(text, person_id)
         if field == 'Death':
             return update_performerdeath(text, person_id)
+        if field == 'Role':
+            return update_performerrole(text, person_id)
 
 
 def do_post(post):

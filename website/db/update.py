@@ -192,13 +192,23 @@ def add_tag_to_album(tagid, albumid):
 
 
 def delete_piece(piece_id):
-    sql = """
+    sql = '''
     DELETE FROM Piece
-     WHERE ID=?
-    """
+    WHERE ID=?
+    '''
     con, c = connect()
-    c.execute(sql, (piece_id,)).fetchone()
+    c.execute(sql, (piece_id,))
     con.commit()
+
+
+# def delete_piece(piece_id):
+#     sql = """
+#     DELETE FROM Piece
+#      WHERE ID=?
+#     """
+#     con, c = connect()
+#     c.execute(sql, (piece_id,)).fetchone()
+#     con.commit()
 
 
 def remove_piece(album_id, piece_name):
@@ -405,7 +415,8 @@ def update_componistbirth(years, componist_id):
     con, c = connect()
     c.execute(sql, (years, componist_id,)).fetchone()
     con.commit()
-    return 'year of birth for person {} changed to {}'.format(componist_id, years)
+    return 'year of birth for person {} changed to {}'.format(componist_id,
+                                                              years)
 
 
 def update_componistdeath(years, componist_id):
@@ -417,7 +428,20 @@ def update_componistdeath(years, componist_id):
     con, c = connect()
     c.execute(sql, (years, componist_id,)).fetchone()
     con.commit()
-    return 'year of death for person {} changed to {}'.format(componist_id, years)
+    return 'year of death for person {} changed to {}'.format(componist_id,
+                                                              years)
+
+
+def update_componistrole(text, componist_id):
+    sql = """
+    UPDATE Componist
+    SET Role=?
+    WHERE ID=?
+    """
+    con, c = connect()
+    c.execute(sql, (text, componist_id,)).fetchone()
+    con.commit()
+    return 'role for person {} changed to {}'.format(componist_id, text)
 
 
 def update_performerbirth(years, person_id):
@@ -457,14 +481,16 @@ def update_performername(name, performer_id):
     return 'name for person {} changed to {}'.format(performer_id, name)
 
 
-def delete_piece(piece_id):
-    sql = '''
-    DELETE FROM Piece
+def update_performerrole(text, performer_id):
+    sql = """
+    UPDATE Performer
+    SET Role=?
     WHERE ID=?
-    '''
+    """
     con, c = connect()
-    c.execute(sql, (piece_id,))
+    c.execute(sql, (text, performer_id,)).fetchone()
     con.commit()
+    return 'role for person {} changed to {}'.format(performer_id, text)
 
 
 def delete_pieces_of_album(album_id):
