@@ -1965,6 +1965,27 @@ def get_album_count_for_tag(tag_id):
     return field[0]
 
 
+def get_album_count_for_person(person_id, type):
+    if type == 'componist':
+        sql = '''
+    SELECT count(*) 
+    FROM main.Album A
+    JOIN main.Componist_Album C
+    ON C.AlbumID=A.ID
+    WHERE C.ComponistID=?
+        '''
+    elif type == 'performer':
+        sql = '''
+    SELECT count(*) 
+    FROM main.Album A
+    JOIN main.Performer_Album P
+    ON P.AlbumID=A.ID
+    WHERE P.PerformerID=?
+    '''
+    field = get_items_with_parameter(sql, person_id)
+    return field[0]
+
+
 def get_album_by_path(path, c):
     sql = '''
     SELECT Title, Label, Path, AlbumID, ID 

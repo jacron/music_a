@@ -11,7 +11,7 @@ from ..db.fetch import get_tags, get_componisten_typeahead, \
     get_album_by_path, get_element, get_componist_albums, get_album_albums, \
     get_collections_typeahead, \
     get_componist, get_performer, get_flat_albums_by_cql, \
-    get_album_count_for_tag
+    get_album_count_for_tag, get_album_count_for_person
 
 
 def do_get(get):
@@ -74,6 +74,9 @@ def do_get(get):
 
     if cmd == 'album_count_for_tag':
         album_count = get_album_count_for_tag(get['id'])
+        return json.dumps(album_count)
+    if cmd == 'album_count_for_person':
+        album_count = get_album_count_for_person(get['id'], get['type'])
         return json.dumps(album_count)
 
     return json.dumps(cmd + ':cmd unknown')
