@@ -21,7 +21,7 @@ from website.views.extra import extra, cmd_view
 from website.views.home import home, ajax
 from website.views.nplayed import nplayed
 from website.views.pianoboek import pianoboek, pianoboeken
-from website.views.image import image, imageback
+from website.views.image import image, imageback, image_w_h
 from website.views.collection import collections, collections_search
 from website.views.gather import gather
 from website.views.upload import uploadalbum
@@ -59,6 +59,9 @@ urlpatterns = [
     path('pianoboek/',
          pianoboeken,
          name='pianoboeken'),
+    path('image/<album_id>/<image_type>/<w>/<h>',
+         image_w_h,
+         name='image_w_h'),
     path('image/<album_id>/<image_type>/',
          image,
          name='image'),
