@@ -88,7 +88,7 @@ def albumimage(album_id, w=None, h=None):
     return get_image(image_path, w, h)
 
 
-def albumimageback(album_id):
+def albumimageback(album_id, w=None, h=None):
     album = get_album(album_id)
     if not album:
         return HttpResponseNotFound(
@@ -96,7 +96,7 @@ def albumimageback(album_id):
     if not album['Path']:
         return empty_response()
     image_path = album['Path'] + settings.BACK_FILE
-    return get_image(image_path)
+    return get_image(image_path, w, h)
 
 
 def performerimage(performer_id, w=None, h=None):
@@ -110,6 +110,11 @@ def performerimage(performer_id, w=None, h=None):
 def librarycodeimage(k_code, w=None, h=None):
     image_path = settings.LIBRARYCODE_PATH + k_code + '.png'
     return get_image(image_path, w, h)
+
+
+def imageback_w_h(request, album_id, image_type, w, h):
+    if image_type == 'album':
+        return albumimageback(album_id, w, h)
 
 
 def imageback(request, album_id, image_type):
