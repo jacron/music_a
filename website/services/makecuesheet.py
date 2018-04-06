@@ -142,12 +142,15 @@ def rename_cuesheet(piece_id, album_id, newname):
     os.rename(src, dst)
 
 
-def make_cuesheet(name, ids, album_id):
+def make_cuesheet(name, ids, album_id,  ids2=None):
     lines = []
     lines.append('TITLE "{}"'.format(filename(name)))
     # titles = []
-    # print(ids)
+    if ids2:
+        ids = ids2.split(',')
+    print(ids)
     if len(ids) < 2:
+        print(ids)
         ColorPrint.print_c(name + ' :less than 2 ids, so quitting',
                            ColorPrint.RED)
         return

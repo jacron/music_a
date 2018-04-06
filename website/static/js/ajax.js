@@ -111,6 +111,13 @@ function postMakeCuesheet(name, ids, cb) {
         console.log('empty name for creating cuesheet');
         return;
     }
+    // console.log(ids);
+    console.log({
+        cmd: 'makecuesheet',
+        ids: ids,
+        name: name,
+        albumid: $('#album_id').val()
+    });
     ajaxPost({
         cmd: 'makecuesheet',
         ids: ids,

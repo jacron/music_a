@@ -358,7 +358,7 @@ def do_post(post):
     # cuesheets
     if cmd == 'makecuesheet':
         return make_cuesheet(post['name'], post.getlist('ids[]'),
-                             post['albumid'])
+                             post['albumid'], post.get('ids2'))
     if cmd == 'renamecue':
         return rename_cuesheet(post['id'], post['albumid'], post['newname'])
     if cmd == 'makesubs':

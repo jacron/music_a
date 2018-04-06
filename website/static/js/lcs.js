@@ -11,7 +11,7 @@
 'use strict';
 
 function getSmallest(lines) {
-    var small = '';
+    let small = '';
     lines.forEach(function(line){
         if (small.length < line.length) {
             small = line;
@@ -21,11 +21,11 @@ function getSmallest(lines) {
 }
 
 function lcs(lines) {
-    var common = '';
-    var small = getSmallest(lines);
-    var temp_common = '';
-    for (var i=0; i< small.length; i++) {
-        var c = small[i];
+    const small = getSmallest(lines);
+    let common = '';
+    let temp_common = '';
+    for (let i=0; i< small.length; i++) {
+        const c = small[i];
         temp_common += c;
         $.each(lines, function(key, line) {
             if (line.indexOf(temp_common) === -1) {
