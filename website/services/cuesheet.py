@@ -132,6 +132,8 @@ def cue_full_cuesheet(data, cue_id, filename):
         ColorPrint.print_c('*** parse cue failed (utf-8?)', ColorPrint.RED)
         return None
     discid, asin = parse_rem(cue['rem'])
+    if cue['performer']:
+        cue['performers'] = cue['performer'].split(',')
     return {
         'Filename': filename,
         'Title': cue.get('title'),

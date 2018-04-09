@@ -1,15 +1,11 @@
-# from tkinter import Image
-import subprocess
-
 from PIL import ImageGrab
 
+from website.db.fetch import get_album
 from website.lib.color import ColorPrint
 
-# from website.services.services import openpath
 from website.services.path import create_componist_path, create_performer_path
 from music.settings import COVER_PATH, TMP_PATH, SCORE_FRAGMENT_PATH, \
-    PERSON_FILE, SAVECLIP_PATH, PYTHON_3_PATH
-# from db import get_componist_path, get_performer_path
+    PERSON_FILE, COVER_FILE
 import os
 
 from website.services.services import openpath
@@ -17,7 +13,7 @@ from website.services.services import openpath
 rug = 0
 
 
-def save_score_fragment(code):
+def save_score_fragment():
     # img = ImageGrab.grabclipboard()
     # if img:
     #     img.save(SCORE_FRAGMENT_PATH.format(code))
@@ -29,12 +25,12 @@ def delete_score_fragment(code):
     os.remove(img_path)
 
 
-def get_person_image_path(id, type):
+def get_person_image_path(person_id, ptype):
     image_path = None
-    if type == 'componist':
-        image_path = create_componist_path(id)
-    if type == 'performer':
-        image_path = create_performer_path(id)
+    if ptype == 'componist':
+        image_path = create_componist_path(person_id)
+    if ptype == 'performer':
+        image_path = create_performer_path(person_id)
     return image_path
 
 
@@ -47,32 +43,43 @@ def clipboard_save(path, file):
         ColorPrint.print_c('No image on clipboard!', ColorPrint.RED)
 
 
-# def save_person_grab(id, type):
-#     img = ImageGrab.grabclipboard()
-#     if img:
-#         image_path = get_person_image_path(id, type)
-#         if image_path:
-#             img.save(image_path + PERSON_FILE)
-#             return True
-#         else:
-#             ColorPrint.print_c('no valid path for this person', ColorPrint.RED)
-#     else:
-#         ColorPrint.print_c('no valid image on clipboard', ColorPrint.RED)
-#     return False
+def clipboard_save_path(path):
+    img = ImageGrab.grabclipboard()
+    if img:
+        img.save(path)
+        ColorPrint.print_c(path + ' saved!', ColorPrint.LIGHTCYAN)
+    else:
+        ColorPrint.print_c('No image on clipboard!', ColorPrint.RED)
 
 
-def save_person_remote(id, type):
-    image_path = get_person_image_path(id, type)
+def save_person_remote(person_id, ptype):
+    image_path = get_person_image_path(person_id, ptype)
     if image_path:
         clipboard_save(image_path, PERSON_FILE)
         return True
     return False
 
 
-def save_person(id, type):
+def save_album(album_id):
+    album = get_album(album_id)
+    image_path = album['Path'] + COVER_FILE
+    if os.path.exists(image_path):
+        os.remove(image_path)
+    #     todo: remove all cached folder files
+    try:
+        clipboard_save_path(album['Path'] + COVER_FILE)
+    except PermissionError as pe:
+        print(str(pe))
+        print(image_path)
+        return 'not saved'
+    return 'saved from clipboard:' + image_path
+
+
+def save_person(person_id, ptype):
     # save_person_grab(id, type)
-    save_person_remote(id, type)
-    return 'image saved from clipboard for person {}, type {}'.format(id, type)
+    save_person_remote(person_id, ptype)
+    return 'image saved from clipboard for person {}, type {}'\
+        .format(person_id, ptype)
 
 
 def crop_front(img):
@@ -108,5 +115,3 @@ def save_cb_image(cover):
         openpath(TMP_PATH)
     else:
         ColorPrint.print_c('no valid image on clipboard', ColorPrint.RED)
-
-

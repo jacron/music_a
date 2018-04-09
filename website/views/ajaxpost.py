@@ -26,7 +26,7 @@ from ..db.update import update_played, update_piece_library_code, \
     toggle_setting, delete_album_ape, update_db_piece_name, update_tag_name, \
     update_componistrole, update_performerrole
 from ..services.album_content import get_website
-from ..services.clipboard import delete_score_fragment
+from ..services.clipboard import delete_score_fragment, save_album
 from ..services.clipboard import save_score_fragment, save_person
 from ..services.export import export_albums
 from ..services.makecuesheet import make_cuesheet, rename_cuesheet, \
@@ -97,6 +97,10 @@ def remove_score_fragment(code):
 
 def paste_person(person_id, person_type):
     return save_person(person_id, person_type)
+
+
+def paste_folder(album_id):
+    return save_album(album_id)
 
 
 def add_code(piece_id, librarycode):
@@ -395,6 +399,8 @@ def do_post(post):
         return remove_score_fragment(post['code'])
     if cmd == 'paste_person':
         return paste_person(post['id'],  post['type'])
+    if cmd == 'paste_folder':
+        return paste_folder(post['albumid'])
 
     if cmd == 'proposals':
         return toggle_setting('show_proposals')

@@ -149,9 +149,9 @@ def make_cuesheet(name, ids, album_id,  ids2=None):
     if ids2:
         ids = ids2.split(',')
     print(ids)
-    if len(ids) < 2:
+    if len(ids) < 1:
         print(ids)
-        ColorPrint.print_c(name + ' :less than 2 ids, so quitting',
+        ColorPrint.print_c(name + ' :less than 1 ids, so quitting',
                            ColorPrint.RED)
         return
     for piece_id in ids:
