@@ -182,11 +182,16 @@ $(function () {
             $title = hyperlink.find('.title'),
             text = $title.text(),
             keywords = KEYWORDS.gold; // choose your keywords here
-        var proposal;
+        let proposal;
 
         proposal = parseKCode(text, keywords.codes, true);
         // proposal = parseCode(text, 'gold ');
-        var code = keywords.prefix + proposal;
+        let code = keywords.prefix + proposal;
+        // alternative: if there already is a code, use that
+        if ($code.text().length) {
+            // console.log($code.text().trim());
+            code = $code.text().trim().replace('<', '').replace('>', '');
+        }
         if (doPrompt && doPrompt === 'true') {
             code = prompt('Code', code);
             if (code === null) {  // escape
