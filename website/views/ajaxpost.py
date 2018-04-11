@@ -33,7 +33,7 @@ from ..services.makecuesheet import make_cuesheet, rename_cuesheet, \
     make_subs_cuesheet, split_cued_file, edit_cuesheet, combine_sub_cuesheets, \
     norm_cuesheet, remove_cuesheet, split_one_cue_album, split_cue_album, \
     cuesheet_rename_title, cuesheet_title_from_filename
-from ..services.path import path_from_id_field, get_path
+from ..services.path import path_from_id_field, get_path, decode_semi_colon
 from ..services.services import openpath, openterminal, \
     opentageditor, controlplayer
 
@@ -88,7 +88,7 @@ def openwebsite(album_id):
 
 
 def paste_score_fragment(code):
-    return save_score_fragment(code)
+    return save_score_fragment()
 
 
 def remove_score_fragment(code):
@@ -143,7 +143,7 @@ def tageditoralbum(album_id):
 
 
 def tageditor(path):
-    opentageditor(path)
+    opentageditor(decode_semi_colon(path))
     return 'editor'
 
 
@@ -407,10 +407,10 @@ def do_post(post):
 
     if cmd == 'upload':
         return upload(post['path'],
-                      post['componistId'],
-                      post['performerId'],
-                      post['motherId'],
-                      post['collection'])
+                      post.get('componistId'),
+                      post.get('performerId'),
+                      post.get('motherId'),
+                      post.get('collection'))
     if cmd == 'tageditor':
         return tageditor(post['path'])
     if cmd == 'tageditoralbum':

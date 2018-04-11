@@ -2041,11 +2041,15 @@ def get_piece(id_piece):
     SELECT Name, AlbumID, ID, NPlayed FROM Piece WHERE ID=?
     '''
     fields = get_item_with_id(sql, id_piece)
+    if fields:
+        return {
+            "Name": fields[0],
+            "AlbumID": fields[1],
+            "ID": fields[2],
+            "NPlayed": fields[3],
+        }
     return {
-        "Name": fields[0],
-        "AlbumID": fields[1],
-        "ID": fields[2],
-        "NPlayed": fields[3],
+        "error": "piece {} not found".format(id_piece)
     }
 
 

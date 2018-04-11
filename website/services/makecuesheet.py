@@ -300,7 +300,8 @@ def write_full_cuesheet(wpath, cuesheet):
     with codecs.open(wpath, 'w', 'utf-8') as f:
         f.write('\ufeff')
         f.write('TITLE "{}"\n'.format(cue['title']))
-        f.write('PERFORMER "{}"\n'.format(cue['performer']))
+        if cue['performer']:
+            f.write('PERFORMER "{}"\n'.format(cue['performer']))
         for rem in cue['rem']:
             f.write('REM {}\n'.format(rem))
         for ff in cue['files']:
