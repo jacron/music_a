@@ -384,6 +384,10 @@ $(function () {
                 albumid: albumId
             })
         });
+        $('.luister').click(function() {
+            window.open('http://localhost:4100/album/' + albumId, 'luister');
+            // location.href = 'http://localhost:4100/album/' + albumId;
+        });
     }
     $('.cue-split-id').click(function() {
         const albumId = $(this).attr('id');

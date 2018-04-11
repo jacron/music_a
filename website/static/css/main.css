@@ -453,6 +453,10 @@ ul.componist {
     color: #993;
     cursor: pointer;
 }
+.luister {
+    color: brown;
+    cursor: pointer;
+}
 .refetch:hover {
     background: #87CEEB;
     color: #fff;

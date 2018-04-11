@@ -28,9 +28,11 @@
         {% endif %}
             <span class="cue-plus-container">
                 <i class="toggle-cue-content fa fa-caret-right"></i>
+                <span class="code">
                 {% if cuesheet.Code %}
-                <span class="code">&lt;{{ cuesheet.Code }}&gt;</span>
+                    &lt;{{ cuesheet.Code }}&gt;
                 {% endif %}
+                </span>
                 <span class="code-edit">
                     <span class="add-code first" id="{{ cuesheet.ID }}" title="Voeg librarycode toe">
                         code</span> |

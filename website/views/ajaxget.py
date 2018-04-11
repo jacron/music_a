@@ -11,7 +11,7 @@ from ..db.fetch import get_tags, get_componisten_typeahead, \
     get_album_by_path, get_element, get_componist_albums, get_album_albums, \
     get_collections_typeahead, \
     get_componist, get_performer, get_flat_albums_by_cql, \
-    get_album_count_for_tag, get_album_count_for_person
+    get_album_count_for_tag, get_album_count_for_person, get_codes
 
 
 def do_get(get):
@@ -27,10 +27,10 @@ def do_get(get):
         return json.dumps(person)
     '''
     ajax call cql_search is for luister-muziek-a
-    which doesn't want albumd divided in mothers/children
     '''
     if cmd == 'cql_search':
         cql = json.loads(get['cql'])
+        # this ajax call doesn't want albums divided in mothers/children
         albums = get_flat_albums_by_cql(cql)
         return json.dumps(albums)
     if cmd == 'album_albums':
@@ -72,6 +72,8 @@ def do_get(get):
         conn, c = connect()
         return json.dumps(get_element(get['albumid'], get['name'], c))
 
+    if cmd == 'codes':
+        return json.dumps((get_codes()))
     if cmd == 'album_count_for_tag':
         album_count = get_album_count_for_tag(get['id'])
         return json.dumps(album_count)
