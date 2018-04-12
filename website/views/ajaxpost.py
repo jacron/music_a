@@ -24,7 +24,8 @@ from ..db.update import update_played, update_piece_library_code, \
     new_tag, remove_tag_from_album, delete_album, read_albums, \
     update_album_title, update_album_description, adjust_kk, inherit_elements, \
     toggle_setting, delete_album_ape, update_db_piece_name, update_tag_name, \
-    update_componistrole, update_performerrole
+    update_componistrole, update_performerrole, update_librarycode_alias, \
+    update_librarycode_title
 from ..services.album_content import get_website
 from ..services.clipboard import delete_score_fragment, save_album
 from ..services.clipboard import save_score_fragment, save_person
@@ -32,7 +33,8 @@ from ..services.export import export_albums
 from ..services.makecuesheet import make_cuesheet, rename_cuesheet, \
     make_subs_cuesheet, split_cued_file, edit_cuesheet, combine_sub_cuesheets, \
     norm_cuesheet, remove_cuesheet, split_one_cue_album, split_cue_album, \
-    cuesheet_rename_title, cuesheet_title_from_filename
+    cuesheet_rename_title, cuesheet_title_from_filename, \
+    cuesheet_title_to_filename
 from ..services.path import path_from_id_field, get_path, decode_semi_colon
 from ..services.services import openpath, openterminal, \
     opentageditor, controlplayer
@@ -377,6 +379,9 @@ def do_post(post):
         return edit_cuesheet(post['id'], post['albumid'])
     if cmd == 'cuesheet_title_from_filename':
         return cuesheet_title_from_filename(post['id'], post['albumid'])
+    if cmd == 'cuesheet_title_to_filename':
+        return cuesheet_title_to_filename(post['id'], post['albumid'],
+                                          post['title'])
     if cmd == 'combinesubs':
         return combine_sub_cuesheets(post['albumid'])
     if cmd == 'normcuesheet':
@@ -391,7 +396,11 @@ def do_post(post):
     if cmd == 'remove_code':
         return remove_code(post['id'])
     if cmd == 'toggle_code_favorite':
-        return toggle_code_favorite(post['code'], post['favorite'])
+        return toggle_code_favorite(post['code'], post.get('favorite'))
+    if cmd == 'update_librarycode_title':
+        return update_librarycode_title(post['code'], post['text'])
+    if cmd == 'update_librarycode_alias':
+        return update_librarycode_alias(post['code'], post['text'])
 
     if cmd == 'paste_score_fragment':
         return paste_score_fragment(post['code'])

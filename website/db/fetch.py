@@ -2052,9 +2052,7 @@ def get_piece(id_piece):
             "ID": fields[2],
             "NPlayed": fields[3],
         }
-    return {
-        "error": "piece {} not found".format(id_piece)
-    }
+    return None
 
 
 def get_album_by_title(title, c, conn):

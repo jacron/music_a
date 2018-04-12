@@ -1,15 +1,22 @@
 {% load page_tags %}
 {% if cuesheets|length %}
+
+
+        <div class="cuesheets">
+
     {% if cuesheets|length > 1 %}
-<div class="cuesheets">
-    <span class="header">Cuesheets</span> ({{ cuesheets | length }})
-    <i class="toggle-cuesheets-content fa fa-caret-right"></i>
-</div>
-<div class="cuesheets-content">
-    <input type="checkbox" class="edit-cuesheet-codes"> <i>bewerk codes</i>
-        {% else %}
-    <div class="cuesheets">
-        {% endif %}
+        <span class="header">Cuesheets</span> ({{ cuesheets | length }})
+        <i class="toggle-cuesheets-content fa fa-caret-right"></i>
+        </div>
+        <div class="cuesheets-content">
+        <input type="checkbox" class="edit-cuesheet-codes"> <i>bewerk codes</i>
+    {% else %}
+        <div class="cuesheets-content" style="display: inline-block">
+        <input type="checkbox" class="edit-cuesheet-codes"> <i>bewerk codes</i>
+    {% endif %}
+
+
+
     <textarea id="logger" class="cuesheetslist-logger"></textarea>
 {% for cuesheet in cuesheets %}
     <div {% if cuesheet.Invalid %}

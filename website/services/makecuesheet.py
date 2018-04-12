@@ -3,6 +3,7 @@ import glob
 import os
 
 from music.settings import MUSIC_FILES
+from website.db.update import update_db_piece_name
 from ..db.connect import connect
 from ..db.fetch import get_album_path_by_id, get_piece, \
     get_pieces, get_album
@@ -104,6 +105,21 @@ def cuesheet_title_from_filename(piece_id, album_id):
     piece = get_piece(piece_id)
     # cuesheet = get_full_cuesheet(path, piece_id)
     return trimextension(piece['Name'])
+
+
+def cuesheet_title_to_filename(piece_id, album_id, title):
+    conn, cursor = connect()
+    path = get_album_path_by_id(album_id, cursor)
+    piece = get_piece(piece_id)
+    if not piece:
+        return 'piece {} not found'.format(piece_id)
+    src = os.path.join(path, piece['Name'])
+    dst = os.path.join(path, title + '.cue')
+    # print(src)
+    # print(dst)
+    os.rename(src, dst)
+    update_db_piece_name(piece_id, title + '.cue')
+    return title + '.cue'
 
 
 def edit_cuesheet(piece_id, album_id):
