@@ -58,6 +58,11 @@
                         &lt;{{ item.LibraryCode }}&gt;
                     </span>
                 </a>
+                {% else %}
+                <a href="">
+                    <span class="code">
+                    </span>
+                </a>
                 {% endif %}
                 <span class="code-edit edit-code">
                     <span class="add-code first" id="{{ item.ID }}" prompt="false" title="Voeg librarycode toe">

@@ -1,15 +1,22 @@
 {% load page_tags %}
 {% if cuesheets|length %}
+
+
+        <div class="cuesheets">
+
     {% if cuesheets|length > 1 %}
-<div class="cuesheets">
-    <span class="header">Cuesheets</span> ({{ cuesheets | length }})
-    <i class="toggle-cuesheets-content fa fa-caret-right"></i>
-</div>
-<div class="cuesheets-content">
-    <input type="checkbox" class="edit-cuesheet-codes"> <i>bewerk codes</i>
-        {% else %}
-    <div class="cuesheets">
-        {% endif %}
+        <span class="header">Cuesheets</span> ({{ cuesheets | length }})
+        <i class="toggle-cuesheets-content fa fa-caret-right"></i>
+        </div>
+        <div class="cuesheets-content">
+        <input type="checkbox" class="edit-cuesheet-codes"> <i>bewerk codes</i>
+    {% else %}
+        <div class="cuesheets-content" style="display: inline-block">
+        <input type="checkbox" class="edit-cuesheet-codes"> <i>bewerk codes</i>
+    {% endif %}
+
+
+
     <textarea id="logger" class="cuesheetslist-logger"></textarea>
 {% for cuesheet in cuesheets %}
     <div {% if cuesheet.Invalid %}
@@ -28,9 +35,11 @@
         {% endif %}
             <span class="cue-plus-container">
                 <i class="toggle-cue-content fa fa-caret-right"></i>
+                <span class="code">
                 {% if cuesheet.Code %}
-                <span class="code">&lt;{{ cuesheet.Code }}&gt;</span>
+                    &lt;{{ cuesheet.Code }}&gt;
                 {% endif %}
+                </span>
                 <span class="code-edit">
                     <span class="add-code first" id="{{ cuesheet.ID }}" title="Voeg librarycode toe">
                         code</span> |

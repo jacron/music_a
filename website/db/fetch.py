@@ -3,6 +3,7 @@ from datetime import datetime
 import os
 
 # from website.db.update import delete_album_ape
+from website.lib.color import ColorPrint
 from website.services.services import get_extension
 from .connect import connect
 
@@ -1988,6 +1989,9 @@ def get_album_count_for_person(person_id, type):
     ON P.AlbumID=A.ID
     WHERE P.PerformerID=?
     '''
+    else:
+        ColorPrint.print_c('Unknown type: {}'.format(type), ColorPrint.RED)
+        return None
     field = get_items_with_parameter(sql, person_id)
     return field[0]
 
@@ -2041,12 +2045,14 @@ def get_piece(id_piece):
     SELECT Name, AlbumID, ID, NPlayed FROM Piece WHERE ID=?
     '''
     fields = get_item_with_id(sql, id_piece)
-    return {
-        "Name": fields[0],
-        "AlbumID": fields[1],
-        "ID": fields[2],
-        "NPlayed": fields[3],
-    }
+    if fields:
+        return {
+            "Name": fields[0],
+            "AlbumID": fields[1],
+            "ID": fields[2],
+            "NPlayed": fields[3],
+        }
+    return None
 
 
 def get_album_by_title(title, c, conn):

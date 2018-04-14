@@ -69,6 +69,28 @@ def update_librarycode(code, favorite):
     con.commit()
 
 
+def update_librarycode_title(code, text):
+    sql = '''
+    UPDATE LibraryCode
+    SET Title=?
+    WHERE Code=?'''
+    con, c = connect()
+    c.execute(sql, (text, code,)).fetchone()
+    con.commit()
+    return text
+
+
+def update_librarycode_alias(code, text):
+    sql = '''
+    UPDATE LibraryCode
+    SET Alias=?
+    WHERE Code=?'''
+    con, c = connect()
+    c.execute(sql, (text, code,)).fetchone()
+    con.commit()
+    return text
+
+
 def update_piece_library_code(piece_id, code):
     sql = '''
     UPDATE Piece

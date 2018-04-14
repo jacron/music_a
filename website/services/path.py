@@ -59,3 +59,7 @@ def get_path(objectid, kind):
     elif kind == 'componisten':
         return COMPONIST_PATH
     return None
+
+
+def decode_semi_colon(s):
+    return s.replace('&semi-colon', ';')

@@ -2,6 +2,7 @@ from inspect import currentframe
 
 from website.lib.color import ColorPrint
 from music.settings import SKIP_DIRS, MUSIC_FILES
+from website.services.path import decode_semi_colon
 from website.services.services import get_extension
 
 """flac
@@ -60,6 +61,7 @@ def process_album(path, componist_id=None, performer_id=None, mother_id=None,
     #     print('from: ' + __file__, currentframe().f_lineno)
     #     ColorPrint.print_c('cue_path mag geen accolades of vierkante haken bevatten - quitting', ColorPrint.RED)
     #     return -1
+    path = decode_semi_colon(path)
     if not os.path.exists(path):
         print('from: ' + __file__, currentframe().f_lineno)
         ColorPrint.print_c('This directory does not exist - quitting',

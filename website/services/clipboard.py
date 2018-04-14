@@ -1,3 +1,5 @@
+import glob
+
 from PIL import ImageGrab
 
 from website.db.fetch import get_album
@@ -60,12 +62,20 @@ def save_person_remote(person_id, ptype):
     return False
 
 
+def remove_cached_cover(album_path):
+    p = os.path.join(album_path, 'folder*.png')
+    for f in glob.iglob(p):
+        # print(f)
+        os.remove(f)
+
+
 def save_album(album_id):
     album = get_album(album_id)
     image_path = album['Path'] + COVER_FILE
     if os.path.exists(image_path):
         os.remove(image_path)
     #     todo: remove all cached folder files
+        remove_cached_cover(album['Path'])
     try:
         clipboard_save_path(album['Path'] + COVER_FILE)
     except PermissionError as pe:
