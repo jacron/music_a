@@ -25,3 +25,24 @@ in terminal
     bower install typeahead.js
     nvm use 9
 
+#redis
+channels heeft redis nodig
+
+#windows
+pip install pypiwin32
+
+#bower
+nvm use 5.11
+
+npm i bower
+
+bower install
+
+jquery, typeahead, bloodhound
+
+git config --global url."git://".insteadOf https://
+git config --global --unset url.git://.insteadof
+
+
+#run
+python ./manage.py runserver 8010

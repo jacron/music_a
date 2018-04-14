@@ -152,7 +152,8 @@ PYTHON_3_PATH = '/Users/orion/anaconda/bin/python'
 SAVECLIP_PATH = '/Users/orion/scripts/saveclip.py'
 
 # SOURCE = 'abeel'
-SOURCE = 'saturnus'
+# SOURCE = 'saturnus'
+SOURCE = 'windows'
 
 if SOURCE == 'abeel':
     INSTRUMENTS_PATH = '/Volumes/Abeel/Instrumenten/'
@@ -175,6 +176,17 @@ elif SOURCE == 'saturnus':
     COVER_PATH = '/Volumes/Media/tmpscan/{}.jpg'
     NOT_FOUND_IMAGE_PATH = '/Volumes/Media/Audio/Klassiek/empty/notfound.jpg'
     SQLITE3_FILE = '/Users/orion/db/db.music.sqlite3'
+
+elif SOURCE == 'windows':
+    INSTRUMENTS_PATH = 'E:\Instrumenten'
+    COMPONIST_PATH = 'E:/Componisten/'
+    PERFORMER_PATH = 'E:/Performers/'
+    LIBRARYCODE_PATH = 'E:/LibraryCode/'
+    SCORE_FRAGMENT_PATH = 'E:/LibraryCode/{}.png'
+    TMP_PATH = 'E:/tmpscan'
+    COVER_PATH = 'E:/tmpscan/{}.jpg'
+    NOT_FOUND_IMAGE_PATH = 'E:/empty/notfound.jpg'
+    SQLITE3_FILE = 'E:/db/db.abeel.sqlite'
 
 SKIP_DIRS = ['website', 'websites', 'artwork', 'Artwork', 'etc', 'scans',
              'Scans', 'scan', 'covers',

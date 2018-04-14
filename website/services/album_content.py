@@ -3,7 +3,7 @@ import glob
 import os
 
 # from website.services.tag import get_metatags
-from mutagen.id3 import APIC
+# from mutagen.id3 import APIC
 
 from website.services.services import get_extension
 from website.services.tag import get_metatags, get_album_metatags

@@ -1,5 +1,5 @@
 import os
-import mutagen
+# import mutagen
 from mutagen import MutagenError, id3
 from mutagen.apev2 import APEBadItemError
 from mutagen.flac import Picture
@@ -22,6 +22,7 @@ def composers(album_id):
 
 
 def title2tag(p, title):
+    import mutagen
     song = mutagen.File(p)
     try:
         song.tags['ALBUM'] = [title]
@@ -43,6 +44,7 @@ def get_album_metatags(album_path, pieces):
 
 
 def all2tag(p, title, album_id):
+    import mutagen
     song = mutagen.File(p)
     try:
         song.tags['ALBUM'] = [title]
@@ -54,6 +56,7 @@ def all2tag(p, title, album_id):
 
 
 def set_pic(p, pic):
+    import mutagen
     song = mutagen.File(p)
     # try:
     song.add_picture(pic)
@@ -62,6 +65,7 @@ def set_pic(p, pic):
 
 
 def set_tag(p, tag, value):
+    import mutagen
     song = mutagen.File(p)
     try:
         song[tag] = value
@@ -81,6 +85,7 @@ def set_tag(p, tag, value):
 
 
 def delete_tag(p, tag):
+    import mutagen
     song = mutagen.File(p)
     try:
         del song[tag]
@@ -133,6 +138,7 @@ def set_metatags(album_id, mode):
 
 def get_metatags(p):
     try:
+        import mutagen
         return mutagen.File(p)
         # ntags = {}
         # for tag, value in tags.tags:
