@@ -151,42 +151,32 @@ PERSON_FILE = 'person.jpg'
 PYTHON_3_PATH = '/Users/orion/anaconda/bin/python'
 SAVECLIP_PATH = '/Users/orion/scripts/saveclip.py'
 
-# SOURCE = 'abeel'
-# SOURCE = 'saturnus'
-SOURCE = 'windows'
+# config paths here, choosing 'abeel', 'saturnus' or 'windows'
+# SOURCE = 'abeel'  # sdd disk in iMac or macBook
+SOURCE = 'saturnus'  # iMac or macBook
+# SOURCE = 'windows'  # sdd disk in Dell
+AUDIO_ROOT = ''  # prevent not defined error
 
 if SOURCE == 'abeel':
-    INSTRUMENTS_PATH = '/Volumes/Abeel/Instrumenten/'
-    COMPONIST_PATH = '/Volumes/Abeel//Componisten/'
-    PERFORMER_PATH = '/Volumes/Abeel/Performers/'
-    LIBRARYCODE_PATH = '/Volumes/Abeel/LibraryCode/'
-    SCORE_FRAGMENT_PATH = '/Volumes/Abeel/LibraryCode/{}.png'
-    TMP_PATH = '/Volumes/Abeel/tmpscan'
-    COVER_PATH = '/Abeel/tmpscan/{}.jpg'
-    NOT_FOUND_IMAGE_PATH = '/Volumes/Abeel/empty/notfound.jpg'
+    AUDIO_ROOT = '/Volumes/Abeel/'
     SQLITE3_FILE = '/Users/orion/db/db.abeel.sqlite'
 
 elif SOURCE == 'saturnus':
-    INSTRUMENTS_PATH = '/Volumes/Media/Audio/Klassiek/Instrumenten/'
-    COMPONIST_PATH = '/Volumes/Media/Audio/Klassiek/Componisten/'
-    PERFORMER_PATH = '/Volumes/Media/Audio/Klassiek/Performers/'
-    LIBRARYCODE_PATH = '/Volumes/Media/Audio/Klassiek/LibraryCode/'
-    SCORE_FRAGMENT_PATH = '/Volumes/Media/Audio/Klassiek/LibraryCode/{}.png'
-    TMP_PATH = '/Volumes/Media/tmpscan'
-    COVER_PATH = '/Volumes/Media/tmpscan/{}.jpg'
-    NOT_FOUND_IMAGE_PATH = '/Volumes/Media/Audio/Klassiek/empty/notfound.jpg'
+    AUDIO_ROOT = '/Volumes/Media/Audio/Klassiek/'
     SQLITE3_FILE = '/Users/orion/db/db.music.sqlite3'
 
 elif SOURCE == 'windows':
-    INSTRUMENTS_PATH = 'E:\Instrumenten'
-    COMPONIST_PATH = 'E:/Componisten/'
-    PERFORMER_PATH = 'E:/Performers/'
-    LIBRARYCODE_PATH = 'E:/LibraryCode/'
-    SCORE_FRAGMENT_PATH = 'E:/LibraryCode/{}.png'
-    TMP_PATH = 'E:/tmpscan'
-    COVER_PATH = 'E:/tmpscan/{}.jpg'
-    NOT_FOUND_IMAGE_PATH = 'E:/empty/notfound.jpg'
+    AUDIO_ROOT = 'E:/'
     SQLITE3_FILE = 'E:/db/db.abeel.sqlite'
+
+INSTRUMENTS_PATH = AUDIO_ROOT + 'Instrumenten'
+COMPONIST_PATH = AUDIO_ROOT + 'Componisten/'
+PERFORMER_PATH = AUDIO_ROOT + 'Performers/'
+LIBRARYCODE_PATH = AUDIO_ROOT + 'LibraryCode/'
+SCORE_FRAGMENT_PATH = AUDIO_ROOT + 'LibraryCode/{}.png'
+TMP_PATH = AUDIO_ROOT + 'tmpscan'
+COVER_PATH = AUDIO_ROOT + 'tmpscan/{}.jpg'
+NOT_FOUND_IMAGE_PATH = AUDIO_ROOT + 'empty/notfound.jpg'
 
 SKIP_DIRS = ['website', 'websites', 'artwork', 'Artwork', 'etc', 'scans',
              'Scans', 'scan', 'covers',

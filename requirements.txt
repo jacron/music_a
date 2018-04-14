@@ -1,6 +1,6 @@
 channels==1.1.8
 django-cors-headers==2.2.0
 mutagen==1.40.0
-django==2.0.1
+django==2.0.4
 Pillow==5.1.0
 asgi-redis==1.4.3
