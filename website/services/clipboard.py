@@ -82,14 +82,19 @@ def save_album(album_id):
         print(str(pe))
         print(image_path)
         return 'not saved'
+    except FileNotFoundError as fe:
+        print(str(fe))
+        print(image_path)
+        return 'not saved'
     return 'saved from clipboard:' + image_path
 
 
 def save_person(person_id, ptype):
     # save_person_grab(id, type)
-    save_person_remote(person_id, ptype)
-    return 'image saved from clipboard for person {}, type {}'\
-        .format(person_id, ptype)
+    if save_person_remote(person_id, ptype):
+        return 'image saved from clipboard for person {}, type {}'\
+            .format(person_id, ptype)
+    return 'image not saved'
 
 
 def crop_front(img):

@@ -1,14 +1,19 @@
 import os
-# from db import (get_album,
-#                   add_path_to_componist, add_path_to_performer,
-#                   get_performer, get_componist,
-#                   ColorPrint)
-# from . import (syspath_performer, syspath_componist, COMPONIST_PATH, )
 from ..db.fetch import get_componist, get_performer, get_album
 from ..db.update import add_path_to_componist, add_path_to_performer
 from ..lib.color import ColorPrint
-from music.settings import COMPONIST_PATH
-from website.services.services import syspath_componist, syspath_performer
+from music.settings import COMPONIST_PATH, PERFORMER_PATH
+
+
+def syspath_componist(componist):
+    name = componist.get('LastName')
+    path = None
+    if name:
+        path = u'{}{}'.format(COMPONIST_PATH, componist['LastName'])
+    else:
+        ColorPrint.print_c('{} has no last name'.format(componist),
+                           ColorPrint.RED)
+    return path
 
 
 def create_componist_path(componist_id):
@@ -22,7 +27,14 @@ def create_componist_path(componist_id):
         path = syspath_componist(componist)
         if not os.path.exists(path):
             os.mkdir(path)
-        add_path_to_componist(componist_id, path)
+        add_path_to_componist(componist_id, componist['LastName'])
+        return path
+    return os.path.join(COMPONIST_PATH, path)
+
+
+def syspath_performer(performer):
+    name = performer['FullName']
+    path = os.path.join(str(PERFORMER_PATH), name)
     return path
 
 
@@ -33,8 +45,9 @@ def create_performer_path(performer_id):
         path = syspath_performer(performer)
         if not os.path.exists(path):
             os.mkdir(path)
-        add_path_to_performer(performer_id, path)
-    return path
+        add_path_to_performer(performer_id, performer['FullName'])
+        return path
+    return os.path.join(PERFORMER_PATH, path)
 
 
 def path_from_id_field(post):

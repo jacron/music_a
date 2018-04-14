@@ -59,7 +59,6 @@ def get_items_with_2parameter(sql, a, b):
 
 def get_items(sql):
     conn, c = connect()
-    # items = [item for item in c.execute(sql).fetchall()]
     items = c.execute(sql).fetchall()
     conn.close()
     return items

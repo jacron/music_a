@@ -105,23 +105,6 @@ def splits_years(years):
     return c_years[0].strip(), c_years[1].strip()
 
 
-def syspath_componist(componist):
-    name = componist.get('LastName')
-    path = None
-    if name:
-        path = u'{}{}'.format(COMPONIST_PATH, componist['LastName'])
-    else:
-        ColorPrint.print_c('{} has no last name'.format(componist),
-                           ColorPrint.RED)
-    return path
-
-
-def syspath_performer(performer):
-    name = performer['FullName']
-    path = os.path.join(str(PERFORMER_PATH), name)
-    return path
-
-
 def alfabet():
     return [chr(i) for i in range(ord('a'), ord('z')+1)]
 

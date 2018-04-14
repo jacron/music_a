@@ -151,23 +151,26 @@ PERSON_FILE = 'person.jpg'
 PYTHON_3_PATH = '/Users/orion/anaconda/bin/python'
 SAVECLIP_PATH = '/Users/orion/scripts/saveclip.py'
 
+MUSIC_PATHS = {
+    'abeel': {
+        'AUDIO_ROOT': '/Volumes/Abeel/',
+        'SQLITE3_FILE': '/Users/orion/db/db.abeel.sqlite',
+    },
+    'saturnus': {
+        'AUDIO_ROOT': '/Volumes/Media/Audio/Klassiek/',
+        'SQLITE3_FILE': '/Users/orion/db/db.music.sqlite3',
+    },
+    'windows': {
+        'AUDIO_ROOT': 'E:/',
+        'SQLITE3_FILE': 'E:/db/db.abeel.sqlite',
+    },
+}
 # config paths here, choosing 'abeel', 'saturnus' or 'windows'
 # SOURCE = 'abeel'  # sdd disk in iMac or macBook
-SOURCE = 'saturnus'  # iMac or macBook
 # SOURCE = 'windows'  # sdd disk in Dell
-AUDIO_ROOT = ''  # prevent not defined error
-
-if SOURCE == 'abeel':
-    AUDIO_ROOT = '/Volumes/Abeel/'
-    SQLITE3_FILE = '/Users/orion/db/db.abeel.sqlite'
-
-elif SOURCE == 'saturnus':
-    AUDIO_ROOT = '/Volumes/Media/Audio/Klassiek/'
-    SQLITE3_FILE = '/Users/orion/db/db.music.sqlite3'
-
-elif SOURCE == 'windows':
-    AUDIO_ROOT = 'E:/'
-    SQLITE3_FILE = 'E:/db/db.abeel.sqlite'
+SOURCE = 'saturnus'  # iMac or macBook
+AUDIO_ROOT = MUSIC_PATHS[SOURCE]['AUDIO_ROOT']
+SQLITE3_FILE = MUSIC_PATHS[SOURCE]['SQLITE3_FILE']
 
 INSTRUMENTS_PATH = AUDIO_ROOT + 'Instrumenten'
 COMPONIST_PATH = AUDIO_ROOT + 'Componisten/'

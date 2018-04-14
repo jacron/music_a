@@ -3,7 +3,8 @@ import os
 from PIL import Image
 from django.http import HttpResponse, HttpResponseNotFound
 
-from music.settings import NOT_FOUND_IMAGE_PATH
+from music.settings import NOT_FOUND_IMAGE_PATH, AUDIO_ROOT, PERSON_FILE, \
+    COMPONIST_PATH, PERFORMER_PATH
 from website.db.fetch import get_album, get_componist_path, get_performer_path
 from django.conf import settings
 
@@ -12,13 +13,16 @@ def calc(w, h, iw, ih):
     # if only width or only height is given,
     # calculate proportionally the other dimension
     if h == -1:
+        # only width is given
         wpercent = w/iw
         hsize = int(ih * float(wpercent))
         return w, hsize
     if w == -1:
+        # only height is given
         hpercent = h/ih
         wsize = int(iw * float(hpercent))
         return wsize, h
+    # width and height both are given
     return w, h
 
 
@@ -55,16 +59,25 @@ def get_image(path, w=None, h=None):
             return empty_response()
         return HttpResponse(image_data, content_type="image/png")
     else:
-        # image_data = open(image_path, "rb").read()
         response = redim(image_path, w, h)
         return response
+
+
+def performerimage(performer_id, w=None, h=None):
+    performer_path = get_performer_path(performer_id)
+    if not performer_path:
+        return empty_response()
+    image_path =  os.path.join(PERFORMER_PATH + performer_path, PERSON_FILE)
+    # os.path.join(str(performer_path), settings.PERSON_FILE)
+    return get_image(image_path, w, h)
 
 
 def componistimage(componist_id, w=None, h=None):
     componist_path = get_componist_path(componist_id)
     if not componist_path:
         return empty_response()
-    image_path = '{}/{}'.format(componist_path, settings.PERSON_FILE)
+    image_path = os.path.join(COMPONIST_PATH + componist_path, PERSON_FILE)
+    # '{}/{}'.format(componist_path, settings.PERSON_FILE)
     return get_image(image_path, w, h)
 
 
@@ -96,14 +109,6 @@ def albumimageback(album_id, w=None, h=None):
     if not album['Path']:
         return empty_response()
     image_path = album['Path'] + settings.BACK_FILE
-    return get_image(image_path, w, h)
-
-
-def performerimage(performer_id, w=None, h=None):
-    performer_path = get_performer_path(performer_id)
-    if not performer_path:
-        return empty_response()
-    image_path = os.path.join(str(performer_path), settings.PERSON_FILE)
     return get_image(image_path, w, h)
 
 
