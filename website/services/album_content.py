@@ -33,6 +33,7 @@ def organize_pieces(album_id, album_path):
     cuesheets, pieces, notfounds, invalidcues, album_metatags, \
     album_metatag_titles = \
         [], [], [], [], {}, []
+    p = AUDIO_ROOT + album_path
     for item in items:
         ffile = item['Name']
         if ffile:
@@ -42,7 +43,7 @@ def organize_pieces(album_id, album_path):
                 if extension == 'cue':
                     cuesheet = get_full_cuesheet(path, item['ID'])
                     cuesheet['Code'] = item['LibraryCode']
-                    cuesheet['Invalid'] = has_notfound_files(cuesheet, path)
+                    cuesheet['Invalid'] = has_notfound_files(cuesheet, p)
                     cuesheets.append(cuesheet)
                 else:
                     metatags = get_metatags(path)
