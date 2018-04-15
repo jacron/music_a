@@ -1,5 +1,6 @@
 import json
 
+from music.settings import AUDIO_ROOT
 from website.services.album_content import full_album
 from website.views.librarycode import list_content
 from ..db.connect import connect
@@ -70,7 +71,8 @@ def do_get(get):
         return json.dumps(get_general_search(get['query']))
     if cmd == 'album_by_path':
         conn, c = connect()
-        return json.dumps(get_album_by_path(get['path'], c))
+        p = get['path'][len(AUDIO_ROOT):]
+        return json.dumps(get_album_by_path(p, c))
     if cmd == 'element':
         conn, c = connect()
         return json.dumps(get_element(get['albumid'], get['name'], c))

@@ -58,6 +58,7 @@ def migrate_path_person(table):
 
 def update_path_album(album_id, album_path, c, con):
     # take AUDIO_ROOT from path
+    # using AUDIO_ROOT of saturnus paths
     prefix = MUSIC_PATHS['saturnus']['AUDIO_ROOT']
     p = album_path[len(prefix):]
     # if album_path[:len(prefix)] != prefix:

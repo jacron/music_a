@@ -1,7 +1,7 @@
 from inspect import currentframe
 
 from website.lib.color import ColorPrint
-from music.settings import SKIP_DIRS, MUSIC_FILES
+from music.settings import SKIP_DIRS, MUSIC_FILES, AUDIO_ROOT
 from website.services.path import decode_semi_colon
 from website.services.services import get_extension
 
@@ -76,9 +76,10 @@ def process_album(path, componist_id=None, performer_id=None, mother_id=None,
     conn, c = connect()
     w = path.split('/')
     album_title = w[-1].replace("_", " ")
+    p = path[len(AUDIO_ROOT):]
     album_id = insert_album(
         title=album_title,
-        path=path,
+        path=p,
         is_collectie=is_collectie,
         c=c,
         conn=conn,

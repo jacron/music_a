@@ -166,9 +166,9 @@ MUSIC_PATHS = {
     },
 }
 # config paths here, choosing 'abeel', 'saturnus' or 'windows'
-# SOURCE = 'abeel'  # sdd disk in iMac or macBook
+SOURCE = 'abeel'  # sdd disk in iMac or macBook
 # SOURCE = 'windows'  # sdd disk in Dell
-SOURCE = 'saturnus'  # iMac or macBook
+# SOURCE = 'saturnus'  # iMac or macBook
 AUDIO_ROOT = MUSIC_PATHS[SOURCE]['AUDIO_ROOT']
 SQLITE3_FILE = MUSIC_PATHS[SOURCE]['SQLITE3_FILE']
 
