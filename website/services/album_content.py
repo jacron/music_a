@@ -15,14 +15,15 @@ from ..db.fetch import (get_pieces, get_componist, get_performer, get_tag,
                       get_album, get_mother_title, get_setting,
                       get_album_albums, get_album_tags,
                       get_path_doubles, )
-from music.settings import SKIP_DIRS, MUSIC_FILES
+from music.settings import SKIP_DIRS, MUSIC_FILES, AUDIO_ROOT
 from ..services.cuesheet import get_full_cuesheet
 from ..services.proposals import get_proposals, get_artists
 
 
 def has_notfound_files(cuesheet, album_path):
+    p = AUDIO_ROOT + album_path
     for file in cuesheet['cue']['files']:
-        path = os.path.join(album_path, file['name'])
+        path = os.path.join(p, file['name'])
         if not os.path.exists(path):
             return True
     return False
@@ -36,7 +37,7 @@ def organize_pieces(album_id, album_path):
     for item in items:
         ffile = item['Name']
         if ffile:
-            path = u'{}/{}'.format(album_path, ffile)
+            path = AUDIO_ROOT + os.path.join(album_path, ffile)
             if os.path.exists(path):
                 extension = ffile.split('.')[-1]
                 if extension == 'cue':
@@ -138,10 +139,10 @@ def list_paging(album_id, list_name, list_id):
 
 def images_album(album_o):
     album_folder_image, album_back_image = False, False
-    path = os.path.join(album_o['Path'], 'folder.jpg')
+    path = AUDIO_ROOT + os.path.join(album_o['Path'], 'folder.jpg')
     if os.path.exists(path):
         album_folder_image = True
-    path = os.path.join(album_o['Path'], 'back.jpg')
+    path = AUDIO_ROOT + os.path.join(album_o['Path'], 'back.jpg')
     if os.path.exists(path):
         album_back_image = True
     return album_folder_image, album_back_image

@@ -32,31 +32,6 @@ def copy_persons(subdir):
     print('done: ' + str(count))
 
 
-def update_path_album(album_id, album_path):
-    # take AUDIO_ROOT from path
-    prefix = MUSIC_PATHS['saturnus']['AUDIO_ROOT']
-    p = album_path[len(prefix):]
-    if album_path[:len(prefix)] != prefix:
-        ColorPrint.print_c('not the prefix found in: ' + album_path,
-                           ColorPrint.RED)
-        return
-    # print(album_path)
-    # print(p)
-    sql = 'UPDATE Album SET Path=? WHERE ID=?'
-    con, c = connect()
-    c.execute(sql, (p, album_id,)).fetchone()
-    con.commit()
-
-
-def migrate_path_album():
-    sql = 'SELECT Title, Path, ID FROM Album' +  \
-          ' ORDER BY Title'
-    items = get_items(sql)
-    for item in items:
-        update_path_album(item[2], item[1])
-    print('albums: ' + str(len(items)))
-
-
 def update_path_person(table, c, con, item_id, item_path,
                        first_name, last_name):
     if not item_path:
@@ -81,12 +56,39 @@ def migrate_path_person(table):
         update_path_person(table, c, con, item[3], item[2], item[0], item[1])
 
 
+def update_path_album(album_id, album_path, c, con):
+    # take AUDIO_ROOT from path
+    prefix = MUSIC_PATHS['saturnus']['AUDIO_ROOT']
+    p = album_path[len(prefix):]
+    # if album_path[:len(prefix)] != prefix:
+    #     ColorPrint.print_c(album_id + ': not the prefix found in: ' + album_path,
+    #                        ColorPrint.RED)
+    #     return
+    # print(album_path)
+    # print(p)
+    # if not os.path.exists(album_path):
+    #     ColorPrint.print_c(str(album_id) + ': ' + album_path, ColorPrint.RED)
+    sql = 'UPDATE Album SET Path=? WHERE ID=?'
+    c.execute(sql, (p, album_id,)).fetchone()
+    con.commit()
+
+
+def migrate_path_album():
+    sql = 'SELECT Title, Path, ID FROM Album' +  \
+          ' ORDER BY Title'
+    items = get_items(sql)
+    con, c = connect()
+    for item in items:
+        update_path_album(item[2], item[1], c, con)
+    print('albums: ' + str(len(items)))
+
+
 def main():
     # migrate_path_person('Componist')
     # migrate_path_person('Performer')
     # copy_persons('Componisten')
     # copy_persons('Performers')
-    # migrate_path_album()
+    migrate_path_album()
 
 
 if __name__ == '__main__':

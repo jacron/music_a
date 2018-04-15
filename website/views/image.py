@@ -97,7 +97,7 @@ def albumimage(album_id, w=None, h=None):
             'Dit album bestaat niet:"{}"'.format(album_id), )
     if not album['Path']:
         return empty_response()
-    image_path = album['Path'] + settings.COVER_FILE
+    image_path = AUDIO_ROOT + album['Path'] + settings.COVER_FILE
     return get_image(image_path, w, h)
 
 
@@ -108,7 +108,7 @@ def albumimageback(album_id, w=None, h=None):
             'Dit album bestaat niet:"{}"'.format(album_id), )
     if not album['Path']:
         return empty_response()
-    image_path = album['Path'] + settings.BACK_FILE
+    image_path = AUDIO_ROOT + album['Path'] + settings.BACK_FILE
     return get_image(image_path, w, h)
 
 

@@ -4,6 +4,7 @@ from six.moves.urllib.request import urlopen
 from channels import Group
 from django.conf import settings
 
+from music.settings import AUDIO_ROOT
 from website.lib.color import ColorPrint
 from website.scripts.flacs import process_album
 from website.scripts.rename import rename_music_files
@@ -43,7 +44,7 @@ from ..services.services import openpath, openterminal, \
 def play(args):
     piece = get_piece(args)
     album = get_album(piece['AlbumID'])
-    path = album['Path']
+    path = AUDIO_ROOT + album['Path']
     name = piece['Name']
     os.system('open -a "{}" "{}"'.format(settings.MEDIA_PLAYER,
                                          "{}/{}".format(path, name)))
