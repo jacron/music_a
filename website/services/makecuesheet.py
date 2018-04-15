@@ -2,7 +2,7 @@ import codecs
 import glob
 import os
 
-from music.settings import MUSIC_FILES
+from music.settings import MUSIC_FILES, AUDIO_ROOT
 from website.db.update import update_db_piece_name
 from ..db.connect import connect
 from ..db.fetch import get_album_path_by_id, get_piece, \
@@ -27,7 +27,7 @@ def write_cuesheet(name, album_id, lines):
         content += line + '\n'
     conn, cursor = connect()
     cuename = '{}.cue'.format(name)
-    path = get_album_path_by_id(album_id, cursor)
+    path = AUDIO_ROOT + get_album_path_by_id(album_id, cursor)
     wpath = '{}/{}'.format(path, cuename)
     # https://stackoverflow.com/questions/934160/write-to-utf-8-file-in-python
     with codecs.open(wpath, 'w', 'utf-8') as f:
@@ -62,7 +62,7 @@ def get_cuesheets_of_album(album_id, c):
 
 def split_one_cue_album(album_id):
     conn, cursor = connect()
-    path = get_album_path_by_id(album_id, cursor)
+    path = AUDIO_ROOT + get_album_path_by_id(album_id, cursor)
     cuesheets, other = get_cuesheets_of_album(album_id, cursor)
     cue = cuesheets[0]
     src = '{}/{}'.format(path, cue['Name'])
@@ -78,7 +78,7 @@ def split_cue_album(album_id):
     :return:
     """
     conn, cursor = connect()
-    path = get_album_path_by_id(album_id, cursor)
+    path = AUDIO_ROOT + get_album_path_by_id(album_id, cursor)
     cuesheets, other = get_cuesheets_of_album(album_id, cursor)
     for cuesheet in sorted(cuesheets, key=lambda cuesheet: cuesheet['Name']):
         for o in other:
@@ -90,9 +90,8 @@ def split_cue_album(album_id):
 
 
 def split_cued_file(piece_id, album_id):
-    # ColorPrint.print_c(piece_id, album_id)
     conn, cursor = connect()
-    path = get_album_path_by_id(album_id, cursor)
+    path = AUDIO_ROOT + get_album_path_by_id(album_id, cursor)
     piece = get_piece(piece_id)
     src = '{}/{}'.format(path, piece['Name'])
     split_flac(src, album_id)
@@ -103,20 +102,17 @@ def cuesheet_title_from_filename(piece_id, album_id):
     conn, cursor = connect()
     path = get_album_path_by_id(album_id, cursor)
     piece = get_piece(piece_id)
-    # cuesheet = get_full_cuesheet(path, piece_id)
     return trimextension(piece['Name'])
 
 
 def cuesheet_title_to_filename(piece_id, album_id, title):
     conn, cursor = connect()
-    path = get_album_path_by_id(album_id, cursor)
+    path = AUDIO_ROOT + get_album_path_by_id(album_id, cursor)
     piece = get_piece(piece_id)
     if not piece:
         return 'piece {} not found'.format(piece_id)
     src = os.path.join(path, piece['Name'])
     dst = os.path.join(path, title + '.cue')
-    # print(src)
-    # print(dst)
     os.rename(src, dst)
     update_db_piece_name(piece_id, title + '.cue')
     return title + '.cue'
@@ -128,30 +124,13 @@ def edit_cuesheet(piece_id, album_id):
     if not path:
         return 'path not found for album ID=' + album_id
     piece = get_piece(piece_id)
-    src = '{}/{}'.format(path, piece['Name'])
+    src = '{}{}/{}'.format(AUDIO_ROOT, path, piece['Name'])
     return subl_path(src)
-
-
-# def rename_cuesheet(piece_id, album_id):
-#     print(piece_id, album_id)
-#     conn, cursor = connect()
-#     path = get_album_path_by_id(album_id, cursor)
-#     piece = get_piece(piece_id)
-#     src = '{}/{}'.format(path, piece['Name'])
-#     if os.path.exists(src):
-#         # change extension from 'cue' to 'cuex'
-#         trg = '{}x'.format(src)
-#         if not os.path.exists(trg):
-#             os.rename(src, trg)
-#             print('renamed to:{}'.format(trg))
-#             return 'cuesheet extension renamed'
-#         return 'renamed file already exists'
-#     return 'file not found'
 
 
 def rename_cuesheet(piece_id, album_id, newname):
     conn, cursor = connect()
-    path = get_album_path_by_id(album_id, cursor)
+    path = AUDIO_ROOT + get_album_path_by_id(album_id, cursor)
     piece = get_piece(piece_id)
     src = '{}/{}'.format(path, piece['Name'])
     dst = '{}/{}.cue'.format(path, newname)
@@ -234,7 +213,7 @@ def remove_cuesheet(piece_id, album_id):
     conn, cursor = connect()
     path = get_album_path_by_id(album_id, cursor)
     piece = get_piece(piece_id)
-    path = '{}/{}'.format(path, piece['Name'])
+    path = '{}{}/{}'.format(AUDIO_ROOT, path, piece['Name'])
     os.remove(path)
 
 
@@ -242,7 +221,7 @@ def norm_cuesheet(piece_id, album_id):
     conn, cursor = connect()
     path = get_album_path_by_id(album_id, cursor)
     piece = get_piece(piece_id)
-    src = '{}/{}'.format(path, piece['Name'])
+    src = '{}{}/{}'.format(AUDIO_ROOT, path, piece['Name'])
     cuesheet = get_full_cuesheet(src, album_id)
     lines = []
     lines.append('TITLE "{}"'.format(cuesheet['Title']))
@@ -338,7 +317,7 @@ def combine_sub_cuesheets(album_id):
     :return:
     """
     conn, c = connect()
-    path = get_album_path_by_id(album_id, c)
+    path = AUDIO_ROOT + get_album_path_by_id(album_id, c)
     dirs = sorted(get_dirs(path))
     lines = []
     title = 'combined'
@@ -353,7 +332,7 @@ def combine_sub_cuesheets(album_id):
 def cuesheet_rename_title(cuesheet_id, title, album_id):
     album = get_album(album_id)
     piece = get_piece(cuesheet_id)
-    cuesheet_path = os.path.join(album['Path'], piece['Name'])
+    cuesheet_path = AUDIO_ROOT + os.path.join(album['Path'], piece['Name'])
     cuesheet = get_full_cuesheet(cuesheet_path, cuesheet_id)
     cuesheet['Title'] = title
     cuesheet['cue']['title'] = title

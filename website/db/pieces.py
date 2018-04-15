@@ -1,7 +1,7 @@
 # import glob
 import os
 
-from music.settings import MUSIC_FILES
+from music.settings import MUSIC_FILES, AUDIO_ROOT
 from website.services.album_content import full_album
 from website.services.services import get_extension
 from .connect import connect
@@ -19,7 +19,7 @@ def refetch_pieces(album_id):
     """
     # delete_pieces_of_album(album_id)
     conn, c = connect()
-    path = get_album_path_by_id(album_id, c)
+    path = AUDIO_ROOT + get_album_path_by_id(album_id, c)
     delete_pieces(path, album_id, conn, c)
     insert_pieces(path, album_id, conn, c)
     return full_album(album_id)
