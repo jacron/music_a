@@ -2,7 +2,7 @@ import os
 from ..db.fetch import get_componist, get_performer, get_album
 from ..db.update import add_path_to_componist, add_path_to_performer
 from ..lib.color import ColorPrint
-from music.settings import COMPONIST_PATH, PERFORMER_PATH
+from music.settings import COMPONIST_PATH, PERFORMER_PATH, AUDIO_ROOT
 
 
 def syspath_componist(componist):
@@ -64,7 +64,7 @@ def path_from_id_field(post):
 def get_path(objectid, kind):
     if kind == 'album':
         album = get_album(objectid)
-        return album['Path']
+        return AUDIO_ROOT + album['Path']
     elif kind == 'performer':
         return create_performer_path(objectid)
     elif kind == 'componist':

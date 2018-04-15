@@ -21,9 +21,8 @@ from ..services.proposals import get_proposals, get_artists
 
 
 def has_notfound_files(cuesheet, album_path):
-    p = AUDIO_ROOT + album_path
     for file in cuesheet['cue']['files']:
-        path = os.path.join(p, file['name'])
+        path = os.path.join(album_path, file['name'])
         if not os.path.exists(path):
             return True
     return False
@@ -43,7 +42,7 @@ def organize_pieces(album_id, album_path):
                 if extension == 'cue':
                     cuesheet = get_full_cuesheet(path, item['ID'])
                     cuesheet['Code'] = item['LibraryCode']
-                    cuesheet['Invalid'] = has_notfound_files(cuesheet, album_path)
+                    cuesheet['Invalid'] = has_notfound_files(cuesheet, path)
                     cuesheets.append(cuesheet)
                 else:
                     metatags = get_metatags(path)
@@ -62,16 +61,17 @@ def organize_pieces(album_id, album_path):
 def organize_pieces_for_full(album_id, album_path):
     items = get_pieces(album_id)
     cuesheets, pieces = [], []
+    p = AUDIO_ROOT + album_path
     for item in items:
         ffile = item['Name']
         if ffile:
-            path = u'{}/{}'.format(album_path, ffile)
+            path = u'{}/{}'.format(p, ffile)
             if os.path.exists(path):
                 extension = ffile.split('.')[-1]
                 if extension == 'cue':
                     cuesheet = get_full_cuesheet(path, item['ID'])
                     cuesheet['Code'] = item['LibraryCode']
-                    cuesheet['Invalid'] = has_notfound_files(cuesheet, album_path)
+                    cuesheet['Invalid'] = has_notfound_files(cuesheet, p)
                     cuesheets.append(cuesheet)
                 else:
                     pieces.append(item)
