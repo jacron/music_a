@@ -1,6 +1,6 @@
 import os
 
-# from shutil import copyfile
+from shutil import copyfile
 
 from music.settings import MUSIC_PATHS, PERSON_FILE
 from website.db.connect import connect
@@ -25,9 +25,9 @@ def copy_persons(subdir):
             s = os.path.join(p, PERSON_FILE)
             t = os.path.join(q, PERSON_FILE)
             if os.path.exists(s) and not os.path.exists(t):
-                print(s)
-                print(t)
-                # copyfile(s, t)
+                # print(s)
+                # print(t)
+                copyfile(s, t)
                 count += 1
     print('done: ' + str(count))
 
@@ -41,7 +41,7 @@ def update_path_person(table, c, con, item_id, item_path,
     # take string after last slash and use that for new path
     sl = item_path.rfind('/') + 1
     p = item_path[sl:]
-    print(item_id, p)
+    print(item_id, item_path)
     sql = 'UPDATE ' + table + ' SET Path=? WHERE ID=?'
     c.execute(sql, (p, item_id,)).fetchone()
     con.commit()
@@ -87,8 +87,8 @@ def main():
     # migrate_path_person('Componist')
     # migrate_path_person('Performer')
     # copy_persons('Componisten')
-    # copy_persons('Performers')
-    migrate_path_album()
+    copy_persons('Performers')
+    # migrate_path_album()
 
 
 if __name__ == '__main__':
