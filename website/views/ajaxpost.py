@@ -8,6 +8,7 @@ from music.settings import AUDIO_ROOT
 from website.lib.color import ColorPrint
 from website.scripts.flacs import process_album
 from website.scripts.rename import rename_music_files
+from website.scripts.splitflac import tmp_split
 from website.services.tag import set_metatags, \
     remove_tag, tag_set_metatag, tag_remove_metatag, tag_put_picture
 from ..db.fetch import get_piece, get_album
@@ -435,5 +436,8 @@ def do_post(post):
         return set_tag_picture(post['albumid'])
     if cmd == 'rename_music_files':
         return do_rename_music_files(post['path'])
+
+    if cmd == 'tmp_split':
+        return tmp_split(post['path'])
 
     print(cmd, 'not a valid cmd')

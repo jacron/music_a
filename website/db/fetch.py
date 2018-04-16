@@ -1959,6 +1959,15 @@ def get_element(album_id, name, c):
     return None
 
 
+def get_album_count():
+    sql = '''
+    SELECT count(*) 
+    FROM main.Album A
+    '''
+    field = get_items(sql)
+    return field[0]
+
+
 def get_album_count_for_tag(tag_id):
     sql = '''
     SELECT count(*) 

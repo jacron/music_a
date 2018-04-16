@@ -1,4 +1,6 @@
-# from __future__ import unicode_literals
+# runalone? won't work as django allows to run multiple threads
+# and can't be missed
+# work around: run from temporary command in website
 
 import glob
 
@@ -34,8 +36,12 @@ november 2017 - jan h croonen
 """
 
 
-
 FFMPEG = 'ffmpeg'
+
+
+# enable for stand-alone script
+# def socket_log(msg, type):
+#     print(msg)
 
 
 def pad(t):
@@ -222,8 +228,14 @@ def split_flac(cuepath, album_id):
     print('split finished')
 
 
+def tmp_split(cuepath):
+    # cuepath = '/Volumes/Media/Audio/Pop/King Crimson/King Crimson Complete Discography/2000 - The ConstruKction of Light/The ConstruKction of Light.cue'
+    # cuepath = '/Volumes/Media/Audio/Pop/Soft Machine/Soft Machine - Live at the Proms 1970 (1988)/Soft Machine - 1988 - Live at the Proms 1970.cue'
+    split_flac(cuepath, -1)
+
+
 def main():
-    # split_flac(cuepath)
+    # tmp_split('')
     pass
 
 
