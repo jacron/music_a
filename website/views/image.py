@@ -2,9 +2,11 @@ import os
 
 from PIL import Image
 from django.http import HttpResponse, HttpResponseNotFound
+from io import BytesIO
+from pip._vendor import requests
 
 from music.settings import NOT_FOUND_IMAGE_PATH, AUDIO_ROOT, PERSON_FILE, \
-    COMPONIST_PATH, PERFORMER_PATH
+    COMPONIST_PATH, PERFORMER_PATH, BR_API_URL
 from website.db.fetch import get_album, get_componist_path, get_performer_path
 from django.conf import settings
 
@@ -27,26 +29,30 @@ def calc(w, h, iw, ih):
 
 
 def redim(image_path, w, h):
-    if w or h:
-        thumb_path = image_path + '.thumb_' + w + '_' + h + '.png'
-        if os.path.exists(thumb_path):
-            # return cached file
-            image_data = open(thumb_path, "rb").read()
-            return HttpResponse(image_data, content_type="image/png")
-        try:
-            img = Image.open(image_path)
-            size = calc(int(w), int(h), float(img.size[0]), float(img.size[1]))
-            img.thumbnail(size, Image.ANTIALIAS)
-            response = HttpResponse(content_type="image/png")
-            # cache the file
-            img.save(thumb_path, 'png')
-            img.save(response, "png")
-            return response
-        except IOError:
-            print("cannot create thumbnail for", image_path)
-    # return the original image
-    image_data = open(image_path, "rb").read()
-    return HttpResponse(image_data, content_type="image/png")
+    if not w and not h:
+        image_data = open(image_path, "rb").read()
+        return HttpResponse(image_data, content_type="image/png")
+
+    thumb_path = image_path + '.thumb_' + w + '_' + h + '.png'
+    if os.path.exists(thumb_path):
+        # return cached file
+        image_data = open(thumb_path, "rb").read()
+        return HttpResponse(image_data, content_type="image/png")
+
+    try:
+        img = Image.open(image_path)
+        size = calc(int(w), int(h), float(img.size[0]), float(img.size[1]))
+        img.thumbnail(size, Image.ANTIALIAS)
+        response = HttpResponse(content_type="image/png")
+        # cache the file
+        img.save(thumb_path, 'png')
+        img.save(response, "png")
+        return response
+    except IOError:
+        print("cannot create thumbnail for", image_path)
+        # return the original image
+        image_data = open(image_path, "rb").read()
+        return HttpResponse(image_data, content_type="image/png")
 
 
 def get_image(path, w=None, h=None):
@@ -61,6 +67,17 @@ def get_image(path, w=None, h=None):
     else:
         response = redim(image_path, w, h)
         return response
+
+
+def imagebr(request):
+    url = BR_API_URL + 'w=500&h=512'
+    response = requests.get(url)
+    if not response.ok:
+        print(response)
+    img = Image.open(BytesIO(response.content))
+    response = HttpResponse(content_type="image/png")
+    img.save(response, "png")
+    return response
 
 
 def performerimage(performer_id, w=None, h=None):

@@ -15,7 +15,7 @@ from website.views.gather import gather
 from website.views.upload import uploadalbum
 from website.views.search import search, searchq
 from website.urls import librarycode, componist, album, instrument, tag, \
-    performer
+    performer, image
 
 urlpatterns = [
     # path('admin/', admin.site.paths),
@@ -25,6 +25,7 @@ urlpatterns = [
     path('instrument/', include(instrument.urlpatterns)),
     path('tag/', include(tag.urlpatterns)),
     path('performer/', include(performer.urlpatterns)),
+    path('image/', include(image.urlpatterns)),
     path('home/', home),
     path('', search),
     path('ajax/', ajax),
@@ -46,18 +47,6 @@ urlpatterns = [
     path('pianoboek/',
          pianoboeken,
          name='pianoboeken'),
-    path('image/<album_id>/<image_type>/<w>/<h>',
-         image_w_h,
-         name='image_w_h'),
-    path('image/<album_id>/<image_type>/',
-         image,
-         name='image'),
-    path('imageback/<album_id>/<image_type>/<w>/<h>',
-         imageback_w_h,
-         name='imageback_w_h'),
-    path('imageback/<album_id>/<image_type>/',
-         imageback,
-         name='imageback'),
     path('collection/<query>/search',
          collections_search),
     path('collection/',

@@ -150,6 +150,7 @@ BACK_FILE = '/back.jpg'
 PERSON_FILE = 'person.jpg'
 PYTHON_3_PATH = '/Users/orion/anaconda/bin/python'
 SAVECLIP_PATH = '/Users/orion/scripts/saveclip.py'
+BR_API_URL = 'https://api.buienradar.nl/image/1.0/RadarMapNL?'
 
 MUSIC_PATHS = {
     'abeel': {
