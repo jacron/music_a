@@ -80,6 +80,7 @@ def organize_pieces_for_full(album_id, album_path):
 
 
 def check_subdirs(path):
+    path = os.path.join(AUDIO_ROOT, path)
     if os.path.exists(path):
         for d in os.listdir(path):
             p = os.path.join(path, d)

@@ -7,7 +7,7 @@ from website.db.insert import (
     insert_album_instrument, insert_album, )
 from website.db.pieces import insert_pieces
 from website.lib.color import ColorPrint
-from music.settings import SKIP_DIRS
+from music.settings import SKIP_DIRS, AUDIO_ROOT
 from website.scripts.helper.socket import socket_log
 from website.services.services import splits_naam, splits_years, get_extension
 from .connect import connect
@@ -595,10 +595,11 @@ def process_album(path, mother_id):
     conn, c = connect()
     w = path.split('/')
     album_title = w[-1].replace("_", " ")
+    dbpath = path.replace(AUDIO_ROOT, '')
 
     album_id = insert_album(
         title=album_title,
-        path=path,
+        path=dbpath,
         is_collectie=0,
         c=c,
         conn=conn,
@@ -613,7 +614,7 @@ def process_album(path, mother_id):
 def read_albums(album_id):
     album = get_album(album_id)
     # get_albums(album['Path'], None, 0)
-    path = album['Path']
+    path = os.path.join(AUDIO_ROOT, album['Path'])
     for d in os.listdir(path):
         p = u'{}/{}'.format(path, d)
         if os.path.isdir(p) and d not in SKIP_DIRS:

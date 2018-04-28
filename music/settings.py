@@ -142,8 +142,8 @@ CHANNEL_LAYERS = {
     }
 }
 
-MEDIA_PLAYER = '/Applications/Media Center 23.app'
-MEDIA_PLAYER_APP = 'Media Center 23'
+MEDIA_PLAYER = '/Applications/Media Center 24.app'
+MEDIA_PLAYER_APP = 'Media Center 24'
 TAG_EDITOR = '/Applications/Tag Editor.app'
 COVER_FILE = '/folder.jpg'
 BACK_FILE = '/back.jpg'
