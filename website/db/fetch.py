@@ -892,6 +892,12 @@ def add_to_where(where_sql, cql, parameter_list, parameters):
 
 
 def process_cql(cql):
+    """
+    Create where clause using cql string. Parameters in cql are componist,
+    performer, tag, instrument, title, mother (collection)
+    :param cql:
+    :return:
+    """
     parameters = []
     where_sql = ''
     select_sql = ''

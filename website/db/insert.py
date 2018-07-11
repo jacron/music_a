@@ -34,6 +34,11 @@ def insert_album(title, path, album_id, is_collectie, c, conn):
     :param conn:
     :return:
     """
+    # INSERT OR IGNORE? the field Path should be unique!
+    # todo: add unique constraint to Path
+    # Is it clear to the caller that the returned ID can be of
+    # an existing album?
+    # todo: caller should be aware about retuned ID
     print(title)
     print(path)
     sql = '''

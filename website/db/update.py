@@ -215,7 +215,7 @@ def add_tag_to_album(tagid, albumid):
 
 def delete_piece(piece_id):
     sql = '''
-    DELETE FROM Piece
+    DELETE FROM Piecew_c
     WHERE ID=?
     '''
     con, c = connect()
