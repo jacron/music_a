@@ -29,9 +29,10 @@ ALLOWED_HOSTS = []
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = (
-    '127.0.0.1:4200',
-    'localhost:4200',
-    'localhost:4100',
+    '10.0.1.6',
+    '0.0.0.0',
+    '127.0.0.1',
+    'localhost',
 )
 # Application definition
 
